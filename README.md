@@ -1,4 +1,4 @@
-# schulprojekt
+# Schulprojekt
 ---Collaborators---
 - Omori101
 - Petkovic
