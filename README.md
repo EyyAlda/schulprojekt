@@ -1,5 +1,5 @@
 # Tetris Schulprojekt
----Collaborators---
+##### Collaborators
 - Omori101
 - Petkovic
 - Stanislav
