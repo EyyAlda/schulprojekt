@@ -6,60 +6,60 @@
 - EyyAlda
 
 
-#Die wichtigsten Git commands
+# Die wichtigsten Git commands
 
-###Beim ersten Einrichten (nur einmal notwendig)
+### Beim ersten Einrichten (nur einmal notwendig)
 
 - Füge eine E-Mail Adresse hinzu (sinnvoll die Gleiche wie auf Github zu benutzen)
-```shell
+``` shell
 git config --global user.name "<Benutzername>"
 ```
 - Füge einen Benutzernamen hinzu
-```shell
+``` shell
 git config --global user.email <E-Mail Adresse>
 ```
 - Setze den Standard Branch Name auf "main"
-```shell
+``` shell
 git config --global init.defaultBranch main
 ```
 
 
-###Lokales Repository
+### Lokales Repository
 
 - Erstelle ein lokales Repository (Github dient nur als Backup Repo)
-```shell
+``` shell
 git init
 ```
 
 - verbinde lokales Repository mit dem erstellten Github Repository
-```shell
+``` shell
 git remote add <name (egal was)> <https repository Link>
 ```
 
-#####Um eine Datei in das Repo zu bewegen braucht man 2 Schritte
+##### Um eine Datei in das Repo zu bewegen braucht man 2 Schritte
 1. vormerken
 Im staging Bereich befinden sich die Dateien, die man geplant hat zum Repo hinzuzufügen, aber es noch nicht vollständig gemacht hat.
 Man muss Dateien erstmal vormerken, bevor sie ins Repo können.
 Um Dateien vorzumerken, benutzt man:
-```shell
+``` shell
 git add <Dateiname/Ordnername>
 ```
 Um alle geänderten Dateien gleichzeitig zu verschieben:
-```shell
+``` shell
 git add .
 ```
 Um zu prüfen, welche Dateien vorgemerkt sind, benutzt man
-```shell
+``` shell
 git status
 ```
 um allen Dateien die Vormerkung zu entfernen, benutzt man
-```shell
+``` shell
 git reset
 ```
 Alle Dateien in diesem Bereich sind zu "Commit vorgemerkt".
 2. ins Repo schieben
 Um die vorgemerkten Dateien ins Repo zu schieben, benutzt man
-```shell
+``` shell
 git commit
 ```
 Nachdem "Enter" gedrückt wurde öffnet sich ein Texteditor.
@@ -67,15 +67,15 @@ Bei allen Dateien, die ins Repo sollen muss das '#' entfernt werden.
 	
 Fertig.
 
-###Mit entferntem Repo arbeiten
+### Mit entferntem Repo arbeiten
 Um neue Dateien aus dem Repo zu bekommen, nutzt man
-```shell
+``` shell
 git pull
 ```
 Dieser Command sollte **jedes** mal bevor am Projekt gearbeitet wird einmal ausgeführt werden.
 
 Um die Änderungen in das entfernte Repo hochzuladen, benutzt man
-```shell
+``` shell
 git push
 ```
 Beim Push wird man immer wieder nach seinen Zugangsdaten gefragt.
