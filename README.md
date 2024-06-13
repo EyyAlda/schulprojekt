@@ -12,11 +12,11 @@
 
 - Füge eine E-Mail Adresse hinzu (sinnvoll die Gleiche wie auf Github zu benutzen)
 ```shell
-git config --global user.name "<Benutzername>"
+git config --global user.email <E-Mail Adresse>
 ```
 - Füge einen Benutzernamen hinzu
 ```shell
-git config --global user.email <E-Mail Adresse>
+git config --global user.name "<Benutzername>"
 ```
 - Setze den Standard Branch Name auf "main"
 ```shell
