@@ -35,11 +35,11 @@ git init
 ```shell
 git remote add <name (egal was)> <https repository Link>
 ```
-- führe einmal 
+- führe einmal aus:
 ```
 git pull <name_vom_Repo(oben festgelegt)> <branch(meistens main)>
 ```
-- und danach
+- und danach:
 ```
 git branch --set-upstream-to=<Name von Repo>/<Branch> main
 ```
