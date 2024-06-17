@@ -16,7 +16,7 @@
 
 ### Game
 **Aufgaben:**
-- das Spielfeld an sich.
+- das Spiel an sich.
 
 ### Backend
 **Aufgaben:**
