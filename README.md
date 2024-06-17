@@ -35,6 +35,15 @@ git init
 ```shell
 git remote add <name (egal was)> <https repository Link>
 ```
+- führe einmal 
+```
+git pull <name_vom_Repo(oben festgelegt)> <branch(meistens main)>
+```
+- und danach
+```
+git branch --set-upstream-to=<Name von Repo>/<Branch> main
+```
+- dadurch wird festgelegt, woher gepullt und wohin gepushed werden soll
 
 ##### Um eine Datei in das Repo zu bewegen braucht man 2 Schritte
 1. vormerken
