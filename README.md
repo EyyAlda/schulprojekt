@@ -7,18 +7,18 @@
 
 # Mögliche Projektstruktur
 
-#### Main
+### Main
 **Aufgaben:**
 - Startbildschirm 
 - Startbutton
 - Einstellungen
 - About Page
 
-#### Game
+### Game
 **Aufgaben:**
 - das Spielfeld an sich.
 
-#### Backend
+### Backend
 **Aufgaben:**
 - Speichert Historie/highscores und vllt. Profile in JSON
 - erstellt einen Spieleordner in den Dokumenten mit den Dateien
