@@ -96,3 +96,19 @@ Schreibe dir den Token irgendwo auf und behandle ihn wie ein Passwort.
 **Immer darauf achten, was einem angezeigt wird und eventuell Anweisungen befolgen**
 
 [für den Unterschied zwischen Merge und Rebase](https://youtu.be/zOnwgxiC0OA?si=eBJiTjI8ZlqYVQQ)
+
+### Repo löschen
+Um ein local git repository zu löschen muss man nur->.
+```
+rm -fr .git
+```
+
+Eingeben und dann ->.
+```
+git status
+```
+
+Um zu sehen ob es wirklich gelöscht wurde.
+Wenn es geloscht wurde dann kommt eine fatal fehler meldung.
+fatal: not a git repository (or any parent up to mount point /)
+Stopping at filesystem boundary (GIT_DISCOVERY_ACROSS_FILESYSTEM not set).
