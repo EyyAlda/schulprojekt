@@ -26,7 +26,7 @@
 
 ## Java Klassen verbinden
 
-(Erklärung von ChatGPT)[https://chatgpt.com/share/88c964fb-c28e-4f39-a37d-f2d72c69bbce]
+[Erklärung von ChatGPT](https://chatgpt.com/share/88c964fb-c28e-4f39-a37d-f2d72c69bbce)
 
 # Die wichtigsten Git commands
 
