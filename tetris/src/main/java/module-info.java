@@ -7,4 +7,5 @@ module com.tetris {
     exports com.tetris;
     exports com.backend;
     exports com.tetrisGame;
+    exports com.tetris.backend;
 }
