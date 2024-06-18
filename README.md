@@ -24,6 +24,10 @@
 - erstellt einen Spieleordner in den Dokumenten mit den Dateien
 
 
+## Java Klassen verbinden
+
+[Erklärung von ChatGPT](https://chatgpt.com/share/88c964fb-c28e-4f39-a37d-f2d72c69bbce)
+
 # Die wichtigsten Git commands
 
 ### Beim ersten Einrichten (nur einmal notwendig)
