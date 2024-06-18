@@ -2,18 +2,21 @@ package com.tetris;
 
 public class main_handler {
 
-    int[][] grid = new int[10][30];
+    int[][] grid = new int[30][10];
 
-    public void update() {
-
-    }
 
     public void output() {
-
+        for (int i = 0; i < grid.length; i++) {
+            
+        }
     }
 
     public void start() {
 
+    }
+
+    public void update() {
+        output();
     }
 
     public static void main(String[] arg) {
