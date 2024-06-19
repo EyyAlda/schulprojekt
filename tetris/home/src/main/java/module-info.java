@@ -1,5 +1,4 @@
-module com.tetris.home {
-    requires com.tetris;
+module com.tetris.home{
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.media;

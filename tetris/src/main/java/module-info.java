@@ -1,3 +1,4 @@
-module com.tetris {
-	exports com.tetris;
+module com.tetris { 
+    requires com.tetris.init;
+    exports com.tetris;
 }

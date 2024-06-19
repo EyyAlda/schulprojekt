@@ -1,4 +1,4 @@
-package com.tetris;
+package com.tetris.tetris_game;
 
 
 

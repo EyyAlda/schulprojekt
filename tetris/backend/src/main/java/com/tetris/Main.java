@@ -1,14 +1,11 @@
 package com.tetris.backend;
 
 import com.google.gson.Gson;
+public class Main {
 
-Gson gson = new Gson();
-public void readFiles(){
-
-
-
-}
-public void writeFiles(){
+    public static void main(String[] args) {
+        System.out.println("Backend executed");
+    }
 
 }
 
