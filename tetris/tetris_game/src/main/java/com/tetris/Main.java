@@ -1,9 +1,9 @@
 package com.tetris;
 
-public class MainApp {
-
-    public static void main(String[] args) {
-        System.out.println("yooooo");
-    }
+public class Main {
+   
     
+    public static void main(String[] args) {
+        System.out.println("nothing");
+    }
 }

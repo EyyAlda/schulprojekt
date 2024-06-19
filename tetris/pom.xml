@@ -4,20 +4,16 @@
 
     <groupId>com.tetris</groupId>
     <artifactId>tetris</artifactId>
-    <version>0.1-DEV</version>
+    <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <modules>
         <module>backend</module>
         <module>tetris_game</module>
         <module>home</module>
+        <module>init</module>
     </modules>
 
     <name>tetris</name>
-
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <mainClass>com.tetris.MainApp</mainClass>
-    </properties>
 
     <dependencies>
         <dependency>
@@ -39,24 +35,6 @@
 
     <build>
         <plugins>
-            <!-- adds file to let you run program outside of IDE -->
-            <plugin>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <configuration>
-                            <tasks>
-                                <echo file="${project.build.directory}/runme.bat">start jlink-image\bin\javaw -jar modules\${project.artifactId}-${project.version}.jar</echo>
-                            </tasks>
-                        </configuration>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
             <!-- sets up the version of Java you are running -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

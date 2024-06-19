@@ -1,7 +1,14 @@
-package com.tetris;
+package com.tetris.backend;
 
-public class Main {
-    public static void main(String[] args) {
-        System.out.println("Hello world!");
-    }
+import com.google.gson.Gson;
+
+Gson gson = new Gson();
+public void readFiles(){
+
+
+
 }
+public void writeFiles(){
+
+}
+

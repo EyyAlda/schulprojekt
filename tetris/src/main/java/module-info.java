@@ -1,4 +1,3 @@
-module com.tetris { 
-
-    exports com.tetris;
+module com.tetris {
+	exports com.tetris;
 }

@@ -1,1 +1,0 @@
-start jlink-image\bin\javaw -jar modules\tetris-0.1-DEV.jar

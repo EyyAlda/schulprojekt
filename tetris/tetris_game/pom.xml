@@ -6,11 +6,9 @@
     <parent>
           <groupId>com.tetris</groupId>
           <artifactId>tetris</artifactId>
-          <version>0.1-DEV</version>
+          <version>1.0-SNAPSHOT</version>
     </parent>
-
-    <groupId>com.tetris</groupId>
-    <artifactId>tetris_game</artifactId>
+    <artifactId>com.tetris.tetris_game</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
