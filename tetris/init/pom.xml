@@ -9,6 +9,14 @@
           <version>1.0-SNAPSHOT</version>
     </parent>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.tetris</groupId>
+            <artifactId>com.tetris.backend</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+
      <build>
         <plugins>
             <plugin>
