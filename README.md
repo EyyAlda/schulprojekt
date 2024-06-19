@@ -59,7 +59,7 @@ git remote add <name (egal was)> <https repository Link>
 ```
 - führe einmal aus:
 ```
-git pull <name_vom_Repo(oben festgelegt)> <branch(meistens main)>
+git pull <name_vom_Repo(oben festgelegt)> <branch(meistens main)> main
 ```
 - und danach:
 ```
