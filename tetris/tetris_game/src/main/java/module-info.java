@@ -1,7 +1,7 @@
-module com.tetris_game {
+module com.tetris.tetris_game {
     requires javafx.controls;
     requires javafx.media;
     requires javafx.fxml;
-    opens com.tetris to javafx.fxml;
-    exports com.tetris;
+    opens com.tetris.tetris_game to javafx.fxml;
+    exports com.tetris.tetris_game;
 }

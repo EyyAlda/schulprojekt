@@ -1,5 +1,4 @@
-module com.backend {
+module com.tetris.backend {
     requires com.google.gson;
-    requires com.tetris;
-    exports com.tetris;
+    exports com.tetris.backend;
 }
