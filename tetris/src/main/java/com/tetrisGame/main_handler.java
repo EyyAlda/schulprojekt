@@ -133,7 +133,7 @@ public class main_handler extends Application {
             for (int y = 0; y < grid.length; y++) {
                 for (int x = 0; x < grid[y].length; x++) {
                     if (grid[y][x].equals("T1") || grid[y][x].equals("T2") || grid[y][x].equals("T3") || grid[y][x].equals("T4")) {
-                        if (grid[y + 1][X1].equals("P")) {
+                        if (grid[y + 1][x].equals("P")) {
 
                             convert();
                             can_go_down = false;
@@ -158,12 +158,52 @@ public class main_handler extends Application {
     public void move_tetromino(String direction) {
         if (direction.equalsIgnoreCase("RIGHT")) {
             if (X1 < grid[0].length - 1 && X2 < grid[0].length - 1 && X3 < grid[0].length - 1 && X4 < grid[0].length - 1) {
-                X1++; X2++; X3++; X4++;
+
+                boolean can_go_down = true;
+
+                for (int y = 0; y < grid.length; y++) {
+                    for (int x = 0; x < grid[y].length; x++) {
+                        if (grid[y][x].equals("T1") || grid[y][x].equals("T2") || grid[y][x].equals("T3") || grid[y][x].equals("T4")) {
+                            if (grid[y][x + 1].equals("P")) {
+    
+                                convert();
+                                can_go_down = false;
+                                create_tetromino();
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                if (can_go_down) {
+                    X1++; X2++; X3++; X4++;
+                }
             }
         }
 
         if (direction.equalsIgnoreCase("LEFT")) {
             if (X1 > 0 && X2 > 0 && X3 > 0 && X4 > 0) {
+
+                boolean can_go_down = true;
+
+                for (int y = 0; y < grid.length; y++) {
+                    for (int x = 0; x < grid[y].length; x++) {
+                        if (grid[y][x].equals("T1") || grid[y][x].equals("T2") || grid[y][x].equals("T3") || grid[y][x].equals("T4")) {
+                            if (grid[y][x - 1].equals("P")) {
+    
+                                convert();
+                                can_go_down = false;
+                                create_tetromino();
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                if (can_go_down) {
+                    X1++; X2++; X3++; X4++;
+                }
+
                 X1--; X2--; X3--; X4--;
             }
         }
