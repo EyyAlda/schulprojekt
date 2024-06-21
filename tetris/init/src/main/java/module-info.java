@@ -4,5 +4,5 @@ module com.tetris.init {
     requires javafx.fxml;
     requires javafx.controls;
     requires javafx.media;
-    exports com.tetris.init;
+    exports com.tetris.init.initc;
 }

@@ -1,0 +1,17 @@
+"type": "lang",
+"language":"Deutsch",
+"langCode":"de_de",
+"home":{
+	"start":"start",
+	"settings":"Einstellungen",
+	"languages":"Sprache",
+	"volume":"Lautstärke",
+	"about":"über",
+	"keybinds":"Tastenbelegung"
+},
+"game":{
+	"gameover":"",
+	"etc...."
+
+}
+

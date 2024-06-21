@@ -4,6 +4,6 @@ module com.tetris.home{
     requires javafx.media;
     requires com.tetris.init;
     opens com.tetris.home to javafx.fxml;
-    exports com.tetris.home;
+    exports com.tetris.home.Main;
     
 }
