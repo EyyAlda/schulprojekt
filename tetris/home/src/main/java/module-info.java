@@ -2,8 +2,9 @@ module com.tetris.home{
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.media;
-    requires com.tetris.init;
     opens com.tetris.home to javafx.fxml;
-    exports com.tetris.home.Main;
+    requires com.tetris.backend;
+    requires com.tetris.tetris_game;
+    exports com.tetris.home;
     
 }

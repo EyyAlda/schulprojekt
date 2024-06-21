@@ -1,4 +1,0 @@
---patch-module
-com.tetris.home=_
---add-reads
-com.tetris.home=ALL-UNNAMED

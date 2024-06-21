@@ -1,4 +1,0 @@
---patch-module
-com.tetris.init=_
---add-reads
-com.tetris.init=ALL-UNNAMED
