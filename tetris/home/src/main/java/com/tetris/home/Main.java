@@ -4,8 +4,6 @@ import com.tetris.backend.Backend;
 import com.tetris.backend.Init;
 import com.tetris.tetris_game.main_handler;
 
-import java.io.FileNotFoundException;
-
 public class Main {
 
     public void start(){
@@ -20,6 +18,8 @@ public class Main {
         }
         Backend.readSettings();
         Backend.readProfiles();
+
+        main_handler.start();
 
     }
 
