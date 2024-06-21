@@ -12,13 +12,14 @@ public class Main {
         try {
             Init.verifyFiles();
         }
-        catch(){
+        catch(Exception e){
+            System.out.println(e);
             System.out.println("Error reading files");
             System.out.println("Do you want to repair?");
             Init.repairFiles();
-
-
         }
+        Backend.readSettings();
+        Backend.readProfiles();
 
     }
 

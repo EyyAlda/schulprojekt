@@ -6,12 +6,15 @@ public class Backend {
 
     Gson gson = new Gson();
 
-    public void readProfiles(){
+    public static void readProfiles(){
         System.out.println("Reading saved Profiles");
 
     }
-    public void writeProfiles(){
+    public static void writeProfiles(){
         System.out.println("Saving changes");
+
+    }
+    public static void readSettings(){
 
     }
 
