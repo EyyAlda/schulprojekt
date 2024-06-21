@@ -31,14 +31,14 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <mainClass>com.tetris.init.Main</mainClass>
+                    <mainClass>com.tetris.home.Main</mainClass>
                 </configuration>
             </plugin>
         </plugins>
     </build>
 
     <artifactId>com.tetris.init</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>

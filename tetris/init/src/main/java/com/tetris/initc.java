@@ -5,7 +5,7 @@ import com.google.gson.Gson;
 //import com.tetris.backend.Main;
 
 
-public class main {
+public class initc {
 
 	Gson gson = new Gson();
 	//backend.Main backend = new Backend();
@@ -17,16 +17,18 @@ public class main {
 		filesPlaced.put("mediaSound", false);
 		filesPlaced.put("mediaImgs", false);
 	}
-	public void verifyFiles(){
+	public static void verifyFiles(){
 		System.out.println("verifying files...");
 		//backend.scanFiles();
 	}
 
-
+	public void start(){
+	fillHashMap(); 
+	verifyFiles();
+	}
 
 
     public void main(String[] args) {
-       	fillHashMap(); 
-	verifyFiles();
+		new initc().start();       
     }
 }
