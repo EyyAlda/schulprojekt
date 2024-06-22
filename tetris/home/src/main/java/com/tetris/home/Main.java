@@ -24,8 +24,8 @@ public class Main {
         }
         /* Select Profile Function should be placed here */
         String prName = "?Name?";
-        profile = Backend.hashMap(prName, "profile");
-        lang = Backend.hashMap(profile.lang, "lang");
+        profile = Backend.readJSON("profile",prName);
+        lang = Backend.readJSON( "lang", profile.get(language));
 
 
         //main_handler.start();

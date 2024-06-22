@@ -15,13 +15,13 @@ import java.util.Scanner;
 
 public class Backend {
 
-    public static HashMap<String, Object> hashMap(String param, String type) throws IOException {
+    public static HashMap<String, Object> readJSON(String type, String param) throws IOException {
         Gson gson = new Gson();
         HashMap<String, Object> map = null;
         String filePath = null;
         switch (type) {
             case "lang":
-                filePath = System.getProperty("user.home") + "/Dokumente/languages/" + param + ".json";
+                filePath = System.getProperty("user.home") + "/Dokumente/myGames/tetris/languages/lang_" + param + ".json";
                 try (FileReader reader = new FileReader(filePath)) {
                     // Parse the JSON file into a HashMap
                     map = gson.fromJson(reader, HashMap.class);
@@ -33,7 +33,7 @@ public class Backend {
                 break;
 
             case "profile":
-                filePath = System.getProperty("user.home")+ "/Dokumente/profiles/"+param+".json";
+                filePath = System.getProperty("user.home")+ "/Dokumente/myGames/tetris/profiles/profile_"+param+".json";
                 try (FileReader reader = new FileReader(filePath)) {
                 // Parse the JSON file into a HashMap
                 map = gson.fromJson(reader, HashMap.class);
@@ -43,6 +43,10 @@ public class Backend {
                 e.printStackTrace();
                 }
                 break;
+
+
+            default:
+                System.out.println("No fitting parameter... \n Have you called the right function?");
 
         }
         return map;
