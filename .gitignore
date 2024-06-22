@@ -27,3 +27,7 @@ replay_pid*
 #exclude built packages
 /target
 /out
+
+#exclude IDE settings
+/.idea
+/.vscode
