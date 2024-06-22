@@ -11,29 +11,36 @@ public class Main {
     HashMap<String, Object> lang = null;
     HashMap<String, Object> profile = null;
 
-    public void start() throws IOException {
+    public void start() throws IOException, InterruptedException {
 
-        try {
+        if (Init.doesRootDirExist()) {
             Init.verifyFiles();
+        } else {
+            Init.createProgramDir();
         }
-        catch(Exception e){
-            System.out.println(e);
-            System.out.println("Error reading files");
-            System.out.println("Do you want to repair?");
-            Init.repairFiles();
-        }
-        /* Select Profile Function should be placed here */
+        /* Select Profile Function should be linked here */
         String prName = "?Name?";
+        System.out.println("Loading profile");
         profile = Backend.readJSON("profile",prName);
-        lang = Backend.readJSON( "lang", profile.get(language));
-
+        if (profile != null) {
+            lang = Backend.readJSON("lang", (String) profile.get("language"));
+        } else {
+            profile = Backend.readJSON("profile", "default");
+            if (profile == null){
+                System.out.println("Error: Could not load profiles!");
+                System.out.println("Exiting...");
+                System.exit(1);
+            }
+            lang = Backend.readJSON("lang", "en");
+        }
+        System.exit(0);
 
         //main_handler.start();
 
     }
 
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, InterruptedException {
         new Main().start();
 
     }
