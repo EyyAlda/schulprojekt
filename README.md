@@ -26,7 +26,24 @@
 
 ## Java Klassen verbinden
 
+- Klassen können importiert werden mit
+  ```java
+  import com.tetris.<modul>;
+  ```
+- statische Funktionen werden so eingebunden:
+  ```java
+  <modul>.<function>;
+  ```
+- Nicht statische Funktionen muss man direkt importieren:
+  ```java
+  import com.tetris.<modul>.<Funktion>;
+- für nicht statische Funktionen muss man eine neue Instanz der Funktion erstellen:
+  ```java
+  <Funktion> <Name, die die Funktion haben soll> = new <Funktion>();
+  ```
+    
 [Erklärung von ChatGPT](https://chatgpt.com/share/88c964fb-c28e-4f39-a37d-f2d72c69bbce)
+
 
 # Die wichtigsten Git commands
 
