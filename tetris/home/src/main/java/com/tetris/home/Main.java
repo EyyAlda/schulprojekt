@@ -22,7 +22,7 @@ public class Main {
             System.out.println("Do you want to repair?");
             Init.repairFiles();
         }
-        /* Select Profile Fuction should be placed here */
+        /* Select Profile Function should be placed here */
         String prName = "?Name?";
         profile = Backend.hashMap(prName, "profile");
         lang = Backend.hashMap(profile.lang, "lang");

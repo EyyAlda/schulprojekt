@@ -1,0 +1,19 @@
+{
+	"lang":"English",
+	"langCode":"en",
+	"home":{
+		"start":"Start Game",
+		"options":"Options",
+		"ProfileSelecor":"Profiles",
+		"about":"about",
+		"keybinds":"keybinds",
+		"langselector":"Languages",
+		"musicSettings":"Music",
+		"volume":"Volume",
+		"more..."
+	},
+	"game":{
+
+	}
+}
+
