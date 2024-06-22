@@ -1,21 +1,51 @@
 package com.tetris.backend;
 
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import com.google.gson.Gson;
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonSyntaxException;
+
+import java.util.Scanner;
+
+
 
 public class Backend {
 
-    Gson gson = new Gson();
+    public static HashMap<String, Object> hashMap(String param, String type) throws IOException {
+        Gson gson = new Gson();
+        HashMap<String, Object> map = null;
+        String filePath = null;
+        switch (type) {
+            case "lang":
+                filePath = System.getProperty("user.home") + "/Dokumente/languages/" + param + ".json";
+                try (FileReader reader = new FileReader(filePath)) {
+                    // Parse the JSON file into a HashMap
+                    map = gson.fromJson(reader, HashMap.class);
 
-    public static void readProfiles(){
-        System.out.println("Reading saved Profiles");
+                    // Print the contents of the HashMap
+                } catch (JsonIOException | JsonSyntaxException | IOException e) {
+                    e.printStackTrace();
+                }
+                break;
 
-    }
-    public static void writeProfiles(){
-        System.out.println("Saving changes");
+            case "profile":
+                filePath = System.getProperty("user.home")+ "/Dokumente/profiles/"+param+".json";
+                try (FileReader reader = new FileReader(filePath)) {
+                // Parse the JSON file into a HashMap
+                map = gson.fromJson(reader, HashMap.class);
 
-    }
-    public static void readSettings(){
-        System.out.println("reading Settings");
+                // Print the contents of the HashMap
+                } catch (JsonIOException | JsonSyntaxException | IOException e) {
+                e.printStackTrace();
+                }
+                break;
+
+        }
+        return map;
     }
 
 }
