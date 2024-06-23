@@ -58,7 +58,7 @@ public class Backend {
         
     }
 
-    private static String getXdgUserDir(String dirType) throws IOException, InterruptedException {
+    public static String getXdgUserDir(String dirType) throws IOException, InterruptedException {
         // Construct the command
         String command = "xdg-user-dir " + dirType;
 

@@ -6,6 +6,8 @@ import java.util.Scanner;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.file.*;
+import java.util.jar.*;
 
 /*
 This class is only executed at the start of the program.
@@ -22,8 +24,8 @@ OS: Ubuntu 23.10
 
 public class Init {
 
-    public static boolean doesRootDirExist(){
-        String path = System.getProperty("user.home")+"/Dokumente/myGames/Jtetris/";
+    public static boolean doesRootDirExist() throws IOException, InterruptedException {
+        String path = Backend.getXdgUserDir("DOCUMENTS")+"/myGames/Jtetris/";
         File rootDir = new File(path);
 
         if (rootDir.exists() && rootDir.isDirectory()){
@@ -34,7 +36,7 @@ public class Init {
 
 
     public static void verifyFiles() throws IOException, InterruptedException {
-        String basePath = getXdgUserDir("DOCUMENTS")+ "/myGames/Jtetris";
+        String basePath = Backend.getXdgUserDir("DOCUMENTS")+ "/myGames/Jtetris";
         String config = "/jtetris.config";
         String profiles = "/profiles/";
         String lang = "/languages/";
@@ -164,8 +166,35 @@ public class Init {
 
     public static void createProgramDir() throws IOException, InterruptedException {
         Scanner in = new Scanner(System.in);
-        String basePath = getXdgUserDir("DOCUMENTS")+ "/myGames/Jtetris";
+
+
+        System.out.println("Do you want to use the language and profile presets included in the jar? (O)");
+        System.out.println("It is also possible to download them from the GitHub repository (g)\n (doesn't happen automatically)");
+        System.out.println("link: https://github.com/EyyAlda/schulprojekt");
+        System.out.println("(g/o/n");
+        String key = in.nextLine();
+        if (key.equals("g") || key.equals("G")){
+            moveFiles(false);
+        } else if (key.equals("o") || key.equals("O")){
+            System.out.println("Using the files included in the jar");
+            moveFiles(true);
+        } else {
+            System.out.println("Cancelled");
+            System.exit(1);
+        }
+
+
+
+
+
+    }
+
+    public static void moveFiles(boolean includeFiles) throws IOException, InterruptedException {
+        String basePath = Backend.getXdgUserDir("DOCUMENTS")+ "/myGames/Jtetris";
         File rootDir = new File(basePath);
+        System.out.println("Download the files and put the config in /Dokumente/myGames/Jtetris/");
+        System.out.println("the languages in the /languages/ and the profile_default.json in /profiles/");
+        System.out.println("after doing so start the Jtetris again");
         if (rootDir.mkdirs()) {
             System.out.println("root directory created");
         } else {
@@ -189,66 +218,18 @@ public class Init {
         } else {
             System.out.println("Couldn't create profile directory");
         }
-        System.out.println("Do you want to use the language and profile presets included in the deb? (O)");
-        System.out.println("It is also possible to download them from the GitHub repository (g)\n (doesn't happen automatically)");
-        System.out.println("link: https://github.com/EyyAlda/schulprojekt");
-        System.out.println("(g/O/n");
-        String key = in.nextLine();
-        if (key.equals("g") || key.equals("G")){
-            System.out.println("Download the files and put the config in /Dokumente/myGames/Jtetris/");
-            System.out.println("the languages in the /languages/ and the profile_default.json in /profiles/");
-            System.out.println("after doing so start the Jtetris again");
+        //stop the Jtetris if the user wants to copy the files manually
+        if (!includeFiles){
             System.exit(0);
-        } else if (key.equals("o") || key.equals("O")){
-            System.out.println("Using the files included in the deb");
-            moveFiles();
-        } else {
-            System.out.println("Cancelled");
-            System.exit(1);
         }
-
-
-
-    }
-
-    public static void moveFiles(){
-        String scriptPath = "/opt/Jtetris/scripts/movFiles.sh";
-
-        ProcessBuilder processBuilder = new ProcessBuilder();
-        processBuilder.command("bash", scriptPath);
 
         try {
-            Process process = processBuilder.start();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-            String outputText;
-            while ((outputText = reader.readLine()) != null){
-                System.out.println(outputText);
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+            String jarPath = Init.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+
+        } catch (IOException e){
+            throw new IOException(e);
         }
-    }
 
-
-
-    private static String getXdgUserDir(String dirType) throws IOException, InterruptedException {
-        // Construct the command
-        String command = "xdg-user-dir " + dirType;
-
-        // Start the process
-        Process process = Runtime.getRuntime().exec(command);
-
-        // Get the output of the command
-        BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-        String path = reader.readLine();
-
-        // Wait for the process to complete
-        int exitCode = process.waitFor();
-        if (exitCode == 0 && path != null && !path.isEmpty()) {
-            return path;
-        } else {
-            return null;
-        }
     }
 
 }
