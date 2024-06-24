@@ -62,10 +62,12 @@ public class Backend {
 
     public static boolean writeProfiles(HashMap<String, Object> map, String profileName){
         Gson gson = new Gson();
-        String path = getXdgUserDir("DOCUMENTS")+"/myGames/Jtetris/profiles/";
+        String path = getXdgUserDir("DOCUMENTS") + "/myGames/Jtetris/profiles/";
         String toJson = gson.toJson(map);
 
-        FileWriter profileData = new FileWriter(path+"profile_"+profileName+".json");
+        FileWriter profileData = new FileWriter(path + "profile_" + profileName + ".json");
+        String file = path + "profile_" + profileName + ".json";
+        if (profileData.exists(file))
 
 
 
