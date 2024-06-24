@@ -16,7 +16,7 @@ It has the capability to recreate the files for the program to be functioning ag
 This package depends on a jarfile structure and Linux as OS.
 Author: Lennard Rütten
 created: 22.06.24
-last edited: 22.06.24
+last edited: 24.06.24
 jdk: openjdk-17-jdk
 OS: Ubuntu 23.10
  */
@@ -27,10 +27,7 @@ public class Init {
         String path = Backend.getXdgUserDir("DOCUMENTS")+"/myGames/Jtetris/";
         File rootDir = new File(path);
 
-        if (rootDir.exists() && rootDir.isDirectory()){
-            return true;
-        }
-        return false;
+        return rootDir.exists() && rootDir.isDirectory();
     }
 
 

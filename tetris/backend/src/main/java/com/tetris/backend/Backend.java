@@ -4,19 +4,17 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.ResourceBundle;
+import java.util.*;
+import java.io.FileInputStream;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
-
-import java.util.Scanner;
-
+import java.io.IOException;
 
 
 public class Backend {
+
     static String basePath;
 
     static {
@@ -67,22 +65,7 @@ public class Backend {
         }
         return map;
     }
-    public static void readConfig(boolean isCached, ResourceBundle conf){
-        File config = new File(basePath + "/jtetris.config");
-        if (!config.exists() && isCached){
-            System.out.println("The config file has been deleted for some reason");
-            System.out.println("creating new...");
-            if (writeConfig(true, conf)){
-                System.out.println("Saved new config file");
-            }
-        } else if (!config.exists() && !isCached){
-            System.out.println("Cannot create new config file...");
-            System.out.println("Exiting...");
-            System.exit(0);
-        }
 
-        
-    }
 
 
     public static boolean writeProfiles(HashMap<String, Object> map, String profileName) throws IOException, InterruptedException {
@@ -117,12 +100,57 @@ public class Backend {
         return true;
     }
 
-    public static boolean writeConfig(boolean newOne, ResourceBundle conf){
+    public static HashMap<String, Object> readConfig(boolean isCached, HashMap<String, Object> conf) throws IOException {
+        HashMap<String, Object> values = new HashMap<>();
+        File config = new File(basePath + "/jtetris.config");
+        if (!config.exists() && isCached){
+            System.out.println("The config file has been deleted for some reason");
+            System.out.println("creating new...");
+            if (writeConfig(conf)){
+                System.out.println("Saved new config file");
+            } else {
+                System.out.println("Couldn't create new config file");
+                System.out.println("Exiting...");
+                System.exit(1);
+            }
+        } else if (!config.exists() && !isCached){
+            System.out.println("Cannot create new config file...");
+            System.out.println("Exiting...");
+            System.exit(0);
+        }
+        Properties configF = new Properties();
+        try (FileInputStream input = new FileInputStream(basePath + "/jtetris.config")) {
+            configF.load(input);
+            for (String key : configF.stringPropertyNames()){
+                assert false;
+                values.put(key, configF.getProperty(key));
+            }
 
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
+        return values;
+    }
 
+    public static boolean writeConfig(HashMap<String, Object> conf) throws IOException {
+        Properties configF = new Properties();
+        configF.putAll(conf);
+        File configFileCheck = new File(basePath + "/jtetris.config");
+        if (configFileCheck.exists()){
+            if (configFileCheck.delete()){
+                try (FileOutputStream output = new FileOutputStream(basePath + "/jtetris.config")){
+                    configF.store(output, "Saved config");
 
+                } catch (IOException e){
+                    throw new IOException(e);
+                }
+            } else {
+                System.out.println("Error while trying to write to config file");
+                return false;
+            }
 
+        }
         return true;
     }
 
