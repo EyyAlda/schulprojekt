@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.io.FileWriter;
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
@@ -57,6 +58,30 @@ public class Backend {
 
         
     }
+
+
+    public static boolean writeProfiles(HashMap<String, Object> map, String profileName){
+        Gson gson = new Gson();
+        String path = getXdgUserDir("DOCUMENTS")+"/myGames/Jtetris/profiles/";
+        String toJson = gson.toJson(map);
+
+        FileWriter profileData = new FileWriter(path+"profile_"+profileName+".json");
+
+
+
+        return true;
+    }
+
+    public static boolean writeConfig(){
+
+
+
+
+
+        return true;
+    }
+
+
 
     public static String getXdgUserDir(String dirType) throws IOException, InterruptedException {
         // Construct the command

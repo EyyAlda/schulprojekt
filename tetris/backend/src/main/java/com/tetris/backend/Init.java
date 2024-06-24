@@ -222,14 +222,14 @@ public class Init {
         if (!includeFiles){
             System.exit(0);
         }
-
-        try {
+        System.exit(0);
+        /*try {
             String jarPath = Init.class.getProtectionDomain().getCodeSource().getLocation().getPath();
 
-        } catch (IOException e){
+        } catch ( e){
             throw new IOException(e);
         }
-
+        */
     }
 
 }
