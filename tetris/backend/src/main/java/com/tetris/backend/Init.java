@@ -13,8 +13,7 @@ import java.util.jar.*;
 This class is only executed at the start of the program.
 It looks for missing files that could prevent the program from functioning.
 It has the capability to recreate the files for the program to be functioning again.
-This package depends on a deb file structure and on Linux as OS.
-
+This package depends on a jarfile structure and Linux as OS.
 Author: Lennard Rütten
 created: 22.06.24
 last edited: 22.06.24
