@@ -1,4 +1,0 @@
---patch-module
-com.tetris.backend=_
---add-reads
-com.tetris.backend=ALL-UNNAMED
