@@ -31,3 +31,6 @@ replay_pid*
 #exclude IDE settings
 /.idea
 /.vscode
+
+#exclude pom properties
+pom.properties
