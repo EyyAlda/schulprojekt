@@ -1,0 +1,12 @@
+{
+	"name":"default",
+	"language":"en",
+	"music":"default",
+	"keys":{
+		"turn":"default",
+		"moveLeft":"default",
+		"moveRight":"default",
+		"moveDown":"default",
+		"jumpDown":"default"
+	}
+}
