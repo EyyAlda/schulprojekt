@@ -25,6 +25,24 @@ public class Backend {
         }
     }
 
+    public static String[] profilesList(){
+        String[] prfFileNames;
+        File baseDir = new File(getXdgUserDir("DOCUMENTS") + "/profiles");
+        if (baseDir.exists() && baseDir.isDirectory()){
+            FileFilter profileFilter = file -> file.isFile() && file.getName().contains("profile_") && file.getName().endsWith(".json");
+
+            File[] prfFiles = baseDir.listFiles(profileFilter);
+
+            if (prfFiles != null){
+                for (int i = 0; i< prfFiles.length; i++){
+                    prfFileNames[i] = prfFiles[i].toString();
+                }
+                return prfFileNames;
+            }
+        }            
+        return null;
+    }
+
     public static  HashMap<String, Object> readJSON(String type, String param, String path) throws IOException, InterruptedException {
         Gson gson = new Gson();
         HashMap<String, Object> map;
@@ -157,10 +175,8 @@ public class Backend {
 
 
     public static String getXdgUserDir(String dirType) throws IOException, InterruptedException {
-        // Construct the command
         String command = "xdg-user-dir " + dirType;
-
-        // Start the process
+        
         Process process = Runtime.getRuntime().exec(command);
 
         // Get the output of the command
