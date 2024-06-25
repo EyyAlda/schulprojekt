@@ -1,0 +1,4 @@
+--patch-module
+com.tetris.tetris_game=_
+--add-reads
+com.tetris.tetris_game=ALL-UNNAMED

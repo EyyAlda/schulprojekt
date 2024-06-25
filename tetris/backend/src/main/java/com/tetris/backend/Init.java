@@ -3,21 +3,18 @@ package com.tetris.backend;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.util.Scanner;
-import java.io.BufferedReader;
+
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.file.*;
-import java.util.jar.*;
+
 
 /*
 This class is only executed at the start of the program.
 It looks for missing files that could prevent the program from functioning.
 It has the capability to recreate the files for the program to be functioning again.
-This package depends on a deb file structure and on Linux as OS.
-
+This package depends on a jarfile structure and Linux as OS.
 Author: Lennard Rütten
 created: 22.06.24
-last edited: 22.06.24
+last edited: 24.06.24
 jdk: openjdk-17-jdk
 OS: Ubuntu 23.10
  */
@@ -28,10 +25,7 @@ public class Init {
         String path = Backend.getXdgUserDir("DOCUMENTS")+"/myGames/Jtetris/";
         File rootDir = new File(path);
 
-        if (rootDir.exists() && rootDir.isDirectory()){
-            return true;
-        }
-        return false;
+        return rootDir.exists() && rootDir.isDirectory();
     }
 
 
