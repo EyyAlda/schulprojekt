@@ -44,6 +44,28 @@
     
 [Erklärung von ChatGPT](https://chatgpt.com/share/88c964fb-c28e-4f39-a37d-f2d72c69bbce)
 
+## Wie benutzt man die Backend Funktionen?
+
+### readJSON()
+
+Wird abgerufen durch:
+```
+Backend.readJSON(String type, String param, (String path))
+```
+Die funktion hat 3 modi:
+- Languagepacks lesen (type = lang)
+  Parameter param ist der Name der sprachdatei ohne .json und lang_
+  Parameter path hat keinen Einfluss
+- Profiledata lesen (type = profile)
+  Parameter param ist der Name des Profils ohne .json und profile_
+  Parameter path hat keinen Einfluss
+- custom (type = custom)
+  Parameter param hat keinen Einfluss
+  Parameter path gibt an, welche Datei gelesen werden soll
+
+  Die Funktion gibt eine Hashmap in der Form <String, Object> zurück.
+**wichtig: wenn kein type-Parameter angegeben ist, gibt die Funktion immer 'null' zurück**
+
 
 # Die wichtigsten Git commands
 
