@@ -46,7 +46,14 @@
 
 ## Wie benutzt man die Backend Funktionen?
 
-### readJSON()
+### profilesList() (static)
+Wird abgerufen durch:
+```
+Backend.profilesList();
+```
+- gibt einem einen String-Array mit allen Profilnamen zurück
+
+### readJSON() (static)
 
 Wird abgerufen durch:
 ```
@@ -65,6 +72,31 @@ Die funktion hat 3 modi:
 
   Die Funktion gibt eine Hashmap in der Form <String, Object> zurück.
 **wichtig: wenn kein type-Parameter angegeben ist, gibt die Funktion immer 'null' zurück**
+
+  ### writeProfiles() (static)
+  Wird abgerufen durch:
+  ```
+  Backend.writeProfiles(Hashmap<String, Object> map, String profileName);
+  ```
+  - Die Funktion gibt ```true```zurück, wenn es funktioniert hat und ```false```wenn nicht.
+  - In der Hashmap sollten die Daten drinstehen, die später in der Json-Datei sein sollen.
+
+### readConfig() (static)
+Wird abgerufen durch:
+```
+Backend.readConfig(boolean isCached, Hashmap<String, Object> conf);
+```
+- Der Parameter isCached gibt an ob die Config schon mal geladen wurde (hilft, falls sie vom user gelöscht wurde sie wiederherzustellen) (normalerweise true)
+- Der Hashmap-Parameter ist der aktuell geladene Zustand der Config. Wenn es keine Config-Datei gibt, wird automatisch eine Neue erstellt.
+- Es wird eine Hashmap zurückgegeben
+
+### writeConfig() (static)
+Wird abgerufen durch:
+```
+Backend.writeConfig(Hashmap<String, Object> conf);
+```
+- Gibt einen boolean zurück
+- Wird auch zur wiederherstellung durch ein nichtvorhandensein durch die readConfig-Funktion ausgeführt
 
 
 # Die wichtigsten Git commands
