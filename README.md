@@ -73,13 +73,13 @@ Die funktion hat 3 modi:
   Die Funktion gibt eine Hashmap in der Form <String, Object> zurück.
 **wichtig: wenn kein type-Parameter angegeben ist, gibt die Funktion immer 'null' zurück**
 
-  ### writeProfiles() (static)
-  Wird abgerufen durch:
-  ```
-  Backend.writeProfiles(Hashmap<String, Object> map, String profileName);
-  ```
-  - Die Funktion gibt ```true```zurück, wenn es funktioniert hat und ```false```wenn nicht.
-  - In der Hashmap sollten die Daten drinstehen, die später in der Json-Datei sein sollen.
+### writeProfiles() (static)
+Wird abgerufen durch:
+```
+Backend.writeProfiles(Hashmap<String, Object> map, String profileName);
+```
+- Die Funktion gibt ```true```zurück, wenn es funktioniert hat und ```false```wenn nicht.
+- In der Hashmap sollten die Daten drinstehen, die später in der Json-Datei sein sollen.
 
 ### readConfig() (static)
 Wird abgerufen durch:
