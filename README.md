@@ -57,11 +57,11 @@ Die funktion hat 3 modi:
   Parameter param ist der Name der sprachdatei ohne .json und lang_
   Parameter path hat keinen Einfluss
 - Profiledata lesen (type = profile)
-  Parameter param ist der Name des Profils ohne .json und profile_
-  Parameter path hat keinen Einfluss
+ 	- Parameter param ist der Name des Profils ohne .json und profile_
+	- Parameter path hat keinen Einfluss
 - custom (type = custom)
-  Parameter param hat keinen Einfluss
-  Parameter path gibt an, welche Datei gelesen werden soll
+  	- Parameter param hat keinen Einfluss
+  	- Parameter path gibt an, welche Datei gelesen werden soll
 
   Die Funktion gibt eine Hashmap in der Form <String, Object> zurück.
 **wichtig: wenn kein type-Parameter angegeben ist, gibt die Funktion immer 'null' zurück**
