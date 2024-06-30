@@ -1,5 +1,6 @@
 package com.tetris.backend;
 
+import java.util.ArrayList;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -25,8 +26,8 @@ public class Backend {
         }
     }
 
-    public static String[] profilesList(){
-        String[] prfFileNames;
+    public static String[] profilesList() throws IOException, InterruptedException{
+        ArrayList<String> list = new ArrayList<>();
         File baseDir = new File(getXdgUserDir("DOCUMENTS") + "/profiles");
         if (baseDir.exists() && baseDir.isDirectory()){
             FileFilter profileFilter = file -> file.isFile() && file.getName().contains("profile_") && file.getName().endsWith(".json");
@@ -35,9 +36,10 @@ public class Backend {
 
             if (prfFiles != null){
                 for (int i = 0; i< prfFiles.length; i++){
-                    prfFileNames[i] = prfFiles[i].toString();
+                    list.add(prfFiles[i].toString());
                 }
-                return prfFileNames;
+                String[] prfFileNames = new String[list.size()];
+                return list.toArray(prfFileNames);
             }
         }            
         return null;

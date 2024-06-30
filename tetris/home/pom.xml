@@ -15,11 +15,11 @@
             <artifactId>com.tetris.backend</artifactId>
         	<version>1.0-SNAPSHOT</version>
         </dependency>
-	<dependency>
-		<groupId>com.tetris</groupId>
-		<artifactId>com.tetris.tetris_game</artifactId>
+        <dependency>
+		    <groupId>com.tetris</groupId>
+		    <artifactId>com.tetris.tetris_game</artifactId>
           	<version>1.0-SNAPSHOT</version>
-	</dependency>
+	    </dependency>
         <dependency>
             <groupId>com.tetris</groupId>
             <artifactId>com.tetris.backend</artifactId>
@@ -36,7 +36,27 @@
             <artifactId>javafx-media</artifactId>
             <version>11</version>
         </dependency>
-    </dependencies>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-web</artifactId>
+            <version>11</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-swing</artifactId>
+            <version>11</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-media</artifactId>
+            <version>11</version>
+        </dependency>
+        <dependency>
+            <groupId>org.controlsfx</groupId>
+            <artifactId>controlsfx</artifactId>
+            <version>11.1.2</version>
+        </dependency> 
+        </dependencies>
 
     <artifactId>com.tetris.home</artifactId>
     <packaging>jar</packaging>
