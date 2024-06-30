@@ -44,6 +44,60 @@
     
 [Erklärung von ChatGPT](https://chatgpt.com/share/88c964fb-c28e-4f39-a37d-f2d72c69bbce)
 
+## Wie benutzt man die Backend Funktionen?
+
+### profilesList() (static)
+Wird abgerufen durch:
+```
+Backend.profilesList();
+```
+- gibt einem einen String-Array mit allen Profilnamen zurück
+
+### readJSON() (static)
+
+Wird abgerufen durch:
+```
+Backend.readJSON(String type, String param, (String path))
+```
+Die funktion hat 3 modi:
+- Languagepacks lesen (type = lang)
+  Parameter param ist der Name der sprachdatei ohne .json und lang_
+  Parameter path hat keinen Einfluss
+- Profiledata lesen (type = profile)
+ 	- Parameter param ist der Name des Profils ohne .json und profile_
+	- Parameter path hat keinen Einfluss
+- custom (type = custom)
+  	- Parameter param hat keinen Einfluss
+  	- Parameter path gibt an, welche Datei gelesen werden soll
+
+  Die Funktion gibt eine Hashmap in der Form <String, Object> zurück.
+**wichtig: wenn kein type-Parameter angegeben ist, gibt die Funktion immer 'null' zurück**
+
+### writeProfiles() (static)
+Wird abgerufen durch:
+```
+Backend.writeProfiles(Hashmap<String, Object> map, String profileName);
+```
+- Die Funktion gibt ```true```zurück, wenn es funktioniert hat und ```false```wenn nicht.
+- In der Hashmap sollten die Daten drinstehen, die später in der Json-Datei sein sollen.
+
+### readConfig() (static)
+Wird abgerufen durch:
+```
+Backend.readConfig(boolean isCached, Hashmap<String, Object> conf);
+```
+- Der Parameter isCached gibt an ob die Config schon mal geladen wurde (hilft, falls sie vom user gelöscht wurde sie wiederherzustellen) (normalerweise true)
+- Der Hashmap-Parameter ist der aktuell geladene Zustand der Config. Wenn es keine Config-Datei gibt, wird automatisch eine Neue erstellt.
+- Es wird eine Hashmap zurückgegeben
+
+### writeConfig() (static)
+Wird abgerufen durch:
+```
+Backend.writeConfig(Hashmap<String, Object> conf);
+```
+- Gibt einen boolean zurück
+- Wird auch zur wiederherstellung durch ein nichtvorhandensein durch die readConfig-Funktion ausgeführt
+
 
 # Die wichtigsten Git commands
 
