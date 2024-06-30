@@ -9,6 +9,9 @@ import java.util.jar.JarFile;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.jar.*;
+import java.util.Enumeration;
+import java.io.*;
 
 
 /*
@@ -224,17 +227,20 @@ public class Init {
        
         
         //Use the presets in the jarfile to repair the directories
-        try {
+       try {
             // Get the path to the JAR file
             String jarPath = Init.class.getProtectionDomain().getCodeSource().getLocation().getPath();
             // Open the JAR file
             try (JarFile jar = new JarFile(jarPath)) {
+                // Get an enumeration of the entries in the JAR file
+                Enumeration<JarEntry> entries = jar.entries();
                 // Iterate through the entries in the JAR file
-                for (JarEntry entry : jar.entries()) {
+                while (entries.hasMoreElements()) {
+                    JarEntry entry = entries.nextElement();
                     // Check if the entry is part of the extra files
                     if (entry.getName().startsWith("extra-files/")) {
                         // Define the destination file
-                        File destFile = new File(Backend.getXdgUserDir("DOCUMENTS") + "/myGames", entry.getName().substring("/Jtetris/".length()));
+                        File destFile = new File(basePath, entry.getName());
                         // Create directories if necessary
                         if (entry.isDirectory()) {
                             destFile.mkdirs();
@@ -255,8 +261,7 @@ public class Init {
             }
         } catch (IOException e) {
             e.printStackTrace();
-        }
-
+        } 
     }
 
 }
