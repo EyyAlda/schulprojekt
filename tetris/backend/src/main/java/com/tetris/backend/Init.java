@@ -1,10 +1,17 @@
 package com.tetris.backend;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FilenameFilter;
 import java.util.Scanner;
-
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.jar.*;
+import java.util.Enumeration;
+import java.io.*;
 
 
 /*
@@ -186,9 +193,10 @@ public class Init {
     public static void moveFiles(boolean includeFiles) throws IOException, InterruptedException {
         String basePath = Backend.getXdgUserDir("DOCUMENTS")+ "/myGames/Jtetris";
         File rootDir = new File(basePath);
-        System.out.println("Download the files and put the config in /Dokumente/myGames/Jtetris/");
-        System.out.println("the languages in the /languages/ and the profile_default.json in /profiles/");
-        System.out.println("after doing so start the Jtetris again");
+        if (!includeFiles) {
+            System.out.println("Download the files and put the config in /Dokumente/myGames/Jtetris/");
+            System.out.println("the languages in the /languages/ and the profile_default.json in /profiles/");
+            System.out.println("after doing so start the Jtetris again");    
         if (rootDir.mkdirs()) {
             System.out.println("root directory created");
         } else {
@@ -213,17 +221,47 @@ public class Init {
             System.out.println("Couldn't create profile directory");
         }
         //stop the Jtetris if the user wants to copy the files manually
-        if (!includeFiles){
-            System.exit(0);
-        }
         System.exit(0);
-        /*try {
-            String jarPath = Init.class.getProtectionDomain().getCodeSource().getLocation().getPath();
-
-        } catch ( e){
-            throw new IOException(e);
+        
         }
-        */
+       
+        
+        //Use the presets in the jarfile to repair the directories
+       try {
+            // Get the path to the JAR file
+            String jarPath = Init.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+            // Open the JAR file
+            try (JarFile jar = new JarFile(jarPath)) {
+                // Get an enumeration of the entries in the JAR file
+                Enumeration<JarEntry> entries = jar.entries();
+                // Iterate through the entries in the JAR file
+                while (entries.hasMoreElements()) {
+                    JarEntry entry = entries.nextElement();
+                    // Check if the entry is part of the extra files
+                    if (entry.getName().startsWith("extra-files/")) {
+                        // Define the destination file
+                        File destFile = new File(basePath, entry.getName());
+                        // Create directories if necessary
+                        if (entry.isDirectory()) {
+                            destFile.mkdirs();
+                        } else {
+                            destFile.getParentFile().mkdirs();
+                            // Copy the file
+                            try (InputStream is = jar.getInputStream(entry);
+                                 OutputStream os = new FileOutputStream(destFile)) {
+                                byte[] buffer = new byte[1024];
+                                int bytesRead;
+                                while ((bytesRead = is.read(buffer)) != -1) {
+                                    os.write(buffer, 0, bytesRead);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } 
     }
 
 }
