@@ -32,5 +32,7 @@ replay_pid*
 /.idea
 /.vscode
 
-#exclude pom properties
-pom.properties
+#exclude unnecessary extra files
+.project
+/.settings
+.classpath
