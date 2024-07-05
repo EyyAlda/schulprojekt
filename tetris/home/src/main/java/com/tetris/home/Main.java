@@ -2,6 +2,7 @@ package com.tetris.home;
 
 import com.tetris.backend.Backend;
 import com.tetris.backend.Init;
+import com.tetris.tetris_game.main_handler;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -12,6 +13,7 @@ public class Main {
     HashMap<String, Object> profile = null;
 
     public void start() throws IOException, InterruptedException {
+        
 
         if (Init.doesRootDirExist()) {
             Init.verifyFiles();
@@ -27,6 +29,9 @@ public class Main {
         } catch (IOException e){
             throw new IOException(e);
         }
+
+        main_handler.main(null);
+        
 
         if (profile != null) {
             lang = Backend.readJSON("lang", (String) profile.get("language"), null);
