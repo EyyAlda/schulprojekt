@@ -1,4 +1,4 @@
-package org.tetrisneu;
+package org.jtetris;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -19,9 +19,6 @@ import javax.net.ssl.HttpsURLConnection;
 import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
-import org.apache.commons.compress.*;
 import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
 import org.apache.commons.compress.archivers.zip.ZipFile;
 import org.apache.commons.io.IOUtils;
@@ -251,6 +248,25 @@ public class Backend {
             extractZip(dldFilePath, destPath);
         }
         System.out.println("Files downloaded successfully");
+        System.out.println("Deleting downloaded zips");
+        File[] downloadedZips = new File[3];
+        File audioZip = new File(System.getProperty("user.home")+ "/audio.zip");
+        File texturesZip = new File(System.getProperty("user.home")+ "/textures.zip");
+        File tetrisConfFilesZip = new File(System.getProperty("user.home") + "/tetrisConfFiles.zip");
+        downloadedZips[0] = audioZip;
+        downloadedZips[1] = texturesZip;
+        downloadedZips[2] = tetrisConfFilesZip;
+
+        try{
+            for (int i = 0; i < 3; i++){
+                if (downloadedZips[i].exists()){
+                    downloadedZips[i].delete();
+                }
+            } 
+
+        }catch (Exception e){
+            throw new RuntimeException(e);
+        }
     }
 
     public static String downloadFiles(String path)throws IOException{
