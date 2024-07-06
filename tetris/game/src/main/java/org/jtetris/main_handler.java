@@ -20,7 +20,7 @@ import javafx.scene.media.MediaPlayer;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
-import org.tetrisneu.Backend;
+//import org.jtetris.Backend;
 
 import java.io.IOException;
 import java.util.concurrent.Executors;
@@ -1209,20 +1209,40 @@ public class main_handler extends Application {
                         if (current_background > 5) {
                             current_background = 1;
                         }
-                        background = new Image(new File("tetris/textures/background" + current_background + ".gif").toURI().toString());
+                        try {
+                            background = new Image(new File(Backend.getXdgUserDir("DOCUMENTS")+"/myGames/Jtetris/textures/background" + current_background + ".gif").toURI().toString());
+                        } catch (IOException | InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
                         imageView.setImage(background);
                     }
 
                     if (removeActiveKey("M")) {
                         main_theme.stop();
                         if (main_theme.getMedia().getSource().contains("Tetris_TypeA.wav")) {
-                            main_theme = new MediaPlayer(new Media(new File("tetris/audio/Tetris_TypeB.wav").toURI().toString()));
+                            try {
+                                main_theme = new MediaPlayer(new Media(new File(Backend.getXdgUserDir("DOCUMENTS")+"/myGames/Jtetris/audio/Tetris_TypeB.wav").toURI().toString()));
+                            } catch (IOException | InterruptedException e) {
+                                throw new RuntimeException(e);
+                            }
                         } else if (main_theme.getMedia().getSource().contains("Tetris_TypeB")) {
-                            main_theme = new MediaPlayer(new Media(new File("tetris/audio/Tetris_TypeC.wav").toURI().toString()));
+                            try {
+                                main_theme = new MediaPlayer(new Media(new File(Backend.getXdgUserDir("DOCUMENTS")+"/myGames/Jtetris/audio/Tetris_TypeC.wav").toURI().toString()));
+                            } catch (IOException | InterruptedException e) {
+                                throw new RuntimeException(e);
+                            }
                         } else if (main_theme.getMedia().getSource().contains("Tetris_TypeC")) {
-                            main_theme = new MediaPlayer(new Media(new File("tetris/audio/Tetris_TypeD.wav").toURI().toString()));
+                            try {
+                                main_theme = new MediaPlayer(new Media(new File(Backend.getXdgUserDir("DOCUMENTS")+"/myGames/Jtetris/audio/Tetris_TypeD.wav").toURI().toString()));
+                            } catch (IOException | InterruptedException e) {
+                                throw new RuntimeException(e);
+                            }
                         } else {
-                            main_theme = new MediaPlayer(new Media(new File("tetris/audio/Tetris_TypeA.wav").toURI().toString()));
+                            try {
+                                main_theme = new MediaPlayer(new Media(new File(Backend.getXdgUserDir("DOCUMENTS")+"/myGames/Jtetris/audio/Tetris_TypeA.wav").toURI().toString()));
+                            } catch (IOException | InterruptedException e) {
+                                throw new RuntimeException(e);
+                            }
                         }
                         main_theme.setVolume(0.3);
                         main_theme.play();

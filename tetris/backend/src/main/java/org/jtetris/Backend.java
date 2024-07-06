@@ -258,9 +258,10 @@ public class Backend {
         downloadedZips[2] = tetrisConfFilesZip;
 
         try{
-            for (int i = 0; i < 3; i++){
-                if (downloadedZips[i].exists()){
-                    downloadedZips[i].delete();
+            for (File file : downloadedZips){
+                if (file.exists()){
+                    System.out.println("removing " + file.getName());
+                    file.delete();
                 }
             } 
 

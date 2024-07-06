@@ -1,8 +1,5 @@
 package org.jtetris;
 
-import org.tetrisneu.Backend;
-import org.tetrisneu.Init;
-
 import java.io.IOException;
 import java.util.HashMap;
 
