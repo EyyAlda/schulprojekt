@@ -1,4 +1,4 @@
-package org.tetrisneu;
+package org.jtetris;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
