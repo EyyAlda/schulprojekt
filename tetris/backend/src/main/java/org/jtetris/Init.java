@@ -161,7 +161,7 @@ public class Init {
     }
 
     public static void createProgramDir() throws IOException, InterruptedException {
-        Scanner in = new Scanner(System.in);
+        /*Scanner in = new Scanner(System.in);
 
 
         System.out.println("Do you want to use the language and profile presets included in the jar? (O)");
@@ -179,6 +179,8 @@ public class Init {
             System.exit(1);
         }
 
+         */
+        moveFiles(true);
 
 
 
