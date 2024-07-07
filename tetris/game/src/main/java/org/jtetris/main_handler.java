@@ -101,6 +101,10 @@ public class main_handler extends Application {
     int lines_cleared = 0;
     int language = 0;
 
+    HashMap<String, Object> whichUser = Backend.readConfig(false, null);
+    HashMap<String, Object> lang = Backend.readJSON("lang", (String) whichUser.get("lang"), null);
+    HashMap<String, Object> profile = Backend.readJSON("profile", (String) whichUser.get("lastProfile"), null);
+
     Label points_label = new Label();
     Label lines_cleared_label = new Label();
 
@@ -158,8 +162,8 @@ public class main_handler extends Application {
             }
         }
 
-        points_label.setText("Points: " + points);
-        lines_cleared_label.setText("Lines cleared: " + lines_cleared);
+        points_label.setText((String) lang.get("Points") +": " + points);
+        lines_cleared_label.setText((String) lang.get("linesCleared")+": " + lines_cleared);
     }
 
     // Creates a tetromino at positions X = 3 - 5 and Y = 0 - 4

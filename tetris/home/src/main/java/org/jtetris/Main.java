@@ -6,6 +6,8 @@ import java.util.HashMap;
 public class Main {
     HashMap<String, Object> lang = null;
     HashMap<String, Object> profile = null;
+    HashMap<String, Object> config = null;
+    String[] profilesList;
 
     public void start() throws IOException, InterruptedException {
 
@@ -16,18 +18,17 @@ public class Main {
         } else {
             Init.createProgramDir();
         }
+
+        profilesList = Backend.profilesList();
         /* Select Profile Function should be linked here */
-        String prName = "default";
-        System.out.println("Loading profile "+prName);
+        config = Backend.readConfig(false,null);
+        System.out.println("Loading profile "+ config.get("lastProfile"));
         try {
 
-            profile = Backend.readJSON("profile",prName, null);
+            profile = Backend.readJSON("profile", (String) config.get("lastProfile"), null);
         } catch (IOException e){
             throw new IOException(e);
         }
-        main_handler.main(null);
-
-
 
         if (profile != null) {
             lang = Backend.readJSON("lang", (String) profile.get("lang"), null);
@@ -40,11 +41,20 @@ public class Main {
             }
             lang = Backend.readJSON("lang", "en", null);
         }
+        assert lang != null;
+        System.out.println("Using language "+ lang.get("lang"));
+        try {
+            config.put("lastProfile", profile.get("profileName"));
+            config.put("lang", profile.get("lang"));
+            Backend.writeConfig(config);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        main_handler.main(null);
         System.exit(0);
 
-        //main_handler.start();
-
     }
+
 
 
     public static void main(String[] args) throws IOException, InterruptedException {
