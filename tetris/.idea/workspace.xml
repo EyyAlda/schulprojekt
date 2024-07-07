@@ -5,100 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7f7655b1-bc36-4b80-9293-d66dc925ba02" name="Changes" comment="removed unnecessary imports">
-      <change beforePath="$PROJECT_DIR$/.vscode/settings.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/dependency-reduced-pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/tetris/backend/Backend.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/tetris/backend/Init.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/module-info.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/maven-archiver/pom.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/home/dependency-reduced-pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/home/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/home/src/main/java/com/tetris/home/AboutUs.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/home/src/main/java/com/tetris/home/Controller.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/home/src/main/java/com/tetris/home/Main.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/home/src/main/java/module-info.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/home/src/main/resources/com/tetris/home/andrija.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/home/src/main/resources/com/tetris/home/iker.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/home/src/main/resources/com/tetris/home/lennard.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/home/src/main/resources/com/tetris/home/petkovic.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/home/src/main/resources/com/tetris/home/stanislav.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/home/src/main/resources/com/tetris/home/wew.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/home/target/classes/com/tetris/home/andrija.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/home/target/classes/com/tetris/home/iker.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/home/target/classes/com/tetris/home/lennard.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/home/target/classes/com/tetris/home/petkovic.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/home/target/classes/com/tetris/home/stanislav.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/home/target/classes/com/tetris/home/wew.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/tetris-1.0-SNAPSHOT-shaded.pom" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tetris_game/dependency-reduced-pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tetris_game/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tetris_game/src/main/java/com/tetris/audio/Tetris_TypeA.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tetris_game/src/main/java/com/tetris/audio/Tetris_TypeB.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tetris_game/src/main/java/com/tetris/audio/Tetris_TypeC.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tetris_game/src/main/java/com/tetris/audio/Tetris_TypeD.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tetris_game/src/main/java/com/tetris/audio/drop.mp3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tetris_game/src/main/java/com/tetris/audio/game_over.mp3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tetris_game/src/main/java/com/tetris/audio/gameboy-pluck-41265.mp3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tetris_game/src/main/java/com/tetris/audio/horosho_louder.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tetris_game/src/main/java/com/tetris/audio/line_clear.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tetris_game/src/main/java/com/tetris/audio/line_clear_4.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tetris_game/src/main/java/com/tetris/audio/move.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tetris_game/src/main/java/com/tetris/audio/success-68578.mp3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tetris_game/src/main/java/com/tetris/audio/sussy_baka.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tetris_game/src/main/java/com/tetris/audio/tetris.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tetris_game/src/main/java/com/tetris/tetris_game/main_handler.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tetris_game/src/main/java/com/tetris/textures/Unbenannt(8).jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tetris_game/src/main/java/com/tetris/textures/background1.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tetris_game/src/main/java/com/tetris/textures/background2.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tetris_game/src/main/java/com/tetris/textures/background3.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tetris_game/src/main/java/com/tetris/textures/background4.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tetris_game/src/main/java/com/tetris/textures/background5.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tetris_game/src/main/java/com/tetris/textures/ghost.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tetris_game/src/main/java/com/tetris/textures/i.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tetris_game/src/main/java/com/tetris/textures/j.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tetris_game/src/main/java/com/tetris/textures/j_sussy.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tetris_game/src/main/java/com/tetris/textures/l.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tetris_game/src/main/java/com/tetris/textures/null.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tetris_game/src/main/java/com/tetris/textures/o.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tetris_game/src/main/java/com/tetris/textures/pxArt.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tetris_game/src/main/java/com/tetris/textures/s.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tetris_game/src/main/java/com/tetris/textures/t.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tetris_game/src/main/java/com/tetris/textures/z.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tetris_game/src/main/java/module-info.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tetris_game/target/classes/com/tetris/audio/Tetris_TypeA.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tetris_game/target/classes/com/tetris/audio/Tetris_TypeB.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tetris_game/target/classes/com/tetris/audio/Tetris_TypeC.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tetris_game/target/classes/com/tetris/audio/Tetris_TypeD.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tetris_game/target/classes/com/tetris/audio/drop.mp3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tetris_game/target/classes/com/tetris/audio/game_over.mp3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tetris_game/target/classes/com/tetris/audio/gameboy-pluck-41265.mp3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tetris_game/target/classes/com/tetris/audio/horosho_louder.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tetris_game/target/classes/com/tetris/audio/line_clear.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tetris_game/target/classes/com/tetris/audio/line_clear_4.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tetris_game/target/classes/com/tetris/audio/move.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tetris_game/target/classes/com/tetris/audio/success-68578.mp3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tetris_game/target/classes/com/tetris/audio/sussy_baka.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tetris_game/target/classes/com/tetris/audio/tetris.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tetris_game/target/classes/com/tetris/textures/Unbenannt(8).jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tetris_game/target/classes/com/tetris/textures/background1.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tetris_game/target/classes/com/tetris/textures/background2.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tetris_game/target/classes/com/tetris/textures/background3.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tetris_game/target/classes/com/tetris/textures/background4.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tetris_game/target/classes/com/tetris/textures/background5.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tetris_game/target/classes/com/tetris/textures/ghost.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tetris_game/target/classes/com/tetris/textures/i.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tetris_game/target/classes/com/tetris/textures/j.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tetris_game/target/classes/com/tetris/textures/j_sussy.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tetris_game/target/classes/com/tetris/textures/l.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tetris_game/target/classes/com/tetris/textures/null.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tetris_game/target/classes/com/tetris/textures/o.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tetris_game/target/classes/com/tetris/textures/pxArt.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tetris_game/target/classes/com/tetris/textures/s.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tetris_game/target/classes/com/tetris/textures/t.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tetris_game/target/classes/com/tetris/textures/z.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tetris_game/target/maven-archiver/pom.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/org/jtetris/Backend.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/org/jtetris/Backend.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/maven-archiver/pom.properties" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/maven-archiver/pom.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/game/src/main/java/org/jtetris/main_handler.java" beforeDir="false" afterPath="$PROJECT_DIR$/game/src/main/java/org/jtetris/main_handler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/game/target/maven-archiver/pom.properties" beforeDir="false" afterPath="$PROJECT_DIR$/game/target/maven-archiver/pom.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/home/src/main/java/org/jtetris/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/home/src/main/java/org/jtetris/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/home/target/maven-archiver/pom.properties" beforeDir="false" afterPath="$PROJECT_DIR$/home/target/maven-archiver/pom.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -131,21 +44,37 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "Application.Backend.executor": "Run",
-    "Application.main_handler.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "backend__dev",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/home/lennard/Dokumente/GitHub/tetrisSchule/tetris",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "preferences.pluginManager"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;Application.Backend.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Application.main_handler.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/lennard/Dokumente/GitHub/tetrisSchule/tetris&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
   }
-}]]></component>
+}</component>
+  <component name="RunManager">
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="tetris" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="tetris" />
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
