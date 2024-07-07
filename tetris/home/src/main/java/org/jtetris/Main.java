@@ -19,38 +19,41 @@ public class Main {
             Init.createProgramDir();
         }
 
-        profilesList = Backend.profilesList();
-        /* Select Profile Function should be linked here */
-        config = Backend.readConfig(false,null);
-        System.out.println("Loading profile "+ config.get("lastProfile"));
-        try {
+            mainmenu.main(null);
 
-            profile = Backend.readJSON("profile", (String) config.get("lastProfile"), null);
-        } catch (IOException e){
-            throw new IOException(e);
-        }
+            profilesList = Backend.profilesList();
+            /* Select Profile Function should be linked here */
+            config = Backend.readConfig(false,null);
+            System.out.println("Loading profile "+ config.get("lastProfile"));
+            try {
 
-        if (profile != null) {
-            lang = Backend.readJSON("lang", (String) profile.get("lang"), null);
-        } else {
-            profile = Backend.readJSON("profile", "default", null);
-            if (profile == null){
-                System.out.println("Error: Could not load profiles!");
-                System.out.println("Exiting...");
-                System.exit(1);
+                profile = Backend.readJSON("profile", (String) config.get("lastProfile"), null);
+            } catch (IOException e){
+                throw new IOException(e);
             }
-            lang = Backend.readJSON("lang", "en", null);
-        }
-        assert lang != null;
-        System.out.println("Using language "+ lang.get("lang"));
-        try {
-            config.put("lastProfile", profile.get("profileName"));
-            config.put("lang", profile.get("lang"));
-            Backend.writeConfig(config);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        main_handler.main(null);
+
+            if (profile != null) {
+                lang = Backend.readJSON("lang", (String) profile.get("lang"), null);
+            } else {
+                profile = Backend.readJSON("profile", "default", null);
+                if (profile == null){
+                    System.out.println("Error: Could not load profiles!");
+                    System.out.println("Exiting...");
+                    System.exit(1);
+                }
+                lang = Backend.readJSON("lang", "en", null);
+            }
+            assert lang != null;
+            System.out.println("Using language "+ lang.get("lang"));
+            try {
+                config.put("lastProfile", profile.get("profileName"));
+                config.put("lang", profile.get("lang"));
+                Backend.writeConfig(config);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+
+
         System.exit(0);
 
     }

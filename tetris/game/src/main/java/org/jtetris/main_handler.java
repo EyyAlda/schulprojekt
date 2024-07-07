@@ -31,6 +31,7 @@ import java.io.File;
 import java.lang.Math;
 import java.util.*;
 
+
 /*
 Main game-class of the Jtetris project. This file includes the game itself.
 Main Author: Andrija Petković
@@ -45,6 +46,7 @@ fixed files not loading
  */
 
 public class main_handler extends Application {
+
 
     ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
     Scanner in = new Scanner(System.in);
@@ -1153,7 +1155,7 @@ public class main_handler extends Application {
 
         quit_button.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-                System.exit(0);
+                primaryStage.close();
             }
         });
 
@@ -1265,4 +1267,5 @@ public class main_handler extends Application {
 
         primaryStage.show();
     }
+
 }
