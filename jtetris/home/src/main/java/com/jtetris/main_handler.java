@@ -8,7 +8,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.paint.Color;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -208,9 +207,9 @@ public class main_handler extends Application {
 
         if (grid[Y1][X1].contains("P") || grid[Y2][X2].contains("P") || grid[Y3][X3].contains("P") || grid[Y4][X4].contains("P")) {
             
-            System.out.println("Terminating program; game lost...");
-            System.out.println("Lines cleared: " + lines_cleared + "; Points acquired: " + points);
-            main_theme.pause();
+            //System.out.println("Terminating program; game lost...");
+            //System.out.println("Lines cleared: " + lines_cleared + "; Points acquired: " + points);
+            main_theme.stop();
             primaryStage.setScene(startpage.getStartPageScene());
             primaryStage.setTitle((String) lang.get("startpage"));
             //Pointsandlines.display((String)lang.get("gameFin"),(String)lang.get("stats")+": ", points, lines_cleared);

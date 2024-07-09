@@ -7,11 +7,16 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="868.0" prefWidth="1097.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jtetris.aboutPageController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: c7bfb8;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jtetris.aboutPageController">
    <children>
+      <ImageView fx:id="tetris_screenshot1" fitHeight="800" fitWidth="450" layoutX="1200.0" layoutY="100.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@tetris_screenshot.jpg" />
+         </image>
+      </ImageView>
       <ImageView fx:id="andrija1" fitHeight="259.0" fitWidth="290.0" layoutX="28.0" layoutY="165.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@petkovic.jpg" />
+            <Image url="@andrija.jpg" />
          </image>
       </ImageView>
       <ImageView fx:id="lenard1" fitHeight="283.0" fitWidth="259.0" layoutX="569.0" layoutY="165.0" pickOnBounds="true" preserveRatio="true">
@@ -34,7 +39,7 @@
             <Font size="29.0" />
          </font>
       </Label>
-      <Label layoutX="853.0" layoutY="157.0" text="Lenard Rütten">
+      <Label layoutX="853.0" layoutY="157.0" text="Lennard Rütten">
          <font>
             <Font size="29.0" />
          </font>
@@ -65,7 +70,7 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="340.0" layoutY="194.0" opacity="0.49" text="Creator of Tetris">
+      <Label layoutX="340.0" layoutY="194.0" opacity="0.49" text="Tetris lead developer">
          <font>
             <Font size="18.0" />
          </font>
@@ -152,10 +157,15 @@
             <Font size="17.0" />
          </font>
       </Label>
-      <Button layoutX="469.0" layoutY="785.0" mnemonicParsing="false" prefHeight="62.0" prefWidth="134.0" fx:id="backButton" text="Back">
+      <Button layoutX="469.0" layoutY="785.0" mnemonicParsing="false" prefHeight="62.0" fx:id="backButton" prefWidth="134.0" text="Back">
          <font>
             <Font size="24.0" />
          </font>
       </Button>
+      <Label layoutX="645.0" layoutY="761.0" text="Our GitHub: https://github.com/EyyAlda/schulprojekt">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
