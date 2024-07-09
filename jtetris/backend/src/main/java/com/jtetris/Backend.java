@@ -3,19 +3,15 @@ package com.jtetris;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLDecoder;
-
-import java.util.ArrayList;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
-import java.io.FileInputStream;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
-import java.io.IOException;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.util.regex.Matcher;
@@ -246,6 +242,16 @@ public class Backend {
             }
             dldFilePath = downloadFiles(fileUrl[UrlChooser]);
             extractZip(dldFilePath, destPath);
+        }
+        File tetrisConf = new File(System.getProperty("user.home") + "/tetrisConfFiles.zip");
+        File audio = new File(System.getProperty("user.home")+ "/audio.zip");
+        File textures = new File(System.getProperty("user.home")+ "/textures.zip");
+        try {
+            audio.delete();
+            tetrisConf.delete();
+            textures.delete();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         System.out.println("Files downloaded successfully");
     }
