@@ -51,8 +51,16 @@ public class Startpage extends Application implements EventHandler<ActionEvent> 
         showMainMenu();
     }
 
+    public void change_language(Button game, Button quitButton, Button aboutus, Button options) {
+        game.setText((String) lang.get("start"));
+        quitButton.setText((String) lang.get("quit"));
+        aboutus.setText((String) lang.get("about"));
+        options.setText((String) lang.get("options"));
+    }
+
    
     public void showMainMenu() throws Exception {
+
         config = Backend.readConfig(false, null);
         lang = Backend.readJSON("lang", (String)config.get("lang"), null);
         // Creates the stage for the Startpage
@@ -67,7 +75,7 @@ public class Startpage extends Application implements EventHandler<ActionEvent> 
 
         //show language selector
         ChoiceBox<String> langChoiceBox = new ChoiceBox<>();
-        langChoiceBox.getItems().addAll("de", "en");
+        langChoiceBox.getItems().addAll("en", "de", "es", "nl", "rs", "ru", "it");
         langChoiceBox.setValue((String)config.get("lang"));
         langChoiceBox.setOnAction(e -> {
             String selected = langChoiceBox.getValue();
@@ -75,7 +83,7 @@ public class Startpage extends Application implements EventHandler<ActionEvent> 
             try {
                 lang = Backend.readJSON("lang", selected, null);
                 Backend.writeConfig(config);
-                restartAlert.Alert();
+                change_language(game, quitButton, Aboutus, Options);
             } catch (IOException e1) {
                 // TODO Auto-generated catch block
                 e1.printStackTrace();

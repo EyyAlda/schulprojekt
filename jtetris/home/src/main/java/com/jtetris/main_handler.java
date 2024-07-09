@@ -14,24 +14,13 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import java.io.IOException;
 import javafx.animation.AnimationTimer;
-import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.image.ImageView;
-import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Screen;
-import javafx.stage.Stage;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -40,9 +29,6 @@ import java.util.concurrent.TimeUnit;
 import java.io.File;
 import java.lang.Math;
 import java.util.*;
-import java.util.HashMap;
-
-
 
 public class main_handler extends Application {
 
@@ -61,13 +47,13 @@ public class main_handler extends Application {
    
     int current_background = 1;
 
-    Label paused_label = new Label("PAUSED");
-    Button quit_button = new Button("QUIT");
+    Label paused_label = new Label();
+    Button quit_button = new Button();
 
     // Textures
     Image background = new Image(new File(Backend.getXdgUserDir("DOCUMENTS")+"/myGames/Jtetris/textures/background"+current_background+".gif").toURI().toString());
     Image s_texture = new Image(new File(Backend.getXdgUserDir("DOCUMENTS")+"/myGames/Jtetris/textures/s.png").toURI().toString());
-    Image t_texture = new Image(new File(Backend.getXdgUserDir("DOCUMENTS")+"/myGames/Jtetris/textures/true.png").toURI().toString());
+    Image t_texture = new Image(new File(Backend.getXdgUserDir("DOCUMENTS")+"/myGames/Jtetris/textures/t.png").toURI().toString());
     Image i_texture = new Image(new File(Backend.getXdgUserDir("DOCUMENTS")+"/myGames/Jtetris/textures/i.png").toURI().toString());
     Image l_texture = new Image(new File(Backend.getXdgUserDir("DOCUMENTS")+"/myGames/Jtetris/textures/l.png").toURI().toString());
     Image z_texture = new Image(new File(Backend.getXdgUserDir("DOCUMENTS")+"/myGames/Jtetris/textures/z.png").toURI().toString());
@@ -86,7 +72,7 @@ public class main_handler extends Application {
     MediaPlayer line_clear = new MediaPlayer(new Media(new File(Backend.getXdgUserDir("DOCUMENTS")+"/myGames/Jtetris/audio/line_clear.wav").toURI().toString()));
     MediaPlayer line_clear_4 = new MediaPlayer(new Media(new File(Backend.getXdgUserDir("DOCUMENTS")+"/myGames/Jtetris/audio/line_clear_4.wav").toURI().toString()));
     MediaPlayer move = new MediaPlayer(new Media(new File(Backend.getXdgUserDir("DOCUMENTS")+"/myGames/Jtetris/audio/move.wav").toURI().toString()));
-
+    
     // UI Elements
     private static final int CELL_SIZE = 48; // 50 looks the best
     private StackPane[][] cells = new StackPane[grid.length][grid[0].length];
@@ -224,10 +210,10 @@ public class main_handler extends Application {
             
             System.out.println("Terminating program; game lost...");
             System.out.println("Lines cleared: " + lines_cleared + "; Points acquired: " + points);
+            main_theme.pause();
             primaryStage.setScene(startpage.getStartPageScene());
             primaryStage.setTitle((String) lang.get("startpage"));
-            main_theme.pause();
-            Pointsandlines.display((String)lang.get("gameFin"),(String)lang.get("stats")+": ", points, lines_cleared);
+            //Pointsandlines.display((String)lang.get("gameFin"),(String)lang.get("stats")+": ", points, lines_cleared);
 
         }
 
@@ -872,65 +858,6 @@ public class main_handler extends Application {
         }
     }
 
-    void loading_screen() {
-        System.out.println("Загрузка системы");
-        for (int i = 0; i < 6; i++) {
-            System.out.print("...");
-            try {
-                Thread.sleep(i * 1000 / 10);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-
-        System.out.println();
-        System.out.println("Компиляция кода");
-        for (int i = 0; i < 7; i++) {
-            System.out.print("...");
-            try {
-                Thread.sleep(i * 1000 / 10);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-
-        System.out.println();
-        System.out.print("Пожалуйста, введите ключ активации: ");
-        int password = 1984;
-        int entered_password = in.nextInt();
-
-        if (entered_password == password) {
-            System.out.println("Привет, пользователь Андрия Петковичь.");
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            System.out.println("Привет, пользователь Онопко Станислав.");
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            System.out.println("Привет, пользователь Ленард Рутен.");
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            System.out.println("Привет, пользователь Икер Вела Гарсия.");
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        } else {
-            System.out.println();
-            System.exit(0);
-        }
-        
-    }
-
      // Prepares the game when loaded
      public void prepare(Stage primaryStage) {
         main_theme.play();
@@ -986,6 +913,9 @@ public class main_handler extends Application {
 
         config = Backend.readConfig(false, null);
         lang = Backend.readJSON("lang", (String) config.get("lang"), null);
+
+        paused_label = new Label((String) lang.get("paused"));
+        quit_button = new Button((String) lang.get("quit"));
 
         prepare(primaryStage);
 
@@ -1121,7 +1051,6 @@ public class main_handler extends Application {
 
         quit_button.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-                // Set the scene back to start page scene
                 primaryStage.setScene(startpage.getStartPageScene());
                 primaryStage.setTitle("Startpage");
             }
@@ -1137,7 +1066,7 @@ public class main_handler extends Application {
             currentlyActiveKeys.remove(event.getCode().toString())
         );
 
-        new AnimationTimer()  {
+        new AnimationTimer() {
             @Override
             public void handle(long now) {
 
@@ -1212,20 +1141,11 @@ public class main_handler extends Application {
                 }
             }
         }.start();
-      
 
         primaryStage.show();
     }   
+
     public void setStartpage(Startpage startpage) {
         this.startpage = startpage;
     }
 }
-
-
-
-
-
-
-
-
-

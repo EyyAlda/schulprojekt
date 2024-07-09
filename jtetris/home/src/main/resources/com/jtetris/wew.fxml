@@ -11,7 +11,7 @@
    <children>
       <ImageView fx:id="andrija1" fitHeight="259.0" fitWidth="290.0" layoutX="28.0" layoutY="165.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@andrija.jpg" />
+            <Image url="@petkovic.jpg" />
          </image>
       </ImageView>
       <ImageView fx:id="lenard1" fitHeight="283.0" fitWidth="259.0" layoutX="569.0" layoutY="165.0" pickOnBounds="true" preserveRatio="true">

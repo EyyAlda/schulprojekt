@@ -1,11 +1,8 @@
 package com.jtetris;
 
-
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLDecoder;
-
-
 
 import java.util.ArrayList;
 import java.io.*;
@@ -21,12 +18,8 @@ import com.google.gson.JsonSyntaxException;
 import java.io.IOException;
 
 import javax.net.ssl.HttpsURLConnection;
-import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
-import org.apache.commons.compress.*;
 import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
 import org.apache.commons.compress.archivers.zip.ZipFile;
 import org.apache.commons.io.IOUtils;
