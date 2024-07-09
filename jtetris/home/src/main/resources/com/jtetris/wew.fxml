@@ -60,7 +60,7 @@
          </font>
       </Label>
       <Label layoutX="308.0" layoutY="516.0" />
-      <Label layoutX="340.0" layoutY="520.0" opacity="0.49" text="Creator of main menu">
+      <Label layoutX="340.0" layoutY="520.0" opacity="0.49" text="Creator of start page, support">
          <font>
             <Font size="18.0" />
          </font>
@@ -70,7 +70,7 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="340.0" layoutY="194.0" opacity="0.49" text="Creator of Tetris">
+      <Label layoutX="340.0" layoutY="194.0" opacity="0.49" text="Creator of the game part">
          <font>
             <Font size="18.0" />
          </font>
