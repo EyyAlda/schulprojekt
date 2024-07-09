@@ -9,6 +9,11 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: c7bfb8;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jtetris.aboutPageController">
    <children>
+       <ImageView fx:id="tetris_screenshot1" fitHeight="800" fitWidth="450" layoutX="1200.0" layoutY="100.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@tetris_screenshot.jpg" />
+         </image>
+      </ImageView>
       <ImageView fx:id="andrija1" fitHeight="259.0" fitWidth="290.0" layoutX="28.0" layoutY="165.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@andrija.jpg" />
