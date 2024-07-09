@@ -21,6 +21,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Screen;
+import javafx.util.Duration;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -49,6 +50,8 @@ public class main_handler extends Application {
 
     Label paused_label = new Label();
     Button quit_button = new Button();
+    Label points_earnt_game_over = new Label();
+    Label lines_cleared_game_over = new Label();
 
     // Textures
     Image background = new Image(new File(Backend.getXdgUserDir("DOCUMENTS")+"/myGames/Jtetris/textures/background"+current_background+".gif").toURI().toString());
@@ -92,6 +95,7 @@ public class main_handler extends Application {
     int lines_cleared = 0;
     int language = 0;
 
+    VBox game_over_screen = new VBox();
     Label points_label = new Label();
     Label lines_cleared_label = new Label();
 
@@ -271,6 +275,7 @@ public class main_handler extends Application {
     }
 
     private void deleteRow(int row, Stage primaryStage) {
+        game_in_progress = false;
         if (row < grid.length) {
             for (int x = 0; x < grid[0].length; x++) {
                 grid[grid.length - 1 - row][x] = ". ";
@@ -281,11 +286,24 @@ public class main_handler extends Application {
                 deleteRow(row + 1, primaryStage);
             }, 100, TimeUnit.MILLISECONDS);
         } else {
-            // All rows deleted, handle game over screen transition
             scheduler.shutdown();
+            // All rows deleted, handle game over screen transition
             Platform.runLater(() -> {
-                primaryStage.setScene(startpage.getStartPageScene());
-                primaryStage.setTitle((String) lang.get("startpage"));
+                ScheduledExecutorService delay = Executors.newScheduledThreadPool(1);
+                game_over_screen.setVisible(true);
+                lines_cleared_game_over.setVisible(false);
+                points_earnt_game_over.setText((String) lang.get("pointsAcquired") + ": " + points);
+                delay.schedule(() -> {
+                    lines_cleared_game_over.setText((String) lang.get("linesCleared") + ": " + lines_cleared);
+                    lines_cleared_game_over.setVisible(true);
+                }, 1, TimeUnit.SECONDS);
+
+                delay.schedule(() -> {
+                    paused_label.setText((String) lang.get("gameFin"));
+                    paused_label.setVisible(true);
+                    quit_button.setVisible(true);
+                    game_over_screen.setVisible(false);
+                }, 4, TimeUnit.SECONDS);
             });
         }
     }
@@ -1016,6 +1034,22 @@ public class main_handler extends Application {
         statistics.setLayoutY(250);
         statistics.getChildren().addAll(points_label, lines_cleared_label); 
 
+        game_over_screen.setMinSize(grid[0].length * CELL_SIZE, grid.length * CELL_SIZE);
+        game_over_screen.setVisible(false);
+        game_over_screen.setLayoutX(770);
+        game_over_screen.setLayoutY(500);
+        game_over_screen.toFront();
+
+        points_earnt_game_over.setText((String) lang.get("pointsAcquired"));
+        points_earnt_game_over.setStyle("-fx-font-size: 30px; -fx-text-fill: white; -fx-font-family: serif");
+        points_earnt_game_over.setMinSize(points_label.USE_PREF_SIZE, points_label.USE_PREF_SIZE);
+
+        lines_cleared_game_over.setText((String) lang.get("linesCleared"));
+        lines_cleared_game_over.setStyle("-fx-font-size: 30px; -fx-text-fill: white; -fx-font-family: serif");
+        lines_cleared_game_over.setMinSize(points_label.USE_PREF_SIZE, points_label.USE_PREF_SIZE);
+
+        game_over_screen.getChildren().addAll(points_earnt_game_over, lines_cleared_game_over);
+
         // Grid pane
         grid_pane.setAlignment(Pos.CENTER);
 
@@ -1040,7 +1074,7 @@ public class main_handler extends Application {
 
         // Adding everything to the border pane
         borderPane.setCenter(game_pane);
-        borderPane.getChildren().addAll(statistics, next_tetromino_grid, imageView, button_pane);
+        borderPane.getChildren().addAll(statistics, next_tetromino_grid, imageView, button_pane, game_over_screen);
         imageView.toBack();
 
         // Create a Scene with the BorderPane
@@ -1098,6 +1132,7 @@ public class main_handler extends Application {
                     if (removeActiveKey("LEFT")) {
                         if (!game_paused) {
                             move.stop();
+                            move.seek(Duration.ZERO);
                             move.play();
                             move_tetromino("LEFT");
                         }
@@ -1106,6 +1141,7 @@ public class main_handler extends Application {
                     if (removeActiveKey("RIGHT")) {
                         if (!game_paused) {
                             move.stop();
+                            move.seek(Duration.ZERO);
                             move.play();
                             move_tetromino("RIGHT");
                         }
@@ -1114,6 +1150,7 @@ public class main_handler extends Application {
                     if (removeActiveKey("UP")) {
                         if (!game_paused) {
                             move.stop();
+                            move.seek(Duration.ZERO);
                             move.play();
                             drop(primaryStage);
                         }
@@ -1121,12 +1158,14 @@ public class main_handler extends Application {
     
                     if (removeActiveKey("DOWN")) {
                         move.stop();
+                        move.seek(Duration.ZERO);
                         move.play();
                         lower_tetromino(false, primaryStage);
                     }
 
                     if (removeActiveKey("SPACE")) {
                         move.stop();
+                        move.seek(Duration.ZERO);
                         move.play();
                         rotate();
                     }

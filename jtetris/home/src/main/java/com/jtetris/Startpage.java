@@ -75,7 +75,7 @@ public class Startpage extends Application implements EventHandler<ActionEvent> 
 
         //show language selector
         ChoiceBox<String> langChoiceBox = new ChoiceBox<>();
-        langChoiceBox.getItems().addAll("en", "de", "es", "nl", "rs", "ru", "it");
+        langChoiceBox.getItems().addAll("en", "de", "es", "nl", "rs", "ru", "it", "pl");
         langChoiceBox.setValue((String)config.get("lang"));
         langChoiceBox.setOnAction(e -> {
             String selected = langChoiceBox.getValue();
@@ -139,8 +139,6 @@ public class Startpage extends Application implements EventHandler<ActionEvent> 
         // Adds the background image view
         Startpagelayout.getChildren().add(imageView);
         imageView.toBack();
-
-        
 
         // Centers the start button
         VBox centerPane = new VBox(10);
