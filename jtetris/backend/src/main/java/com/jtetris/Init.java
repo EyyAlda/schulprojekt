@@ -18,9 +18,9 @@ It has the capability to recreate the files for the program to be functioning ag
 This package depends on a jarfile structure and Linux as OS.
 Author: Lennard Rütten
 created: 22.06.24
-last edited: 06.07.24
-jdk: openjdk-21-jdk
-OS: Ubuntu 23.10
+last edited: 09.07.24
+jdk: openjdk-17-jdk
+OS: Ubuntu 24.04
  */
 
 public class Init {
@@ -44,6 +44,22 @@ public class Init {
        } else {
            deleteFiles(basePath, true);
        }
+    }
+
+    public static void redownloadConfigs(String basePath) throws IOException{
+        File config = new File(basePath + "/jtetris.config");
+        File languages = new File(basePath + "/languages/");
+        File profiles = new File(basePath + "/profiles/");
+        if (config.exists() && config.isFile()){
+            config.delete();
+        }
+        if (languages.exists() && languages.isDirectory()){
+            languages.delete();
+        }
+        if (profiles.exists() && profiles.isDirectory()){
+            profiles.delete();
+        }
+        Backend.downloadFileManager(3);
     }
 
 
@@ -77,8 +93,8 @@ public class Init {
         } else {
             System.out.println("Couldnt find config file!");
             System.out.println("This file is necessary to initialize the program");
-            deleteFiles(basePath, true);
-        }
+            redownloadConfigs(basePath);
+            }
         //looking for available language Packs
         File languages = new File(basePath + lang);
         if (languages.exists() && languages.isDirectory()) {
@@ -96,13 +112,13 @@ public class Init {
                 }
             } else {
                 System.out.println("No language packs could be found!");
-                System.out.println("At the moment the program can not run without a Profile!");
-                deleteFiles(basePath, true);
-            }
+                System.out.println("At the moment the program can not run without a language pack!");
+                redownloadConfigs(basePath);
+                }
         } else {
             System.out.println("Could not find a language pack!");
             System.out.println("Without a language pack no text can be shown in the Program");
-            deleteFiles(basePath, true);
+            redownloadConfigs(basePath);        
         }
 
         //looking for installed profiles
@@ -123,12 +139,12 @@ public class Init {
             } else {
                 System.out.println("No Profiles could be found!");
                 System.out.println("At the moment the program can not run without a Profile!");
-                deleteFiles(basePath, true);
+                redownloadConfigs(basePath);            
             }
         } else {
             System.out.println("No Profiles could be found!");
             System.out.println("At the moment the program can not run without a Profile!");
-            deleteFiles(basePath, true);
+            redownloadConfigs(basePath);       
         }
 
         //looking if tetromino textures are at the right place
@@ -252,3 +268,4 @@ public class Init {
 
 
     }
+
