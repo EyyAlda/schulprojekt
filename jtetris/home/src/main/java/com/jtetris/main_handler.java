@@ -293,13 +293,13 @@ public class main_handler extends Application {
                 game_over_screen.setVisible(true);
                 lines_cleared_game_over.setVisible(false);
                 points_earnt_game_over.setText((String) lang.get("pointsAcquired") + ": " + points);
+                lines_cleared_game_over.setText((String) lang.get("linesCleared") + ": " + lines_cleared);
+                paused_label.setText((String) lang.get("gameFin"));
                 delay.schedule(() -> {
-                    lines_cleared_game_over.setText((String) lang.get("linesCleared") + ": " + lines_cleared);
                     lines_cleared_game_over.setVisible(true);
                 }, 1, TimeUnit.SECONDS);
 
                 delay.schedule(() -> {
-                    paused_label.setText((String) lang.get("gameFin"));
                     paused_label.setVisible(true);
                     quit_button.setVisible(true);
                     game_over_screen.setVisible(false);
