@@ -29,7 +29,7 @@ public class Backend {
         basePath = getXdgUserDir("DOCUMENTS") + "/myGames/Jtetris";
     }
 
-    public static String[] profilesList() throws IOException, InterruptedException{
+    public static String[] profilesList(){
         ArrayList<String> list = new ArrayList<>();
         File baseDir = new File(getXdgUserDir("DOCUMENTS") + "/profiles");
         if (baseDir.exists() && baseDir.isDirectory()){

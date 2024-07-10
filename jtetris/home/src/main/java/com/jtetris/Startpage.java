@@ -213,7 +213,8 @@ public class Startpage extends Application implements EventHandler<ActionEvent> 
                 e.printStackTrace();
             }
         } else if (event.getSource() == Options) {
-            startwindow.setScene(optionsscene);
+            Settings settings = new Settings();
+            settings.start(primaryStage);
             startwindow.setTitle((String)lang.get("options"));
         } else if (event.getSource() == Startpageback) {
             startwindow.setScene(startpagescene);
@@ -231,13 +232,6 @@ public class Startpage extends Application implements EventHandler<ActionEvent> 
         stage.setScene(scene);
         stage.show();  
     }
-
-    
-    
-
-    
-
-    
 
     public Scene getStartPageScene() {
         return startpagescene;
