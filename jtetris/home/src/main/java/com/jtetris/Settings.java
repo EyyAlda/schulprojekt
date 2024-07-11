@@ -5,12 +5,14 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.HashMap;
 
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
@@ -27,9 +29,13 @@ public class Settings {
 
         try {
             config = Backend.readConfig(false, null);
+            System.out.println(config.get("profile"));
             profile = Backend.readJSON("profile", (String) config.get("profile"), null);
+            System.out.println(profile.get("lang"));
             language = Backend.readJSON("lang", (String) profile.get("lang"), null);
+            System.out.println(language.get("lang"));
         } catch (IOException | InterruptedException e) {
+            System.out.println("Something with files");
             e.printStackTrace();
         }
 
@@ -84,15 +90,11 @@ public class Settings {
         HBox[] settingsItems = new HBox[11];
         VBox settings = new VBox();
         HBox profileBox = new HBox();
-
-        //Add everything together
-        profileBox.getChildren().addAll(profileLabel, profileSelect);
-        settings.getChildren().addAll(header, profileBox, settingsMenu, backButton);
-        settingsMenu.getChildrenUnmodifiable().add(settingsList);
-        settingsList.getChildren().addAll(settingsItems);
+        HBox test = new HBox();
 
         //add HBox entries
-        settingsItems[0].getChildren().add(mediaSettings);
+        
+        settingsItems[0].getChildren().addAll(mediaSettings, profileLabel);
         settingsItems[1].getChildren().addAll(musicCB, musicCheckBox);
         settingsItems[2].getChildren().addAll(volume, volumeSlider);
         settingsItems[3].getChildren().addAll(backgMusic, musicChoiceBox);
@@ -103,6 +105,22 @@ public class Settings {
         settingsItems[8].getChildren().addAll(movDown, mvDButton);
         settingsItems[9].getChildren().addAll(dropDown, dropButton);
         settingsItems[10].getChildren().addAll(rotate, rotateButton);
+
+        //Add everything together
+        settingsList.getChildren().addAll(settingsItems);
+        settingsMenu.setContent(settingsList);
+        profileBox.getChildren().addAll(profileLabel, profileSelect);
+        settings.getChildren().addAll(header, profileBox, settingsMenu, backButton);
+        
+        
+
+        BorderPane layout = new BorderPane(settings);
+
+        Scene scene = new Scene(layout, 1920, 1080);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+
+        
     }
     
 }
