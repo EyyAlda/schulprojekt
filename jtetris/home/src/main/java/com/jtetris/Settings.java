@@ -52,6 +52,7 @@ public class Settings {
         }
 
         Button backButton = new Button((String) language.get("startpage"));
+        backButton.setStyle("-fx-background-color: #202020d8; -fx-text-fill: #ffff; -fx-pref-width: 250px; -fx-pref-height: 50px; -fx-font-size: 20px");
         Startpage startpage = new Startpage();
         
             backButton.setOnAction(e ->  {
@@ -127,12 +128,13 @@ public class Settings {
 
 
         //Create Layout
-        ScrollPane settingsMenu = new ScrollPane();
+        //ScrollPane settingsMenu = new ScrollPane();
         GridPane settingsList = new GridPane();
         VBox settings = new VBox(20);
         HBox profileBox = new HBox(30);
 
         settingsList.getColumnConstraints().addAll(column1, column2);
+        //settingsMenu.setStyle("-fx-background-color: #00000040; -fx-background: #00000040");
         
 
         //Define the structure of the GridPane
@@ -166,17 +168,21 @@ public class Settings {
 
                
         //Add everything together
-        settingsMenu.setContent(settingsList);
+        //settingsMenu.setContent(settingsList);
         profileBox.getChildren().addAll(profileLabel, profileSelect);
-        settings.getChildren().addAll(header, profileBox, settingsMenu, backButton);
+        settings.getChildren().addAll(header, profileBox, settingsList, backButton);
         settings.setAlignment(Pos.CENTER);
         
-        
+        settingsList.setStyle("-fx-background-color: #00000050; -fx-background: #00000050"); 
+        settings.setStyle("-fx-background-color: #00000040; -fx-background: #00000040");
+
         backgroundImage.toBack();
         StackPane layout = new StackPane(backgroundImage, settings);
         layout.setMinWidth(Region.USE_PREF_SIZE);
 
         Scene scene = new Scene(layout, 1920, 1080);
+        settingsList.prefWidthProperty().bind(scene.widthProperty());
+        settings.prefHeightProperty().bind(scene.heightProperty());
         primaryStage.setScene(scene);
         primaryStage.show();
 
