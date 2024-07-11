@@ -61,6 +61,9 @@ public class Settings {
             }catch (Exception ex){
                 ex.printStackTrace();
             }});
+
+
+        String[] profilesList = Backend.profilesList();
         
         Label header = new Label((String)language.get("options"));
         Label keybindSettings = new Label((String) language.get("keybinds"));
@@ -68,6 +71,10 @@ public class Settings {
 
         Label profileLabel = new Label((String) language.get("profile"));
         ChoiceBox<String> profileSelect = new ChoiceBox<>();
+        for (String value : profilesList){
+            System.out.println(value);
+            profileSelect.getItems().add(value);
+        }
         
         String settingFontSize = "-fx-font-size:20px";
         String headerFontSize = "-fx-font-size:40px";
@@ -91,10 +98,20 @@ public class Settings {
         profileLabel.setStyle(settingFontSize + "; " + textColor);
 
         Button dropButton = new Button((String) profile.get("drop"));
+        dropButton.setOnAction(e -> changeKeybind(dropButton));
+        dropButton.setId("drop");
         Button mvLButton = new Button((String) profile.get("mvLeft"));
+        mvLButton.setOnAction(e -> changeKeybind(mvLButton));
+        mvLButton.setId("left");
         Button mvRButton = new Button((String) profile.get("mvRight"));
+        mvRButton.setOnAction(e -> changeKeybind(mvRButton));
+        mvRButton.setId("right");
         Button mvDButton = new Button((String) profile.get("mvDown"));
+        mvDButton.setOnAction(e -> changeKeybind(mvDButton));
+        mvDButton.setId("down");
         Button rotateButton = new Button((String) profile.get("rotate"));
+        rotateButton.setOnAction(e -> changeKeybind(rotateButton));
+        rotateButton.setId("rotate");
 
         //Object creation for Media settings
         Label musicCB = new Label((String) language.get("music"));
@@ -117,8 +134,6 @@ public class Settings {
         backgroundImage.setFitWidth(1920);
         backgroundImage.setFitHeight(1080);
         backgroundImage.setImage(background);
-        backgroundImage.setFitHeight(1080);
-        backgroundImage.setFitWidth(1920);
 
         ColumnConstraints column1 = new ColumnConstraints();
         column1.setPercentWidth(50);
@@ -173,8 +188,8 @@ public class Settings {
         settings.getChildren().addAll(header, profileBox, settingsList, backButton);
         settings.setAlignment(Pos.CENTER);
         
-        settingsList.setStyle("-fx-background-color: #00000050; -fx-background: #00000050"); 
-        settings.setStyle("-fx-background-color: #00000040; -fx-background: #00000040");
+        settingsList.setStyle("-fx-background-color: #00000060; -fx-background: #00000060"); 
+        settings.setStyle("-fx-background-color: #00000050; -fx-background: #00000050");
 
         backgroundImage.toBack();
         StackPane layout = new StackPane(backgroundImage, settings);
@@ -187,6 +202,32 @@ public class Settings {
         primaryStage.show();
 
         
+    }
+
+    
+    public void changeKeybind(Button button){
+        System.out.println(button.getText());
+        switch(button.getId()){
+            case "drop":
+                System.out.println("drop");
+                break;
+            case "right":
+                System.out.println("right");
+                break;
+            case "left":
+                System.out.println("left");
+                break;
+            case "down":
+                System.out.println("down");
+                break;
+            case "rotate":
+                System.out.println("rotate");
+                break;
+            default:
+                System.out.println("nothing");
+                System.out.println(button.getId());
+                break;
+        }
     }
     
 }

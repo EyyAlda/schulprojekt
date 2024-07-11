@@ -26,7 +26,7 @@ import java.io.IOException;
 public class Startpage extends Application implements EventHandler<ActionEvent> {
 
     HashMap<String, Object> config = null;
-
+    HashMap<String, Object> profile = null;
     HashMap<String, Object> lang = null;
 
     // Scene labels
@@ -62,7 +62,8 @@ public class Startpage extends Application implements EventHandler<ActionEvent> 
     public void showMainMenu() throws Exception {
 
         config = Backend.readConfig(false, null);
-        lang = Backend.readJSON("lang", (String)config.get("lang"), null);
+        profile = Backend.readJSON("profile", (String) config.get("profile"), null);
+        lang = Backend.readJSON("lang", (String)profile.get("lang"), null);
         // Creates the stage for the Startpage
         primaryStage.setTitle("Startpage");
         startwindow = primaryStage;
