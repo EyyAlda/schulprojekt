@@ -31,9 +31,9 @@ public class Backend {
 
     public static String[] profilesList(){
         ArrayList<String> list = new ArrayList<>();
-        File baseDir = new File(getXdgUserDir("DOCUMENTS") + "/profiles");
+        File baseDir = new File(getXdgUserDir("DOCUMENTS") + "/myGames/Jtetris/profiles");
         if (baseDir.exists() && baseDir.isDirectory()){
-            FileFilter profileFilter = file -> file.isFile() && file.getName().contains("profile_") && file.getName().endsWith(".json");
+            FileFilter profileFilter = file -> file.isFile() && file.getName().startsWith("profile_") && file.getName().endsWith(".json");
 
             File[] prfFiles = baseDir.listFiles(profileFilter);
 
