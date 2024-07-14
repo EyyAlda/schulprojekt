@@ -5,7 +5,8 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.HashMap;
 
-
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -34,12 +35,11 @@ public class Settings {
     HashMap<String, Object> config = null;
     String[] installedProfiles = Backend.list("profile");
     Label header, keybindSettings, mediaSettings, profileLabel, dropDown, movRight, movLeft, movDown, rotate, musicCB, volume, backgMusic, backgrounds;
-
+    Button backButton;
 
 
     public void start(Stage primaryStage){
-
-        try {
+                try {
             config = Backend.readConfig(false, null);
             System.out.println(config.get("profile"));
             profile = Backend.readJSON("profile", (String) config.get("profile"), null);
@@ -51,7 +51,7 @@ public class Settings {
             e.printStackTrace();
         }
 
-        Button backButton = new Button((String) language.get("startpage"));
+        backButton = new Button((String) language.get("startpage"));
         backButton.setStyle("-fx-background-color: #202020d8; -fx-text-fill: #ffff; -fx-pref-width: 250px; -fx-pref-height: 50px; -fx-font-size: 20px");
         Startpage startpage = new Startpage();
         
@@ -111,19 +111,14 @@ public class Settings {
         profileLabel.setStyle(settingFontSize + "; " + textColor);
 
         Button dropButton = new Button((String) profile.get("drop"));
-        dropButton.setOnAction(e -> changeKeybind(dropButton));
         dropButton.setId("drop");
         Button mvLButton = new Button((String) profile.get("mvLeft"));
-        mvLButton.setOnAction(e -> changeKeybind(mvLButton));
         mvLButton.setId("left");
         Button mvRButton = new Button((String) profile.get("mvRight"));
-        mvRButton.setOnAction(e -> changeKeybind(mvRButton));
         mvRButton.setId("right");
         Button mvDButton = new Button((String) profile.get("mvDown"));
-        mvDButton.setOnAction(e -> changeKeybind(mvDButton));
         mvDButton.setId("down");
         Button rotateButton = new Button((String) profile.get("rotate"));
-        rotateButton.setOnAction(e -> changeKeybind(rotateButton));
         rotateButton.setId("rotate");
 
         //Object creation for Media settings
@@ -231,6 +226,15 @@ public class Settings {
         Scene scene = new Scene(layout, 1920, 1080);
         settingsList.prefWidthProperty().bind(scene.widthProperty());
         settings.prefHeightProperty().bind(scene.heightProperty());
+
+
+        dropButton.setOnAction(e -> changeKeybind(dropButton, scene));
+        mvRButton.setOnAction(e -> changeKeybind(mvRButton, scene));
+        rotateButton.setOnAction(e -> changeKeybind(rotateButton, scene));
+        mvDButton.setOnAction(e -> changeKeybind(mvDButton, scene));
+        mvLButton.setOnAction(e -> changeKeybind(mvLButton, scene));
+
+
         primaryStage.setScene(scene);
         primaryStage.show();
 
@@ -238,23 +242,53 @@ public class Settings {
     }
 
     
-    public void changeKeybind(Button button){
+    public void changeKeybind(Button button, Scene scene){
         System.out.println(button.getText());
         switch(button.getId()){
             case "drop":
                 System.out.println("drop");
+                button.setText("> - <");
+                scene.setOnKeyPressed(e -> {
+                    KeyCode keyCode = e.getCode();
+                    System.out.println(keyCode);
+                    button.setText(keyCode.toString());
+                });
                 break;
             case "right":
                 System.out.println("right");
+                button.setText("> - <");
+                scene.setOnKeyPressed(e -> {
+                    KeyCode keyCode = e.getCode();
+                    System.out.println(keyCode);
+                    button.setText(keyCode.toString());
+                });
                 break;
             case "left":
                 System.out.println("left");
+                button.setText("> - <");
+                scene.setOnKeyPressed(e -> {
+                    KeyCode keyCode = e.getCode();
+                    System.out.println(keyCode);
+                    button.setText(keyCode.toString());
+                });
                 break;
             case "down":
                 System.out.println("down");
+                button.setText("> - <");
+                scene.setOnKeyPressed(e -> {
+                    KeyCode keyCode = e.getCode();
+                    System.out.println(keyCode);
+                    button.setText(keyCode.toString());
+                });
                 break;
             case "rotate":
                 System.out.println("rotate");
+                button.setText("> - <");
+                scene.setOnKeyPressed(e -> {
+                    KeyCode keyCode = e.getCode();
+                    System.out.println(keyCode);
+                    button.setText(keyCode.toString());
+                });
                 break;
             default:
                 System.out.println("nothing");
@@ -277,5 +311,6 @@ public class Settings {
         volume.setText((String) language.get("volume"));
         backgrounds.setText((String) language.get("backgrounds"));
         backgMusic.setText((String) language.get("backgMusic"));
+        backButton.setText((String) language.get("startpage"));
     }
 }
