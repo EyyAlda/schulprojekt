@@ -11,7 +11,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -33,7 +32,8 @@ public class Settings {
     HashMap<String, Object> profile = null;
     HashMap<String, Object> language = null;
     HashMap<String, Object> config = null;
-    String[] installedProfiles = Backend.profilesList();
+    String[] installedProfiles = Backend.list("profile");
+    Label header, keybindSettings, mediaSettings, profileLabel, dropDown, movRight, movLeft, movDown, rotate, musicCB, volume, backgMusic, backgrounds;
 
 
 
@@ -63,18 +63,31 @@ public class Settings {
             }});
 
 
-        String[] profilesList = Backend.profilesList();
+        String[] profilesList = Backend.list("profile");
         
-        Label header = new Label((String)language.get("options"));
-        Label keybindSettings = new Label((String) language.get("keybinds"));
-        Label mediaSettings = new Label((String) language.get("mediaSettings"));
+        header = new Label((String)language.get("options"));
+        keybindSettings = new Label((String) language.get("keybinds"));
+        mediaSettings = new Label((String) language.get("mediaSettings"));
 
-        Label profileLabel = new Label((String) language.get("profile"));
+        profileLabel = new Label((String) language.get("profile"));
         ChoiceBox<String> profileSelect = new ChoiceBox<>();
         for (String value : profilesList){
             System.out.println(value);
-            profileSelect.getItems().add(value);
+            HashMap<String, Object> profileName = null;
+            try {
+                profileName = Backend.readJSON("custom", null, value);
+            } catch (InterruptedException | IOException e) {
+                e.printStackTrace();
+            }
+            if (profileName != null){
+                profileSelect.getItems().add((String) profileName.get("profileName"));
+            } else {
+                profileSelect.getItems().add("Could not load profile "+ value);
+            }
         }
+        profileSelect.setValue((String)config.get("profile"));
+        
+        
         
         String settingFontSize = "-fx-font-size:20px";
         String headerFontSize = "-fx-font-size:40px";
@@ -84,15 +97,15 @@ public class Settings {
         mediaSettings.setStyle(headerFontSize + "; " + textColor);
 
         //Object creation for movement keybinds
-        Label dropDown = new Label((String) language.get("dropButton"));
+        dropDown = new Label((String) language.get("dropButton"));
         dropDown.setStyle(settingFontSize + "; " + textColor);
-        Label movLeft = new Label((String) language.get("mvLeft"));
+        movLeft = new Label((String) language.get("mvLeft"));
         movLeft.setStyle(settingFontSize + "; " + textColor);
-        Label movRight = new Label((String) language.get("mvRight"));
+        movRight = new Label((String) language.get("mvRight"));
         movRight.setStyle(settingFontSize + "; " + textColor);
-        Label movDown = new Label((String) language.get("mvDown"));
+        movDown = new Label((String) language.get("mvDown"));
         movDown.setStyle(settingFontSize + "; " + textColor);
-        Label rotate = new Label((String) language.get("rotate"));
+        rotate = new Label((String) language.get("rotate"));
         rotate.setStyle(settingFontSize + "; " + textColor);
 
         profileLabel.setStyle(settingFontSize + "; " + textColor);
@@ -114,14 +127,35 @@ public class Settings {
         rotateButton.setId("rotate");
 
         //Object creation for Media settings
-        Label musicCB = new Label((String) language.get("music"));
+        musicCB = new Label((String) language.get("music"));
         musicCB.setStyle(settingFontSize + "; " + textColor);
-        Label volume = new Label((String) language.get("volume"));
+        volume = new Label((String) language.get("volume"));
         volume.setStyle(settingFontSize + "; " + textColor);
-        Label backgrounds = new Label((String) language.get("backgrounds"));
+        backgrounds = new Label((String) language.get("backgrounds"));
         backgrounds.setStyle(settingFontSize + "; " + textColor);
-        Label backgMusic = new Label((String) language.get("backgMusic"));
+        backgMusic = new Label((String) language.get("backgMusic"));
         backgMusic.setStyle(settingFontSize + "; " + textColor);
+        
+        profileSelect.setOnAction(e -> {
+            try {
+                profile = Backend.readJSON("profile", profileSelect.getValue().toString(), null);
+                language = Backend.readJSON("lang", (String) profile.get("lang"), null);
+                config.put("profile", (String)profile.get("profileName"));
+                config.put("lang", (String) profile.get("lang"));
+                if (Backend.writeConfig(config)){
+                    System.out.println("config updated");
+                }
+            } catch (Exception err) {
+                err.printStackTrace();
+            }
+            setLanguage();
+            dropButton.setText((String) profile.get("drop"));
+            mvLButton.setText((String) profile.get("mvLeft"));
+            mvRButton.setText((String) profile.get("mvRight"));
+            mvDButton.setText((String) profile.get("mvDown"));
+            rotateButton.setText((String) profile.get("rotate"));
+        });
+
 
         CheckBox musicCheckBox = new CheckBox();
         Slider volumeSlider = new Slider();
@@ -149,7 +183,6 @@ public class Settings {
         HBox profileBox = new HBox(30);
 
         settingsList.getColumnConstraints().addAll(column1, column2);
-        //settingsMenu.setStyle("-fx-background-color: #00000040; -fx-background: #00000040");
         
 
         //Define the structure of the GridPane
@@ -230,4 +263,19 @@ public class Settings {
         }
     }
     
+
+    private void setLanguage(){
+        header.setText((String) language.get("options"));
+        keybindSettings.setText((String) language.get("keybinds"));
+        mediaSettings.setText((String) language.get("mediaSettings"));
+        dropDown.setText((String) language.get("dropButton"));
+        movDown.setText((String) language.get("mvDown"));
+        movLeft.setText((String) language.get("mvLeft"));
+        movRight.setText((String) language.get("mvRight"));
+        rotate.setText((String) language.get("rotate"));
+        musicCB.setText((String) language.get("music"));
+        volume.setText((String) language.get("volume"));
+        backgrounds.setText((String) language.get("backgrounds"));
+        backgMusic.setText((String) language.get("backgMusic"));
+    }
 }

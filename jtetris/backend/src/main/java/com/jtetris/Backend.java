@@ -29,21 +29,47 @@ public class Backend {
         basePath = getXdgUserDir("DOCUMENTS") + "/myGames/Jtetris";
     }
 
-    public static String[] profilesList(){
+    public static String[] list(String type){
         ArrayList<String> list = new ArrayList<>();
-        File baseDir = new File(getXdgUserDir("DOCUMENTS") + "/myGames/Jtetris/profiles");
-        if (baseDir.exists() && baseDir.isDirectory()){
-            FileFilter profileFilter = file -> file.isFile() && file.getName().startsWith("profile_") && file.getName().endsWith(".json");
-
-            File[] prfFiles = baseDir.listFiles(profileFilter);
-
-            if (prfFiles != null){
-                for (int i = 0; i< prfFiles.length; i++){
-                    list.add(prfFiles[i].toString());
+        switch (type){
+            case "profile":
+                File baseDir = new File(getXdgUserDir("DOCUMENTS") + "/myGames/Jtetris/profiles");
+                if (baseDir.exists() && baseDir.isDirectory()){
+                    FileFilter profileFilter = file -> file.isFile() && file.getName().startsWith("profile_") && file.getName().endsWith(".json");
+    
+                    File[] prfFiles = baseDir.listFiles(profileFilter);
+    
+                    if (prfFiles != null){
+                        for (int i = 0; i< prfFiles.length; i++){
+                            list.add(prfFiles[i].toString());
+                        }
+                        String[] prfFileNames = new String[list.size()];
+                        return list.toArray(prfFileNames);
+                    }
+                } else {
+                    return null;
                 }
-                String[] prfFileNames = new String[list.size()];
-                return list.toArray(prfFileNames);
-            }
+                    break;
+            case "lang":
+                File baseLangDir = new File(getXdgUserDir("DOCUMENTS") + "/myGames/Jtetris/languages");
+                    if (baseLangDir.exists() && baseLangDir.isDirectory()){
+                        FileFilter profileFilter = file -> file.isFile() && file.getName().startsWith("lang_") && file.getName().endsWith(".json");
+    
+                        File[] prfFiles = baseLangDir.listFiles(profileFilter);
+    
+                        if (prfFiles != null){
+                            for (int i = 0; i< prfFiles.length; i++){
+                                list.add(prfFiles[i].toString());
+                            }
+                            String[] prfFileNames = new String[list.size()];
+                            return list.toArray(prfFileNames);
+                        }
+                    } else {
+                        return null;
+                    }
+            break;
+            default:
+                return null;
         }            
         return null;
     }

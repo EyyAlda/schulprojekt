@@ -74,10 +74,27 @@ public class Startpage extends Application implements EventHandler<ActionEvent> 
         game.setText((String)lang.get("start"));
         game.setOnAction(this);
 
+        String[] langList = Backend.list("lang");
         //show language selector
         ChoiceBox<String> langChoiceBox = new ChoiceBox<>();
-        langChoiceBox.getItems().addAll("en", "de", "es", "nl", "rs", "ru", "it", "pl");
-        langChoiceBox.setValue((String)config.get("lang"));
+        //langChoiceBox.getItems().addAll("en", "de", "es", "nl", "rs", "ru", "it", "pl");
+        //langChoiceBox.setValue((String)config.get("lang"));
+        for (String value : langList){
+            System.out.println(value);
+            HashMap<String, Object> langName = null;
+            try {
+                langName = Backend.readJSON("custom", null, value);
+            } catch (InterruptedException | IOException e) {
+                e.printStackTrace();
+            }
+            if (langName != null){
+                langChoiceBox.getItems().add((String) langName.get("lang"));
+            } else {
+                langChoiceBox.getItems().add("Could not load language "+ value);
+            }
+        }
+        langChoiceBox.setValue((String) profile.get("lang"));
+
         langChoiceBox.setOnAction(e -> {
             String selected = langChoiceBox.getValue();
             config.put("lang", selected);
