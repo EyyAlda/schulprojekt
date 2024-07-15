@@ -319,7 +319,8 @@ public class Settings {
             System.out.println("SPACE");
             button.setText("SPACE");
         }
-
+        
 
     }
+    
 }

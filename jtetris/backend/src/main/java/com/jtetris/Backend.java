@@ -80,7 +80,7 @@ public class Backend {
         String filePath;
         switch (type) {
             case "lang":
-                filePath = getXdgUserDir("DOCUMENTS")+"/myGames/Jtetris/languages/lang_" + param + ".json";
+                filePath = getXdgUserDir("DOCUMENTS") + "/myGames/Jtetris/languages/lang_" + param + ".json";
                 try (FileReader reader = new FileReader(filePath)) {
 
                     map = gson.fromJson(reader, HashMap.class);
@@ -368,6 +368,5 @@ public class Backend {
             }
         }
     }
-
 }
 
