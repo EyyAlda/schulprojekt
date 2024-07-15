@@ -30,6 +30,7 @@ import javafx.scene.layout.ColumnConstraints;
 
 public class Settings {
 
+    boolean keyInputLocked = false;
     HashMap<String, Object> profile = null;
     HashMap<String, Object> language = null;
     HashMap<String, Object> config = null;
@@ -227,13 +228,13 @@ public class Settings {
         settingsList.prefWidthProperty().bind(scene.widthProperty());
         settings.prefHeightProperty().bind(scene.heightProperty());
 
-
+    if (!keyInputLocked){
         dropButton.setOnAction(e -> changeKeybind(dropButton, scene));
         mvRButton.setOnAction(e -> changeKeybind(mvRButton, scene));
         rotateButton.setOnAction(e -> changeKeybind(rotateButton, scene));
         mvDButton.setOnAction(e -> changeKeybind(mvDButton, scene));
         mvLButton.setOnAction(e -> changeKeybind(mvLButton, scene));
-
+    }
 
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -246,13 +247,11 @@ public class Settings {
         System.out.println(button.getText());
         switch(button.getId()){
             case "drop":
+                keyInputLocked = true;
                 System.out.println("drop");
                 button.setText("> - <");
-                scene.setOnKeyPressed(e -> {
-                    KeyCode keyCode = e.getCode();
-                    System.out.println(keyCode);
-                    button.setText(keyCode.toString());
-                });
+                scene.setOnKeyPressed(e -> );
+                keyInputLocked = false;
                 break;
             case "right":
                 System.out.println("right");
@@ -312,5 +311,15 @@ public class Settings {
         backgrounds.setText((String) language.get("backgrounds"));
         backgMusic.setText((String) language.get("backgMusic"));
         backButton.setText((String) language.get("startpage"));
+    }
+
+    private void setBind(KeyEvent event, Button button){
+        KeyCode keyCode = event.getCode();
+        if (keyCode == KeyCode.SPACE){
+            System.out.println("SPACE");
+            button.setText("SPACE");
+        }
+
+
     }
 }
