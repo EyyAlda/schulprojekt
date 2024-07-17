@@ -228,13 +228,11 @@ public class Settings {
         settingsList.prefWidthProperty().bind(scene.widthProperty());
         settings.prefHeightProperty().bind(scene.heightProperty());
 
-    if (!keyInputLocked){
         dropButton.setOnAction(e -> changeKeybind(dropButton, scene));
         mvRButton.setOnAction(e -> changeKeybind(mvRButton, scene));
         rotateButton.setOnAction(e -> changeKeybind(rotateButton, scene));
         mvDButton.setOnAction(e -> changeKeybind(mvDButton, scene));
         mvLButton.setOnAction(e -> changeKeybind(mvLButton, scene));
-    }
 
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -247,47 +245,49 @@ public class Settings {
         System.out.println(button.getText());
         switch(button.getId()){
             case "drop":
+                if (!keyInputLocked){
                 keyInputLocked = true;
                 System.out.println("drop");
                 button.setText("> - <");
-                scene.setOnKeyPressed(e -> );
+                scene.setOnKeyPressed(e -> setBind(e, button));
                 keyInputLocked = false;
+                }
                 break;
             case "right":
+                if (!keyInputLocked){
+                keyInputLocked = true;
                 System.out.println("right");
                 button.setText("> - <");
-                scene.setOnKeyPressed(e -> {
-                    KeyCode keyCode = e.getCode();
-                    System.out.println(keyCode);
-                    button.setText(keyCode.toString());
-                });
+                scene.setOnKeyPressed(e -> setBind(e, button));
+                keyInputLocked = false;
+                }
                 break;
             case "left":
+                if (!keyInputLocked){
+                keyInputLocked = true;
                 System.out.println("left");
                 button.setText("> - <");
-                scene.setOnKeyPressed(e -> {
-                    KeyCode keyCode = e.getCode();
-                    System.out.println(keyCode);
-                    button.setText(keyCode.toString());
-                });
+                scene.setOnKeyPressed(e -> setBind(e, button));
+                keyInputLocked = false;
+                }
                 break;
             case "down":
+                if (!keyInputLocked){
+                keyInputLocked = true;
                 System.out.println("down");
                 button.setText("> - <");
-                scene.setOnKeyPressed(e -> {
-                    KeyCode keyCode = e.getCode();
-                    System.out.println(keyCode);
-                    button.setText(keyCode.toString());
-                });
+                scene.setOnKeyPressed(e -> setBind(e, button));
+                keyInputLocked = false;
+                }
                 break;
             case "rotate":
+                if (!keyInputLocked){
+                keyInputLocked = true;
                 System.out.println("rotate");
                 button.setText("> - <");
-                scene.setOnKeyPressed(e -> {
-                    KeyCode keyCode = e.getCode();
-                    System.out.println(keyCode);
-                    button.setText(keyCode.toString());
-                });
+                scene.setOnKeyPressed(e -> setBind(e, button));
+                keyInputLocked = false;
+                }
                 break;
             default:
                 System.out.println("nothing");
@@ -318,6 +318,14 @@ public class Settings {
         if (keyCode == KeyCode.SPACE){
             System.out.println("SPACE");
             button.setText("SPACE");
+            event.consume();
+        } else if (keyCode.isArrowKey()){
+            System.out.println(keyCode.toString());
+            button.setText(keyCode.toString());
+            event.consume();
+        } else {
+            System.out.println(keyCode.toString());
+            button.setText(keyCode.toString());
         }
         
 
