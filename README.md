@@ -190,6 +190,8 @@ Schreibe dir den Token irgendwo auf und behandle ihn wie ein Passwort.
 
 [für den Unterschied zwischen Merge und Rebase](https://youtu.be/zOnwgxiC0OA?si=eBJiTjI8ZlqYVQQ)
 
+[Falls es zu Problemen beim pull kommt](https://youtu.be/xN1-2p06Urc?si=ZpgbK8cw6etExXyy)
+
 ### Repo löschen
 Um ein local git repository zu löschen muss man nur->.
 ```
