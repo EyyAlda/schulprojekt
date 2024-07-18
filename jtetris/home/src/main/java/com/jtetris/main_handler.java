@@ -43,6 +43,7 @@ public class main_handler extends Application {
 
     HashMap<String, Object> config = null;
     HashMap<String, Object> lang = null;
+    HashMap<String, Object> profile = null;
 
     private Startpage startpage;
    
@@ -954,7 +955,9 @@ public class main_handler extends Application {
     public void start(Stage primaryStage) throws IOException, InterruptedException {
 
         config = Backend.readConfig(false, null);
-        lang = Backend.readJSON("lang", (String) config.get("lang"), null);
+        profile = Backend.readJSON("profile", (String) config.get("profile"), null);
+        lang = Backend.readJSON("lang", (String) profile.get("lang"), null);
+        
 
         paused_label = new Label((String) lang.get("paused"));
         quit_button = new Button((String) lang.get("quit"));
@@ -1129,7 +1132,7 @@ public class main_handler extends Application {
             public void handle(long now) {
 
                 if (game_in_progress && !deleting) {
-                    if (removeActiveKey("LEFT")) {
+                    if (removeActiveKey((String) profile.get("mvLeft"))) {
                         if (!game_paused) {
                             move.stop();
                             move.seek(Duration.ZERO);
@@ -1138,7 +1141,7 @@ public class main_handler extends Application {
                         }
                     }
     
-                    if (removeActiveKey("RIGHT")) {
+                    if (removeActiveKey((String) profile.get("mvRight"))) {
                         if (!game_paused) {
                             move.stop();
                             move.seek(Duration.ZERO);
@@ -1147,7 +1150,7 @@ public class main_handler extends Application {
                         }
                     }
     
-                    if (removeActiveKey("UP")) {
+                    if (removeActiveKey((String) profile.get("drop"))) {
                         if (!game_paused) {
                             move.stop();
                             move.seek(Duration.ZERO);
@@ -1156,14 +1159,14 @@ public class main_handler extends Application {
                         }
                     }
     
-                    if (removeActiveKey("DOWN")) {
+                    if (removeActiveKey((String) profile.get("mvDown"))) {
                         move.stop();
                         move.seek(Duration.ZERO);
                         move.play();
                         lower_tetromino(false, primaryStage);
                     }
 
-                    if (removeActiveKey("SPACE")) {
+                    if (removeActiveKey((String) profile.get("rotate"))) {
                         move.stop();
                         move.seek(Duration.ZERO);
                         move.play();

@@ -74,32 +74,34 @@ public class Startpage extends Application implements EventHandler<ActionEvent> 
         game.setText((String)lang.get("start"));
         game.setOnAction(this);
 
-        String[] langList = Backend.list("lang");
+        String[] langList = Backend.list("profile");
         //show language selector
         ChoiceBox<String> langChoiceBox = new ChoiceBox<>();
         //langChoiceBox.getItems().addAll("en", "de", "es", "nl", "rs", "ru", "it", "pl");
         //langChoiceBox.setValue((String)config.get("lang"));
-        for (String value : langList){
+       for (String value : langList){
             System.out.println(value);
-            HashMap<String, Object> langName = null;
+            HashMap<String, Object> profileName = null;
             try {
-                langName = Backend.readJSON("custom", null, value);
+                profileName = Backend.readJSON("custom", null, value);
             } catch (InterruptedException | IOException e) {
                 e.printStackTrace();
             }
-            if (langName != null){
-                langChoiceBox.getItems().add((String) langName.get("lang"));
+            if (profileName != null){
+                langChoiceBox.getItems().add((String) profileName.get("profileName"));
             } else {
-                langChoiceBox.getItems().add("Could not load language "+ value);
+                langChoiceBox.getItems().add("Could not load profile "+ value);
             }
         }
-        langChoiceBox.setValue((String) profile.get("lang"));
+        langChoiceBox.setValue((String)config.get("profile"));
+
 
         langChoiceBox.setOnAction(e -> {
             String selected = langChoiceBox.getValue();
-            config.put("lang", selected);
+            config.put("profile", selected);
             try {
-                lang = Backend.readJSON("lang", selected, null);
+                profile = Backend.readJSON("profile", selected, null);
+                lang = Backend.readJSON("lang", (String) profile.get("lang"), null);
                 Backend.writeConfig(config);
                 change_language(game, quitButton, Aboutus, Options);
             } catch (IOException e1) {

@@ -35,12 +35,16 @@ public class Settings {
     HashMap<String, Object> language = null;
     HashMap<String, Object> config = null;
     String[] installedProfiles = Backend.list("profile");
-    Label header, keybindSettings, mediaSettings, profileLabel, dropDown, movRight, movLeft, movDown, rotate, musicCB, volume, backgMusic, backgrounds;
-    Button backButton;
+    Label header, keybindSettings, mediaSettings, profileLabel, dropDown, movRight, movLeft, movDown, rotate, musicCB, volume, backgMusic, backgrounds, languages;
+    Button backButton, dropButton, mvLButton, mvRButton, mvDButton, rotateButton, saveButton;
+    ChoiceBox<String> languageChoiceBox;
+    String cButtonId;
+    private Scene scene;
 
 
     public void start(Stage primaryStage){
-                try {
+        //read Data for HashMaps
+        try {
             config = Backend.readConfig(false, null);
             System.out.println(config.get("profile"));
             profile = Backend.readJSON("profile", (String) config.get("profile"), null);
@@ -51,7 +55,7 @@ public class Settings {
             System.out.println("Something with files");
             e.printStackTrace();
         }
-
+        //create back button to switch back to the main menu
         backButton = new Button((String) language.get("startpage"));
         backButton.setStyle("-fx-background-color: #202020d8; -fx-text-fill: #ffff; -fx-pref-width: 250px; -fx-pref-height: 50px; -fx-font-size: 20px");
         Startpage startpage = new Startpage();
@@ -62,14 +66,17 @@ public class Settings {
             }catch (Exception ex){
                 ex.printStackTrace();
             }});
-
-
+        saveButton = new Button((String) language.get("save"));
+        saveButton.setStyle("-fx-background-color: #202020d8; -fx-text-fill: #ffff; -fx-pref-width: 250px; -fx-pref-height: 50px; -fx-font-size: 20px");
+        //get a String array with all installed profiles
         String[] profilesList = Backend.list("profile");
         
+        //create header texts
         header = new Label((String)language.get("options"));
         keybindSettings = new Label((String) language.get("keybinds"));
         mediaSettings = new Label((String) language.get("mediaSettings"));
-
+        
+        //create option to switch profiles
         profileLabel = new Label((String) language.get("profile"));
         ChoiceBox<String> profileSelect = new ChoiceBox<>();
         for (String value : profilesList){
@@ -89,10 +96,27 @@ public class Settings {
         profileSelect.setValue((String)config.get("profile"));
         
         
+        saveButton.setOnAction(e -> {
+            profile.put("mvLeft", mvLButton.getText());
+            profile.put("mvRight", mvRButton.getText());
+            profile.put("mvDown", mvDButton.getText());
+            profile.put("drop", dropButton.getText());
+            profile.put("rotate", rotateButton.getText());
+            profile.put("lang", languageChoiceBox.getValue());
+            try {
+                Backend.writeProfiles(profile, profileSelect.getValue());
+            } catch (InterruptedException | IOException err){
+                err.printStackTrace();
+            }
+    });
         
+
+        //some css presets
         String settingFontSize = "-fx-font-size:20px";
         String headerFontSize = "-fx-font-size:40px";
         String textColor = "-fx-text-fill: #ffff";
+
+        //add presets to the headlines
         header.setStyle(headerFontSize + "; " + textColor); 
         keybindSettings.setStyle(headerFontSize + "; " + textColor);
         mediaSettings.setStyle(headerFontSize + "; " + textColor);
@@ -111,15 +135,15 @@ public class Settings {
 
         profileLabel.setStyle(settingFontSize + "; " + textColor);
 
-        Button dropButton = new Button((String) profile.get("drop"));
+        dropButton = new Button((String) profile.get("drop"));
         dropButton.setId("drop");
-        Button mvLButton = new Button((String) profile.get("mvLeft"));
-        mvLButton.setId("left");
-        Button mvRButton = new Button((String) profile.get("mvRight"));
-        mvRButton.setId("right");
-        Button mvDButton = new Button((String) profile.get("mvDown"));
-        mvDButton.setId("down");
-        Button rotateButton = new Button((String) profile.get("rotate"));
+        mvLButton = new Button((String) profile.get("mvLeft"));
+        mvLButton.setId("mvLeft");
+        mvRButton = new Button((String) profile.get("mvRight"));
+        mvRButton.setId("mvRight");
+        mvDButton = new Button((String) profile.get("mvDown"));
+        mvDButton.setId("mvDown");
+        rotateButton = new Button((String) profile.get("rotate"));
         rotateButton.setId("rotate");
 
         //Object creation for Media settings
@@ -132,6 +156,7 @@ public class Settings {
         backgMusic = new Label((String) language.get("backgMusic"));
         backgMusic.setStyle(settingFontSize + "; " + textColor);
         
+        //add an eventlistener to the profile selector
         profileSelect.setOnAction(e -> {
             try {
                 profile = Backend.readJSON("profile", profileSelect.getValue().toString(), null);
@@ -144,7 +169,9 @@ public class Settings {
             } catch (Exception err) {
                 err.printStackTrace();
             }
+            //update languages
             setLanguage();
+            //load keybinds 
             dropButton.setText((String) profile.get("drop"));
             mvLButton.setText((String) profile.get("mvLeft"));
             mvRButton.setText((String) profile.get("mvRight"));
@@ -152,19 +179,43 @@ public class Settings {
             rotateButton.setText((String) profile.get("rotate"));
         });
 
-
+        //create options for media settings
         CheckBox musicCheckBox = new CheckBox();
         Slider volumeSlider = new Slider();
         ChoiceBox<String> backgroundChoice = new ChoiceBox<>();
         ChoiceBox<String> musicChoiceBox = new ChoiceBox<>();
+        
+        //add a language option
+        languages = new Label((String) language.get("languages"));
+        languages.setStyle(settingFontSize + "; " + textColor);
+        languageChoiceBox = new ChoiceBox<String>();
 
+        //add all installed languages to the choicebox
+        String[] langList = Backend.list("lang");
+        for (String value : langList){
+            System.out.println(value);
+            HashMap<String, Object> langName = null;
+            try {
+                langName = Backend.readJSON("custom", null, value);
+            } catch (InterruptedException | IOException e) {
+                e.printStackTrace();
+            }
+            if (langName != null){
+                languageChoiceBox.getItems().add((String) langName.get("lang"));
+            } else {
+                languageChoiceBox.getItems().add("Could not load language "+ value);
+            }
+        }
+        languageChoiceBox.setValue((String) profile.get("lang"));
 
+        //get a background image
         Image background = new Image(new File(Backend.getXdgUserDir("DOCUMENTS")+ "/myGames/Jtetris/textures/background.png").toURI().toString());
         ImageView backgroundImage = new ImageView();
         backgroundImage.setFitWidth(1920);
         backgroundImage.setFitHeight(1080);
         backgroundImage.setImage(background);
-
+        
+        //make the 2 columns stretch across the whole screen
         ColumnConstraints column1 = new ColumnConstraints();
         column1.setPercentWidth(50);
         ColumnConstraints column2 = new ColumnConstraints();
@@ -173,10 +224,10 @@ public class Settings {
 
 
         //Create Layout
-        //ScrollPane settingsMenu = new ScrollPane();
         GridPane settingsList = new GridPane();
         VBox settings = new VBox(20);
         HBox profileBox = new HBox(30);
+        HBox saveAndBack = new HBox(20);
 
         settingsList.getColumnConstraints().addAll(column1, column2);
         
@@ -208,31 +259,41 @@ public class Settings {
         settingsList.add(dropButton, 1, 9);
         settingsList.add(rotate, 0, 10);
         settingsList.add(rotateButton, 1, 10);
+        settingsList.add(languages, 0, 11);
+        settingsList.add(languageChoiceBox, 1, 11);
         
-
-               
+        saveAndBack.getChildren().addAll(backButton, saveButton);
+        saveAndBack.setAlignment(Pos.CENTER); 
         //Add everything together
         //settingsMenu.setContent(settingsList);
         profileBox.getChildren().addAll(profileLabel, profileSelect);
-        settings.getChildren().addAll(header, profileBox, settingsList, backButton);
+        settings.getChildren().addAll(header, profileBox, settingsList, saveAndBack);
         settings.setAlignment(Pos.CENTER);
         
         settingsList.setStyle("-fx-background-color: #00000060; -fx-background: #00000060"); 
         settings.setStyle("-fx-background-color: #00000050; -fx-background: #00000050");
 
         backgroundImage.toBack();
+
+        //add the support for backgrounds
         StackPane layout = new StackPane(backgroundImage, settings);
         layout.setMinWidth(Region.USE_PREF_SIZE);
 
-        Scene scene = new Scene(layout, 1920, 1080);
+        scene = new Scene(layout, 1920, 1080);
         settingsList.prefWidthProperty().bind(scene.widthProperty());
         settings.prefHeightProperty().bind(scene.heightProperty());
-
+    
+        //add actions to the keybind buttons
         dropButton.setOnAction(e -> changeKeybind(dropButton, scene));
         mvRButton.setOnAction(e -> changeKeybind(mvRButton, scene));
         rotateButton.setOnAction(e -> changeKeybind(rotateButton, scene));
         mvDButton.setOnAction(e -> changeKeybind(mvDButton, scene));
         mvLButton.setOnAction(e -> changeKeybind(mvLButton, scene));
+        
+        languageChoiceBox.setOnAction(e -> {
+            profile.put("lang", languageChoiceBox.getValue());
+        });
+        
 
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -240,7 +301,7 @@ public class Settings {
         
     }
 
-    
+    //add an action to every keybind setting
     public void changeKeybind(Button button, Scene scene){
         System.out.println(button.getText());
         switch(button.getId()){
@@ -249,34 +310,38 @@ public class Settings {
                 keyInputLocked = true;
                 System.out.println("drop");
                 button.setText("> - <");
-                scene.setOnKeyPressed(e -> setBind(e, button));
+                cButtonId = "drop";
+                scene.addEventFilter(KeyEvent.KEY_PRESSED, this::setBind);
                 keyInputLocked = false;
                 }
                 break;
-            case "right":
+            case "mvRight":
                 if (!keyInputLocked){
                 keyInputLocked = true;
                 System.out.println("right");
                 button.setText("> - <");
-                scene.setOnKeyPressed(e -> setBind(e, button));
+                cButtonId = "mvRight";
+                scene.addEventFilter(KeyEvent.KEY_PRESSED, this::setBind);
                 keyInputLocked = false;
                 }
                 break;
-            case "left":
+            case "mvLeft":
                 if (!keyInputLocked){
                 keyInputLocked = true;
                 System.out.println("left");
                 button.setText("> - <");
-                scene.setOnKeyPressed(e -> setBind(e, button));
+                cButtonId = "mvLeft";
+                scene.addEventFilter(KeyEvent.KEY_PRESSED, this::setBind);
                 keyInputLocked = false;
                 }
                 break;
-            case "down":
+            case "mvDown":
                 if (!keyInputLocked){
                 keyInputLocked = true;
                 System.out.println("down");
                 button.setText("> - <");
-                scene.setOnKeyPressed(e -> setBind(e, button));
+                cButtonId = "mvDown";
+                scene.addEventFilter(KeyEvent.KEY_PRESSED, this::setBind);
                 keyInputLocked = false;
                 }
                 break;
@@ -285,7 +350,8 @@ public class Settings {
                 keyInputLocked = true;
                 System.out.println("rotate");
                 button.setText("> - <");
-                scene.setOnKeyPressed(e -> setBind(e, button));
+                cButtonId = "rotate";
+                scene.addEventFilter(KeyEvent.KEY_PRESSED, this::setBind);
                 keyInputLocked = false;
                 }
                 break;
@@ -296,7 +362,7 @@ public class Settings {
         }
     }
     
-
+    //function for changing languages of all elements in one go
     private void setLanguage(){
         header.setText((String) language.get("options"));
         keybindSettings.setText((String) language.get("keybinds"));
@@ -311,23 +377,31 @@ public class Settings {
         backgrounds.setText((String) language.get("backgrounds"));
         backgMusic.setText((String) language.get("backgMusic"));
         backButton.setText((String) language.get("startpage"));
+        languageChoiceBox.setValue((String) profile.get("lang"));
+        languages.setText((String) language.get("languages"));
     }
 
-    private void setBind(KeyEvent event, Button button){
+    //handle the events created by the changeKeybind function
+    private void setBind(KeyEvent event){
         KeyCode keyCode = event.getCode();
-        if (keyCode == KeyCode.SPACE){
-            System.out.println("SPACE");
-            button.setText("SPACE");
-            event.consume();
-        } else if (keyCode.isArrowKey()){
-            System.out.println(keyCode.toString());
-            button.setText(keyCode.toString());
-            event.consume();
-        } else {
-            System.out.println(keyCode.toString());
-            button.setText(keyCode.toString());
+        Button button = (Button) scene.lookup("#"+cButtonId);
+        switch(keyCode){
+            case UP:
+            case DOWN:
+            case RIGHT:
+            case LEFT:
+            case SPACE:
+                event.consume();
+                button.setText(keyCode.toString());
+                break;
+            case ESCAPE:
+                event.consume();
+                button.setText((String) profile.get(button.getId()));
+                break;
+            default:
+                button.setText(keyCode.toString());
+                break;
         }
-        
 
     }
     
