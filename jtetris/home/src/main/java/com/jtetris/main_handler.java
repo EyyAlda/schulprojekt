@@ -904,11 +904,11 @@ public class main_handler extends Application {
      // Prepares the game when loaded
      public void prepare(Stage primaryStage) {
         main_theme.play();
-        main_theme.setVolume(0.3);
-        horosho.setVolume(1);
-        sussy.setVolume(2);
-        line_clear.setVolume(2);
-        line_clear_4.setVolume(4);
+        main_theme.setVolume(((double) profile.get("volume"))/100);
+        horosho.setVolume(((double) profile.get("volume"))/99);
+        sussy.setVolume(((double) profile.get("volume"))/98);
+        line_clear.setVolume(((double) profile.get("volume"))/98);
+        line_clear_4.setVolume(((double) profile.get("volume"))/97);
         //loading_screen();
         game_in_progress = true;
         game_paused = false;
@@ -1136,6 +1136,7 @@ public class main_handler extends Application {
                         if (!game_paused) {
                             move.stop();
                             move.seek(Duration.ZERO);
+                            move.setVolume(((double) profile.get("volume"))/100);
                             move.play();
                             move_tetromino("LEFT");
                         }
@@ -1145,6 +1146,7 @@ public class main_handler extends Application {
                         if (!game_paused) {
                             move.stop();
                             move.seek(Duration.ZERO);
+                            move.setVolume(((double) profile.get("volume"))/100);
                             move.play();
                             move_tetromino("RIGHT");
                         }
@@ -1154,6 +1156,7 @@ public class main_handler extends Application {
                         if (!game_paused) {
                             move.stop();
                             move.seek(Duration.ZERO);
+                            move.setVolume(((double) profile.get("volume"))/100);
                             move.play();
                             drop(primaryStage);
                         }
@@ -1162,6 +1165,7 @@ public class main_handler extends Application {
                     if (removeActiveKey((String) profile.get("mvDown"))) {
                         move.stop();
                         move.seek(Duration.ZERO);
+                        move.setVolume(((double) profile.get("volume"))/100);
                         move.play();
                         lower_tetromino(false, primaryStage);
                     }
@@ -1169,6 +1173,7 @@ public class main_handler extends Application {
                     if (removeActiveKey((String) profile.get("rotate"))) {
                         move.stop();
                         move.seek(Duration.ZERO);
+                        move.setVolume(((double) profile.get("volume"))/100);
                         move.play();
                         rotate();
                     }

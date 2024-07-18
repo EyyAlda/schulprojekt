@@ -4,6 +4,8 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.HashMap;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -40,6 +42,8 @@ public class Settings {
     ChoiceBox<String> languageChoiceBox;
     String cButtonId;
     private Scene scene;
+    Slider volumeSlider = null;
+    double volumeInit;
 
 
     public void start(Stage primaryStage){
@@ -96,20 +100,7 @@ public class Settings {
         profileSelect.setValue((String)config.get("profile"));
         
         
-        saveButton.setOnAction(e -> {
-            profile.put("mvLeft", mvLButton.getText());
-            profile.put("mvRight", mvRButton.getText());
-            profile.put("mvDown", mvDButton.getText());
-            profile.put("drop", dropButton.getText());
-            profile.put("rotate", rotateButton.getText());
-            profile.put("lang", languageChoiceBox.getValue());
-            try {
-                Backend.writeProfiles(profile, profileSelect.getValue());
-            } catch (InterruptedException | IOException err){
-                err.printStackTrace();
-            }
-    });
-        
+                
 
         //some css presets
         String settingFontSize = "-fx-font-size:20px";
@@ -145,11 +136,14 @@ public class Settings {
         mvDButton.setId("mvDown");
         rotateButton = new Button((String) profile.get("rotate"));
         rotateButton.setId("rotate");
+        
+        volumeInit = (double) profile.get("volume");
+
+        // create Volume slider
+        volumeSlider = new Slider(0, 100, (int) volumeInit);
 
         //Object creation for Media settings
-        musicCB = new Label((String) language.get("music"));
-        musicCB.setStyle(settingFontSize + "; " + textColor);
-        volume = new Label((String) language.get("volume"));
+        volume = new Label((String) language.get("volume") + ": " + (int) volumeSlider.getValue());
         volume.setStyle(settingFontSize + "; " + textColor);
         backgrounds = new Label((String) language.get("backgrounds"));
         backgrounds.setStyle(settingFontSize + "; " + textColor);
@@ -169,19 +163,20 @@ public class Settings {
             } catch (Exception err) {
                 err.printStackTrace();
             }
-            //update languages
-            setLanguage();
+            
+            volumeInit = (double) profile.get("volume");
+            volumeSlider.setValue((int) volumeInit);
             //load keybinds 
             dropButton.setText((String) profile.get("drop"));
             mvLButton.setText((String) profile.get("mvLeft"));
             mvRButton.setText((String) profile.get("mvRight"));
             mvDButton.setText((String) profile.get("mvDown"));
             rotateButton.setText((String) profile.get("rotate"));
+            //update languages
+            setLanguage(primaryStage);
         });
 
         //create options for media settings
-        CheckBox musicCheckBox = new CheckBox();
-        Slider volumeSlider = new Slider();
         ChoiceBox<String> backgroundChoice = new ChoiceBox<>();
         ChoiceBox<String> musicChoiceBox = new ChoiceBox<>();
         
@@ -222,6 +217,14 @@ public class Settings {
         column2.setPercentWidth(40);
 
 
+        // configure the volume slider
+        volumeSlider.valueProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                volume.setText(language.get("volume") + ": "+ newValue.intValue());
+            }
+        });
+
 
         //Create Layout
         GridPane settingsList = new GridPane();
@@ -240,27 +243,25 @@ public class Settings {
 
         //add Items
         settingsList.add(mediaSettings, 0, 0);
-        settingsList.add(musicCB, 0, 1);
-        settingsList.add(musicCheckBox, 1, 1);
-        settingsList.add(volume, 0, 2);
-        settingsList.add(volumeSlider, 1, 2);
-        settingsList.add(backgrounds, 0, 3);
-        settingsList.add(backgroundChoice, 1, 3);
-        settingsList.add(backgMusic, 0, 4);
-        settingsList.add(musicChoiceBox, 1, 4);
-        settingsList.add(keybindSettings, 0, 5);
-        settingsList.add(movLeft, 0, 6);
-        settingsList.add(mvLButton, 1, 6);
-        settingsList.add(movRight, 0, 7);
-        settingsList.add(mvRButton, 1, 7);
-        settingsList.add(movDown, 0, 8);
-        settingsList.add(mvDButton, 1, 8);
-        settingsList.add(dropDown, 0, 9);
-        settingsList.add(dropButton, 1, 9);
-        settingsList.add(rotate, 0, 10);
-        settingsList.add(rotateButton, 1, 10);
-        settingsList.add(languages, 0, 11);
-        settingsList.add(languageChoiceBox, 1, 11);
+        settingsList.add(volume, 0, 1);
+        settingsList.add(volumeSlider, 1, 1);
+        settingsList.add(backgrounds, 0, 2);
+        settingsList.add(backgroundChoice, 1, 2);
+        settingsList.add(backgMusic, 0, 3);
+        settingsList.add(musicChoiceBox, 1, 3);
+        settingsList.add(keybindSettings, 0, 4);
+        settingsList.add(movLeft, 0, 5);
+        settingsList.add(mvLButton, 1, 5);
+        settingsList.add(movRight, 0, 6);
+        settingsList.add(mvRButton, 1, 6);
+        settingsList.add(movDown, 0, 7);
+        settingsList.add(mvDButton, 1, 7);
+        settingsList.add(dropDown, 0, 8);
+        settingsList.add(dropButton, 1, 8);
+        settingsList.add(rotate, 0, 9);
+        settingsList.add(rotateButton, 1, 9);
+        settingsList.add(languages, 0, 10);
+        settingsList.add(languageChoiceBox, 1, 10);
         
         saveAndBack.getChildren().addAll(backButton, saveButton);
         saveAndBack.setAlignment(Pos.CENTER); 
@@ -297,6 +298,21 @@ public class Settings {
 
         primaryStage.setScene(scene);
         primaryStage.show();
+        
+        saveButton.setOnAction(e -> {
+            profile.put("mvLeft", mvLButton.getText());
+            profile.put("mvRight", mvRButton.getText());
+            profile.put("mvDown", mvDButton.getText());
+            profile.put("drop", dropButton.getText());
+            profile.put("rotate", rotateButton.getText());
+            profile.put("lang", languageChoiceBox.getValue());
+            profile.put("volume", volumeSlider.getValue());
+            try {
+                Backend.writeProfiles(profile, profileSelect.getValue());
+            } catch (InterruptedException | IOException err){
+                err.printStackTrace();
+            }
+    });
 
         
     }
@@ -363,7 +379,7 @@ public class Settings {
     }
     
     //function for changing languages of all elements in one go
-    private void setLanguage(){
+    private void setLanguage(Stage primaryStage){
         header.setText((String) language.get("options"));
         keybindSettings.setText((String) language.get("keybinds"));
         mediaSettings.setText((String) language.get("mediaSettings"));
@@ -372,13 +388,14 @@ public class Settings {
         movLeft.setText((String) language.get("mvLeft"));
         movRight.setText((String) language.get("mvRight"));
         rotate.setText((String) language.get("rotate"));
-        musicCB.setText((String) language.get("music"));
-        volume.setText((String) language.get("volume"));
+        volume.setText((String) language.get("volume") + ": " + (int) volumeSlider.getValue());
         backgrounds.setText((String) language.get("backgrounds"));
         backgMusic.setText((String) language.get("backgMusic"));
         backButton.setText((String) language.get("startpage"));
         languageChoiceBox.setValue((String) profile.get("lang"));
         languages.setText((String) language.get("languages"));
+        saveButton.setText((String) language.get("save"));
+        primaryStage.setTitle((String) language.get("options"));
     }
 
     //handle the events created by the changeKeybind function
@@ -404,5 +421,6 @@ public class Settings {
         }
 
     }
+
     
 }
