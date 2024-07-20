@@ -48,7 +48,7 @@
 
 ### profilesList() (static)
 Wird abgerufen durch:
-```
+```java
 Backend.profilesList();
 ```
 - gibt einem einen String-Array mit allen Profilnamen zurück
@@ -56,7 +56,7 @@ Backend.profilesList();
 ### readJSON() (static)
 
 Wird abgerufen durch:
-```
+```java
 Backend.readJSON(String type, String param, (String path))
 ```
 Die funktion hat 3 modi:
@@ -75,7 +75,7 @@ Die funktion hat 3 modi:
 
 ### writeProfiles() (static)
 Wird abgerufen durch:
-```
+```java
 Backend.writeProfiles(Hashmap<String, Object> map, String profileName);
 ```
 - Die Funktion gibt ```true```zurück, wenn es funktioniert hat und ```false```wenn nicht.
@@ -83,7 +83,7 @@ Backend.writeProfiles(Hashmap<String, Object> map, String profileName);
 
 ### readConfig() (static)
 Wird abgerufen durch:
-```
+```java
 Backend.readConfig(boolean isCached, Hashmap<String, Object> conf);
 ```
 - Der Parameter isCached gibt an ob die Config schon mal geladen wurde (hilft, falls sie vom user gelöscht wurde sie wiederherzustellen) (normalerweise true)
@@ -92,7 +92,7 @@ Backend.readConfig(boolean isCached, Hashmap<String, Object> conf);
 
 ### writeConfig() (static)
 Wird abgerufen durch:
-```
+```java
 Backend.writeConfig(Hashmap<String, Object> conf);
 ```
 - Gibt einen boolean zurück
@@ -104,15 +104,15 @@ Backend.writeConfig(Hashmap<String, Object> conf);
 ### Beim ersten Einrichten (nur einmal notwendig)
 
 - Füge eine E-Mail Adresse hinzu (sinnvoll die Gleiche wie auf Github zu benutzen)
-```shell
+```bash
 git config --global user.email <E-Mail Adresse>
 ```
 - Füge einen Benutzernamen hinzu
-```shell
+```bash
 git config --global user.name "<Benutzername>"
 ```
 - Setze den Standard Branch Name auf "main"
-```shell
+```bash
 git config --global init.defaultBranch main
 ```
 
@@ -120,20 +120,20 @@ git config --global init.defaultBranch main
 ### Lokales Repository
 
 - Erstelle ein lokales Repository (Github dient nur als Backup Repo)
-```shell
+```bash
 git init
 ```
 
 - verbinde lokales Repository mit dem erstellten Github Repository
-```shell
+```bash
 git remote add <name (egal was)> <https repository Link>
 ```
 - führe einmal aus:
-```
+```bash
 git pull <name_vom_Repo(oben festgelegt)> <branch(meistens main)>
 ```
 - und danach:
-```
+```bash
 git branch --set-upstream-to=<Name von Repo>/<Branch> main
 ```
 - dadurch wird festgelegt, woher gepullt und wohin gepushed werden soll
@@ -143,25 +143,25 @@ git branch --set-upstream-to=<Name von Repo>/<Branch> main
 Im staging Bereich befinden sich die Dateien, die man geplant hat zum Repo hinzuzufügen, aber es noch nicht vollständig gemacht hat.
 Man muss Dateien erstmal vormerken, bevor sie ins Repo können.
 Um Dateien vorzumerken, benutzt man:
-```shell
+```bash
 git add <Dateiname/Ordnername>
 ```
 Um alle geänderten Dateien gleichzeitig zu verschieben:
-```shell
+```bash
 git add .
 ```
 Um zu prüfen, welche Dateien vorgemerkt sind, benutzt man
-```shell
+```bash
 git status
 ```
 um allen Dateien die Vormerkung zu entfernen, benutzt man
-```shell
+```bash
 git reset
 ```
 Alle Dateien in diesem Bereich sind zu "Commit vorgemerkt".
 2. ins Repo schieben
 Um die vorgemerkten Dateien ins Repo zu schieben, benutzt man
-```shell
+```bash
 git commit
 ```
 Nachdem "Enter" gedrückt wurde öffnet sich ein Texteditor.
@@ -171,13 +171,13 @@ Fertig.
 
 ### Mit entferntem Repo arbeiten
 Um neue Dateien aus dem Repo zu bekommen, nutzt man
-```shell
+```bash
 git pull
 ```
 Dieser Command sollte **jedes** mal bevor am Projekt gearbeitet wird einmal ausgeführt werden.
 
 Um die Änderungen in das entfernte Repo hochzuladen, benutzt man
-```shell
+```bash
 git push
 ```
 Beim Push wird man immer wieder nach seinen Zugangsdaten gefragt.
@@ -194,12 +194,12 @@ Schreibe dir den Token irgendwo auf und behandle ihn wie ein Passwort.
 
 ### Repo löschen
 Um ein local git repository zu löschen muss man nur->.
-```
+```bash
 rm -fr .git
 ```
 
 Eingeben und dann ->.
-```
+```bash
 git status
 ```
 

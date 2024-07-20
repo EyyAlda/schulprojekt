@@ -43,10 +43,11 @@ public class main_handler extends Application {
 
     HashMap<String, Object> config = null;
     HashMap<String, Object> lang = null;
+    HashMap<String, Object> profile = null;
 
     private Startpage startpage;
    
-    int current_background = 1;
+    int current_background;
 
     Label paused_label = new Label();
     Button quit_button = new Button();
@@ -54,7 +55,7 @@ public class main_handler extends Application {
     Label lines_cleared_game_over = new Label();
 
     // Textures
-    Image background = new Image(new File(Backend.getXdgUserDir("DOCUMENTS")+"/myGames/Jtetris/textures/background"+current_background+".gif").toURI().toString());
+    Image background = null;
     Image s_texture = new Image(new File(Backend.getXdgUserDir("DOCUMENTS")+"/myGames/Jtetris/textures/s.png").toURI().toString());
     Image t_texture = new Image(new File(Backend.getXdgUserDir("DOCUMENTS")+"/myGames/Jtetris/textures/t.png").toURI().toString());
     Image i_texture = new Image(new File(Backend.getXdgUserDir("DOCUMENTS")+"/myGames/Jtetris/textures/i.png").toURI().toString());
@@ -69,7 +70,7 @@ public class main_handler extends Application {
     Image null_texture = new Image(new File(Backend.getXdgUserDir("DOCUMENTS")+"/myGames/Jtetris/textures/null.png").toURI().toString());
 
     // Audio
-    MediaPlayer main_theme = new MediaPlayer(new Media(new File(Backend.getXdgUserDir("DOCUMENTS")+"/myGames/Jtetris/audio/Tetris_TypeA.wav").toURI().toString()));
+    MediaPlayer main_theme = null;
     MediaPlayer horosho = new MediaPlayer(new Media(new File(Backend.getXdgUserDir("DOCUMENTS")+"/myGames/Jtetris/audio/horosho_louder.wav").toURI().toString()));
     MediaPlayer sussy = new MediaPlayer(new Media(new File(Backend.getXdgUserDir("DOCUMENTS")+"/myGames/Jtetris/audio/sussy_baka.wav").toURI().toString()));
     MediaPlayer line_clear = new MediaPlayer(new Media(new File(Backend.getXdgUserDir("DOCUMENTS")+"/myGames/Jtetris/audio/line_clear.wav").toURI().toString()));
@@ -902,12 +903,13 @@ public class main_handler extends Application {
 
      // Prepares the game when loaded
      public void prepare(Stage primaryStage) {
+        main_theme = new MediaPlayer(new Media(new File(Backend.getXdgUserDir("DOCUMENTS")+"/myGames/Jtetris/audio/" + (String) profile.get("backgroundMusic") + ".wav").toURI().toString()));
         main_theme.play();
-        main_theme.setVolume(0.3);
-        horosho.setVolume(1);
-        sussy.setVolume(2);
-        line_clear.setVolume(2);
-        line_clear_4.setVolume(4);
+        main_theme.setVolume(((double) profile.get("volume"))/100);
+        horosho.setVolume(((double) profile.get("volume"))/99);
+        sussy.setVolume(((double) profile.get("volume"))/98);
+        line_clear.setVolume(((double) profile.get("volume"))/98);
+        line_clear_4.setVolume(((double) profile.get("volume"))/97);
         //loading_screen();
         game_in_progress = true;
         game_paused = false;
@@ -954,8 +956,12 @@ public class main_handler extends Application {
     public void start(Stage primaryStage) throws IOException, InterruptedException {
 
         config = Backend.readConfig(false, null);
-        lang = Backend.readJSON("lang", (String) config.get("lang"), null);
-
+        profile = Backend.readJSON("profile", (String) config.get("profile"), null);
+        lang = Backend.readJSON("lang", (String) profile.get("lang"), null);
+        
+        String firstBackground =  (String) profile.get("backgroundWallpaper");
+        current_background = firstBackground.charAt(10) - '0';
+        background = new Image(new File(Backend.getXdgUserDir("DOCUMENTS")+"/myGames/Jtetris/textures/background"+current_background+".gif").toURI().toString());
         paused_label = new Label((String) lang.get("paused"));
         quit_button = new Button((String) lang.get("quit"));
 
@@ -1040,7 +1046,7 @@ public class main_handler extends Application {
         game_over_screen.setLayoutY(500);
         game_over_screen.toFront();
 
-        points_earnt_game_over.setText((String) lang.get("pointsAcquired"));
+        points_earnt_game_over.setText((String) lang.get("points"));
         points_earnt_game_over.setStyle("-fx-font-size: 30px; -fx-text-fill: white; -fx-font-family: serif");
         points_earnt_game_over.setMinSize(points_label.USE_PREF_SIZE, points_label.USE_PREF_SIZE);
 
@@ -1129,43 +1135,48 @@ public class main_handler extends Application {
             public void handle(long now) {
 
                 if (game_in_progress && !deleting) {
-                    if (removeActiveKey("LEFT")) {
+                    if (removeActiveKey((String) profile.get("mvLeft"))) {
                         if (!game_paused) {
                             move.stop();
                             move.seek(Duration.ZERO);
+                            move.setVolume(((double) profile.get("volume"))/100);
                             move.play();
                             move_tetromino("LEFT");
                         }
                     }
     
-                    if (removeActiveKey("RIGHT")) {
+                    if (removeActiveKey((String) profile.get("mvRight"))) {
                         if (!game_paused) {
                             move.stop();
                             move.seek(Duration.ZERO);
+                            move.setVolume(((double) profile.get("volume"))/100);
                             move.play();
                             move_tetromino("RIGHT");
                         }
                     }
     
-                    if (removeActiveKey("UP")) {
+                    if (removeActiveKey((String) profile.get("drop"))) {
                         if (!game_paused) {
                             move.stop();
                             move.seek(Duration.ZERO);
+                            move.setVolume(((double) profile.get("volume"))/100);
                             move.play();
                             drop(primaryStage);
                         }
                     }
     
-                    if (removeActiveKey("DOWN")) {
+                    if (removeActiveKey((String) profile.get("mvDown"))) {
                         move.stop();
                         move.seek(Duration.ZERO);
+                        move.setVolume(((double) profile.get("volume"))/100);
                         move.play();
                         lower_tetromino(false, primaryStage);
                     }
 
-                    if (removeActiveKey("SPACE")) {
+                    if (removeActiveKey((String) profile.get("rotate"))) {
                         move.stop();
                         move.seek(Duration.ZERO);
+                        move.setVolume(((double) profile.get("volume"))/100);
                         move.play();
                         rotate();
                     }
@@ -1190,7 +1201,7 @@ public class main_handler extends Application {
                         } else {
                             main_theme = new MediaPlayer(new Media(new File(Backend.getXdgUserDir("DOCUMENTS")+ "/myGames/Jtetris/audio/Tetris_TypeA.wav").toURI().toString()));
                         }
-                        main_theme.setVolume(0.3);
+                        main_theme.setVolume((double) profile.get("volume"));
                         main_theme.play();
                     }
 

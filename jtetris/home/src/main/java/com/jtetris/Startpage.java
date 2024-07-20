@@ -26,7 +26,7 @@ import java.io.IOException;
 public class Startpage extends Application implements EventHandler<ActionEvent> {
 
     HashMap<String, Object> config = null;
-
+    HashMap<String, Object> profile = null;
     HashMap<String, Object> lang = null;
 
     // Scene labels
@@ -62,7 +62,8 @@ public class Startpage extends Application implements EventHandler<ActionEvent> 
     public void showMainMenu() throws Exception {
 
         config = Backend.readConfig(false, null);
-        lang = Backend.readJSON("lang", (String)config.get("lang"), null);
+        profile = Backend.readJSON("profile", (String) config.get("profile"), null);
+        lang = Backend.readJSON("lang", (String)profile.get("lang"), null);
         // Creates the stage for the Startpage
         primaryStage.setTitle("Startpage");
         startwindow = primaryStage;
@@ -73,15 +74,34 @@ public class Startpage extends Application implements EventHandler<ActionEvent> 
         game.setText((String)lang.get("start"));
         game.setOnAction(this);
 
+        String[] langList = Backend.list("profile");
         //show language selector
         ChoiceBox<String> langChoiceBox = new ChoiceBox<>();
-        langChoiceBox.getItems().addAll("en", "de", "es", "nl", "rs", "ru", "it", "pl");
-        langChoiceBox.setValue((String)config.get("lang"));
+        //langChoiceBox.getItems().addAll("en", "de", "es", "nl", "rs", "ru", "it", "pl");
+        //langChoiceBox.setValue((String)config.get("lang"));
+       for (String value : langList){
+            System.out.println(value);
+            HashMap<String, Object> profileName = null;
+            try {
+                profileName = Backend.readJSON("custom", null, value);
+            } catch (InterruptedException | IOException e) {
+                e.printStackTrace();
+            }
+            if (profileName != null){
+                langChoiceBox.getItems().add((String) profileName.get("profileName"));
+            } else {
+                langChoiceBox.getItems().add("Could not load profile "+ value);
+            }
+        }
+        langChoiceBox.setValue((String)config.get("profile"));
+
+
         langChoiceBox.setOnAction(e -> {
             String selected = langChoiceBox.getValue();
-            config.put("lang", selected);
+            config.put("profile", selected);
             try {
-                lang = Backend.readJSON("lang", selected, null);
+                profile = Backend.readJSON("profile", selected, null);
+                lang = Backend.readJSON("lang", (String) profile.get("lang"), null);
                 Backend.writeConfig(config);
                 change_language(game, quitButton, Aboutus, Options);
             } catch (IOException e1) {
@@ -213,7 +233,8 @@ public class Startpage extends Application implements EventHandler<ActionEvent> 
                 e.printStackTrace();
             }
         } else if (event.getSource() == Options) {
-            startwindow.setScene(optionsscene);
+            Settings settings = new Settings();
+            settings.start(primaryStage);
             startwindow.setTitle((String)lang.get("options"));
         } else if (event.getSource() == Startpageback) {
             startwindow.setScene(startpagescene);
@@ -231,13 +252,6 @@ public class Startpage extends Application implements EventHandler<ActionEvent> 
         stage.setScene(scene);
         stage.show();  
     }
-
-    
-    
-
-    
-
-    
 
     public Scene getStartPageScene() {
         return startpagescene;
