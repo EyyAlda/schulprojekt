@@ -11,7 +11,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
@@ -39,7 +38,7 @@ public class Settings {
     String[] installedProfiles = Backend.list("profile");
     Label header, keybindSettings, mediaSettings, profileLabel, dropDown, movRight, movLeft, movDown, rotate, musicCB, volume, backgMusic, backgrounds, languages;
     Button backButton, dropButton, mvLButton, mvRButton, mvDButton, rotateButton, saveButton;
-    ChoiceBox<String> languageChoiceBox;
+    ChoiceBox<String> languageChoiceBox, backgroundChoice, musicChoiceBox;
     String cButtonId;
     private Scene scene;
     Slider volumeSlider = null;
@@ -50,11 +49,8 @@ public class Settings {
         //read Data for HashMaps
         try {
             config = Backend.readConfig(false, null);
-            System.out.println(config.get("profile"));
             profile = Backend.readJSON("profile", (String) config.get("profile"), null);
-            System.out.println(profile.get("lang"));
             language = Backend.readJSON("lang", (String) profile.get("lang"), null);
-            System.out.println(language.get("lang"));
         } catch (IOException | InterruptedException e) {
             System.out.println("Something with files");
             e.printStackTrace();
@@ -84,7 +80,6 @@ public class Settings {
         profileLabel = new Label((String) language.get("profile"));
         ChoiceBox<String> profileSelect = new ChoiceBox<>();
         for (String value : profilesList){
-            System.out.println(value);
             HashMap<String, Object> profileName = null;
             try {
                 profileName = Backend.readJSON("custom", null, value);
@@ -172,13 +167,19 @@ public class Settings {
             mvRButton.setText((String) profile.get("mvRight"));
             mvDButton.setText((String) profile.get("mvDown"));
             rotateButton.setText((String) profile.get("rotate"));
+            musicChoiceBox.setValue((String) profile.get("backgroundMusic"));
+            backgroundChoice.setValue((String) profile.get("backgroundWallpaper"));
             //update languages
             setLanguage(primaryStage);
         });
 
         //create options for media settings
-        ChoiceBox<String> backgroundChoice = new ChoiceBox<>();
-        ChoiceBox<String> musicChoiceBox = new ChoiceBox<>();
+        backgroundChoice = new ChoiceBox<>();
+        backgroundChoice.getItems().addAll("background1", "background2", "background3", "background4", "background5");
+        backgroundChoice.setValue((String) profile.get("backgroundWallpaper"));
+        musicChoiceBox = new ChoiceBox<>();
+        musicChoiceBox.getItems().addAll("Tetris_TypeA", "Tetris_TypeB", "Tetris_TypeC", "Tetris_TypeD");
+        musicChoiceBox.setValue((String) profile.get("backgroundMusic"));
         
         //add a language option
         languages = new Label((String) language.get("languages"));
@@ -307,6 +308,8 @@ public class Settings {
             profile.put("rotate", rotateButton.getText());
             profile.put("lang", languageChoiceBox.getValue());
             profile.put("volume", volumeSlider.getValue());
+            profile.put("backgroundMusic", musicChoiceBox.getValue());
+            profile.put("backgroundWallpaper", backgroundChoice.getValue());
             try {
                 Backend.writeProfiles(profile, profileSelect.getValue());
             } catch (InterruptedException | IOException err){
@@ -324,7 +327,6 @@ public class Settings {
             case "drop":
                 if (!keyInputLocked){
                 keyInputLocked = true;
-                System.out.println("drop");
                 button.setText("> - <");
                 cButtonId = "drop";
                 scene.addEventFilter(KeyEvent.KEY_PRESSED, this::setBind);
@@ -334,7 +336,6 @@ public class Settings {
             case "mvRight":
                 if (!keyInputLocked){
                 keyInputLocked = true;
-                System.out.println("right");
                 button.setText("> - <");
                 cButtonId = "mvRight";
                 scene.addEventFilter(KeyEvent.KEY_PRESSED, this::setBind);
@@ -344,7 +345,6 @@ public class Settings {
             case "mvLeft":
                 if (!keyInputLocked){
                 keyInputLocked = true;
-                System.out.println("left");
                 button.setText("> - <");
                 cButtonId = "mvLeft";
                 scene.addEventFilter(KeyEvent.KEY_PRESSED, this::setBind);
@@ -354,7 +354,6 @@ public class Settings {
             case "mvDown":
                 if (!keyInputLocked){
                 keyInputLocked = true;
-                System.out.println("down");
                 button.setText("> - <");
                 cButtonId = "mvDown";
                 scene.addEventFilter(KeyEvent.KEY_PRESSED, this::setBind);
@@ -364,7 +363,6 @@ public class Settings {
             case "rotate":
                 if (!keyInputLocked){
                 keyInputLocked = true;
-                System.out.println("rotate");
                 button.setText("> - <");
                 cButtonId = "rotate";
                 scene.addEventFilter(KeyEvent.KEY_PRESSED, this::setBind);
