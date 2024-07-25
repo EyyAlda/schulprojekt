@@ -69,7 +69,7 @@ public class Init {
         String profileFname = "profile_";
         String backgroundName = "background";
         String backgroundEnding = ".gif";
-        String[] tetrominoTexName = {"i.png", "j.png", "j_sussy.png", "l.png", "null.png", "o.png", "s.png", "t.png", "z.png", "ghost.png", "true.png", "icon.png"};
+        String[] tetrominoTexName = {"i.png", "j.png", "j_sussy.png", "l.png", "null.png", "o.png", "s.png", "t.png", "z.png", "ghost.png", "true.png", "icon.png", "recyclebin.png"};
         String[] audioFiles = {"horosho_louder.wav", "line_clear.wav", "line_clear_4.wav", "move.wav", "sussy_baka.wav", "tetris.wav", "Tetris_TypeA.wav", "Tetris_TypeB.wav", "Tetris_TypeC.wav", "Tetris_TypeD.wav"};
         String fEnding = ".json";
 
