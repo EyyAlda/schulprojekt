@@ -1046,7 +1046,7 @@ public class main_handler extends Application {
         game_over_screen.setLayoutY(500);
         game_over_screen.toFront();
 
-        points_earnt_game_over.setText((String) lang.get("points"));
+        points_earnt_game_over.setText((String) lang.get("pointsAcquired"));
         points_earnt_game_over.setStyle("-fx-font-size: 30px; -fx-text-fill: white; -fx-font-family: serif");
         points_earnt_game_over.setMinSize(points_label.USE_PREF_SIZE, points_label.USE_PREF_SIZE);
 
