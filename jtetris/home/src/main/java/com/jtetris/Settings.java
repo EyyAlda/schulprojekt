@@ -178,7 +178,12 @@ public class Settings {
         rotateButton = new Button((String) profile.get("rotate"));
         rotateButton.setId("rotate");
         
-        volumeInit = (double) profile.get("volume");
+        if (profile.get("volume") != null) {
+            volumeInit = (double) profile.get("volume");
+        } else {
+            volumeInit = 20;
+            profile.put("volume", 20);
+        }
 
         // create Volume slider
         volumeSlider = new Slider(0, 100, (int) volumeInit);
