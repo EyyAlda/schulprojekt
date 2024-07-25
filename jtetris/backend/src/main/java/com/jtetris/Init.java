@@ -2,26 +2,23 @@ package com.jtetris;
 
 import java.io.File;
 import java.io.FilenameFilter;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.Scanner;
 import java.io.IOException;
+import java.util.HashMap;
 
 
 
 /*
-This class is only executed at the start of the program.
-It looks for missing files that could prevent the program from functioning.
-It has the capability to recreate the files for the program to be functioning again.
-This package depends on a jarfile structure and Linux as OS.
+   This class is only executed at the start of the program.
+   It looks for missing files that could prevent the program from functioning.
+   It has the capability to recreate the files for the program to be functioning again.
+   This package depends on a jarfile structure and Linux as OS.
 Author: Lennard Rütten
 created: 22.06.24
 last edited: 09.07.24
 jdk: openjdk-17-jdk
 OS: Ubuntu 24.04
- */
+*/
 
 public class Init {
 
@@ -33,17 +30,17 @@ public class Init {
     }
 
     public static void redownloadTextures(String basePath) throws InterruptedException, IOException{
-       File txDir = new File(basePath + "/textures");
-       if (txDir.exists() && txDir.isDirectory()){
-           try {
-               txDir.delete();
-               Backend.downloadFileManager(1);
-           } catch (Exception e) {
-               throw new RuntimeException(e);
-           }
-       } else {
-           deleteFiles(basePath, true);
-       }
+        File txDir = new File(basePath + "/textures");
+        if (txDir.exists() && txDir.isDirectory()){
+            try {
+                txDir.delete();
+                Backend.downloadFileManager(1);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            deleteFiles(basePath, true);
+        }
     }
 
     public static void redownloadConfigs(String basePath) throws IOException{
@@ -72,7 +69,7 @@ public class Init {
         String profileFname = "profile_";
         String backgroundName = "background";
         String backgroundEnding = ".gif";
-        String[] tetrominoTexName = {"i.png", "j.png", "j_sussy.png", "l.png", "null.png", "o.png", "s.png", "t.png", "z.png", "ghost.png", "true.png"};
+        String[] tetrominoTexName = {"i.png", "j.png", "j_sussy.png", "l.png", "null.png", "o.png", "s.png", "t.png", "z.png", "ghost.png", "true.png", "icon.png", "recyclebin.png"};
         String[] audioFiles = {"horosho_louder.wav", "line_clear.wav", "line_clear_4.wav", "move.wav", "sussy_baka.wav", "tetris.wav", "Tetris_TypeA.wav", "Tetris_TypeB.wav", "Tetris_TypeC.wav", "Tetris_TypeD.wav"};
         String fEnding = ".json";
 
@@ -94,7 +91,7 @@ public class Init {
             System.out.println("Couldnt find config file!");
             System.out.println("This file is necessary to initialize the program");
             redownloadConfigs(basePath);
-            }
+        }
         //looking for available language Packs
         File languages = new File(basePath + lang);
         if (languages.exists() && languages.isDirectory()) {
@@ -114,7 +111,7 @@ public class Init {
                 System.out.println("No language packs could be found!");
                 System.out.println("At the moment the program can not run without a language pack!");
                 redownloadConfigs(basePath);
-                }
+            }
         } else {
             System.out.println("Could not find a language pack!");
             System.out.println("Without a language pack no text can be shown in the Program");
@@ -153,17 +150,16 @@ public class Init {
             if (!texture.exists() && !texture.isFile()){
                 System.out.println("Some textures are missing");
                 try {
-                    File tetrDir = new File(basePath + "/textures");
+                    File tetrDir = new File(basePath + "/textures/");
                     if (!tetrDir.exists() || !tetrDir.isDirectory()){
-                        deleteFiles(basePath, true);
-                    } else{
-                        redownloadTextures(basePath);
+                    tetrDir.mkdirs();
                     }
+                redownloadTextures(basePath);
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
             }
-            
+
         }
 
         //looking if the backgrounds are at the right place
@@ -175,10 +171,9 @@ public class Init {
                 try {
                     File tetrDir = new File(basePath + "/textures");
                     if (!tetrDir.exists() || !tetrDir.isDirectory()){
-                        deleteFiles(basePath, true);
-                    } else{
-                        redownloadTextures(basePath);
+                        tetrDir.mkdirs();
                     }
+                        redownloadTextures(basePath);
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
@@ -194,22 +189,31 @@ public class Init {
                 File audioDir = new File(basePath + "/audio");
                 if (audioDir.exists() && audioDir.isDirectory()){
                     try {
-                    audioDir.delete();
-                    Backend.downloadFileManager(2);
+                        audioDir.delete();
+                        Backend.downloadFileManager(2);
                     } catch (Exception e){
                         System.out.println(e);
                         deleteFiles(basePath, true);
                     }
+                } else {
+                    try {
+                        audioDir.mkdirs();
+                        Backend.downloadFileManager(2);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    } 
                 }
             }
         }
+
+        checkDefaultLanguageVersion();        
 
 
         System.out.println("Everything set!\nStarting Jtetris!");
 
     }
 
-    
+
 
 
     public static void deleteFiles(String basePath, boolean createNew) throws IOException, InterruptedException {
@@ -259,13 +263,38 @@ public class Init {
     }
 
     public static void createProgramDir() throws IOException, InterruptedException {
-        Backend.downloadFileManager(4);
+        Backend.downloadFileManager(5);
     }
     public static void moveFiles()throws IOException{
-        Backend.downloadFileManager(4);
+        Backend.downloadFileManager(5);
     }
 
 
-
+    private static void checkDefaultLanguageVersion(){
+        try {
+            HashMap<String, Object> lang = Backend.readJSON("lang", "en", null);
+            if (!lang.get("version").equals("1")){
+                System.out.println("your language Files are outdated!");
+                File languages = new File(Backend.getXdgUserDir("DOCUMENTS") + "/myGames/Jtetris/languages");
+                if (languages.exists() && languages.isDirectory()){
+                    languages.delete();
+                    Backend.downloadFileManager(4);
+                }
+            }
+            lang = Backend.readJSON("lang", "de", null);
+            if (!lang.get("version").equals("1")){
+                System.out.println("your language Files are outdated!");
+                File languages = new File(Backend.getXdgUserDir("DOCUMENTS") + "/myGames/Jtetris/languages");
+                if (languages.exists() && languages.isDirectory()){
+                    languages.delete();
+                    Backend.downloadFileManager(4);
+                }
+            }
+        } catch (InterruptedException | IOException e) {
+            e.printStackTrace();
+        }
     }
+
+
+}
 

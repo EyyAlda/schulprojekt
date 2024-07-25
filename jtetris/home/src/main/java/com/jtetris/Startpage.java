@@ -41,6 +41,7 @@ public class Startpage extends Application implements EventHandler<ActionEvent> 
 
     Label keybindslabel, musicLabel, backroundLabel;
 
+    
     public static void main(String[] args) {
         // Executes the Application setup and then starts the public void start.
         launch(args);
@@ -48,6 +49,8 @@ public class Startpage extends Application implements EventHandler<ActionEvent> 
     @Override
     public void start(Stage primaryStage) throws Exception{
         this.primaryStage = primaryStage;
+        primaryStage.getIcons().add(new Image(new File(Backend.getXdgUserDir("DOCUMENTS") + "/myGames/Jtetris/textures/icon.png").toURI().toString()));
+        primaryStage.setTitle("Jtetris");
         showMainMenu();
     }
 
@@ -104,11 +107,7 @@ public class Startpage extends Application implements EventHandler<ActionEvent> 
                 lang = Backend.readJSON("lang", (String) profile.get("lang"), null);
                 Backend.writeConfig(config);
                 change_language(game, quitButton, Aboutus, Options);
-            } catch (IOException e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
-            } catch (InterruptedException e1) {
-                // TODO Auto-generated catch block
+            } catch (IOException | InterruptedException e1) {
                 e1.printStackTrace();
             }
         });

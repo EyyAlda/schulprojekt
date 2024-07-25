@@ -14,17 +14,27 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.layout.StackPane;
 import java.io.File;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.CornerRadii;
+import javafx.stage.Popup;
 
 
 
@@ -36,13 +46,22 @@ public class Settings {
     HashMap<String, Object> language = null;
     HashMap<String, Object> config = null;
     String[] installedProfiles = Backend.list("profile");
-    Label header, keybindSettings, mediaSettings, profileLabel, dropDown, movRight, movLeft, movDown, rotate, musicCB, volume, backgMusic, backgrounds, languages;
-    Button backButton, dropButton, mvLButton, mvRButton, mvDButton, rotateButton, saveButton;
-    ChoiceBox<String> languageChoiceBox, backgroundChoice, musicChoiceBox;
+    Label header, keybindSettings, mediaSettings, profileLabel, dropDown, movRight, movLeft, movDown, rotate, musicCB, volume, backgMusic, backgrounds, languages, popupDescription;
+    Button backButton, dropButton, mvLButton, mvRButton, mvDButton, rotateButton, saveButton, acceptButton, cancelButton, deleteProfile;
+    ChoiceBox<String> languageChoiceBox, backgroundChoice, musicChoiceBox, profileSelect;
     String cButtonId;
     private Scene scene;
     Slider volumeSlider = null;
     double volumeInit;
+    Popup newProfName = null;
+    Image binIcon = new Image(new File(Backend.getXdgUserDir("DOCUMENTS") + "/myGames/Jtetris/textures/recyclebin.png").toURI().toString());
+    ImageView binIconView = new ImageView(binIcon);
+
+    //some css presets
+    String settingFontSize = "-fx-font-size:20px";
+    String headerFontSize = "-fx-font-size:40px";
+    String textColor = "-fx-text-fill: #ffff";
+
 
 
     public void start(Stage primaryStage){
@@ -68,9 +87,7 @@ public class Settings {
             }});
         saveButton = new Button((String) language.get("save"));
         saveButton.setStyle("-fx-background-color: #202020d8; -fx-text-fill: #ffff; -fx-pref-width: 250px; -fx-pref-height: 50px; -fx-font-size: 20px");
-        //get a String array with all installed profiles
-        String[] profilesList = Backend.list("profile");
-        
+               
         //create header texts
         header = new Label((String)language.get("options"));
         keybindSettings = new Label((String) language.get("keybinds"));
@@ -78,30 +95,59 @@ public class Settings {
         
         //create option to switch profiles
         profileLabel = new Label((String) language.get("profile"));
-        ChoiceBox<String> profileSelect = new ChoiceBox<>();
-        for (String value : profilesList){
-            HashMap<String, Object> profileName = null;
+        profileSelect = new ChoiceBox<>();
+        loadProfileSelector();    
+        
+        
+
+        newProfName = new Popup();
+        StackPane popup = new StackPane();
+        popupDescription = new Label((String) language.get("enterName"));
+        TextField nameField = new TextField();
+        acceptButton = new Button((String) language.get("accept"));
+        cancelButton = new Button((String) language.get("cancel"));
+        VBox popupVertStructure = new VBox(10);
+        HBox buttons = new HBox(10);
+        HBox textField = new HBox(10);
+        CornerRadii popupCornerRadii = new CornerRadii(5);
+        Insets popupPadding = new Insets(10);
+        Border popupBorder = new Border(new BorderStroke(Color.GRAY, BorderStrokeStyle.SOLID, popupCornerRadii, new BorderWidths(2)));
+
+        popupVertStructure.setStyle("-fx-font-size: 20px");
+        popupDescription.setStyle("-fx-text-fill: #ffff");
+        popup.setBackground(new Background(new BackgroundFill(Color.BLACK, null, null)));
+        popup.setBorder(popupBorder);
+        popup.setPadding(popupPadding);
+        textField.getChildren().addAll(popupDescription, nameField);
+        buttons.getChildren().addAll(cancelButton, acceptButton);
+        buttons.setAlignment(Pos.CENTER);
+        nameField.setStyle("-fx-background-color: #202020; -fx-text-fill: white;");
+        popupVertStructure.getChildren().addAll(textField, buttons);
+        popup.getChildren().add(popupVertStructure);
+        newProfName.getContent().add(popup);
+        acceptButton.setStyle("-fx-background-color: #202020d8; -fx-text-fill: #ffff; -fx-pref-width: 250px; -fx-pref-height: 50px; -fx-font-size: 20px");
+        cancelButton.setStyle("-fx-background-color: #202020d8; -fx-text-fill: #ffff; -fx-pref-width: 250px; -fx-pref-height: 50px; -fx-font-size: 20px");
+
+        cancelButton.setOnAction(e -> newProfName.hide());
+        acceptButton.setOnAction(e -> {
+            profile.put("profileName", nameField.getText());
+            profileSelect.getItems().add((String) nameField.getText());
+            profileSelect.setValue((String) nameField.getText());
             try {
-                profileName = Backend.readJSON("custom", null, value);
-            } catch (InterruptedException | IOException e) {
-                e.printStackTrace();
+                if (Backend.writeProfiles(profile, nameField.getText())){
+                    System.out.println("Successfully added new Profile");
+                } else {
+                    System.out.println("Couldn't add the new Profile");
+                }
+            } catch (InterruptedException | IOException err) {
+                err.printStackTrace();
             }
-            if (profileName != null){
-                profileSelect.getItems().add((String) profileName.get("profileName"));
-            } else {
-                profileSelect.getItems().add("Could not load profile "+ value);
-            }
-        }
-        profileSelect.setValue((String)config.get("profile"));
-        
-        
+            newProfName.hide();
+        });
                 
-
-        //some css presets
-        String settingFontSize = "-fx-font-size:20px";
-        String headerFontSize = "-fx-font-size:40px";
-        String textColor = "-fx-text-fill: #ffff";
-
+        deleteProfile = new Button("",binIconView);
+        deleteProfile.setMaxHeight(20);
+        
         //add presets to the headlines
         header.setStyle(headerFontSize + "; " + textColor); 
         keybindSettings.setStyle(headerFontSize + "; " + textColor);
@@ -148,29 +194,39 @@ public class Settings {
         //add an eventlistener to the profile selector
         profileSelect.setOnAction(e -> {
             try {
-                profile = Backend.readJSON("profile", profileSelect.getValue().toString(), null);
-                language = Backend.readJSON("lang", (String) profile.get("lang"), null);
-                config.put("profile", (String)profile.get("profileName"));
-                config.put("lang", (String) profile.get("lang"));
+                if (profileSelect.getValue().toString().equals((String) language.get("addProfile"))) {
+                    if (!newProfName.isShowing()) {
+                        newProfName.show(primaryStage);
+
+                    } else {
+                        System.out.println("Popup is already shown... Please close the old one first");
+                    }
+                } else {
+                    profileSelect.getItems().remove((String) language.get("addProfile"));
+                    profile = Backend.readJSON("profile", profileSelect.getValue().toString(), null);
+                    language = Backend.readJSON("lang", (String) profile.get("lang"), null);
+                    config.put("profile", (String)profile.get("profileName"));
+                    config.put("lang", (String) profile.get("lang"));
+                    volumeInit = (double) profile.get("volume");
+                    volumeSlider.setValue((int) volumeInit);
+                    //load keybinds 
+                    dropButton.setText((String) profile.get("drop"));
+                    mvLButton.setText((String) profile.get("mvLeft"));
+                    mvRButton.setText((String) profile.get("mvRight"));
+                    mvDButton.setText((String) profile.get("mvDown"));
+                    rotateButton.setText((String) profile.get("rotate"));
+                    musicChoiceBox.setValue((String) profile.get("backgroundMusic"));
+                    backgroundChoice.setValue((String) profile.get("backgroundWallpaper"));
+                    //update languages
+                    setLanguage(primaryStage);
+                }
                 if (Backend.writeConfig(config)){
                     System.out.println("config updated");
                 }
             } catch (Exception err) {
                 err.printStackTrace();
             }
-            
-            volumeInit = (double) profile.get("volume");
-            volumeSlider.setValue((int) volumeInit);
-            //load keybinds 
-            dropButton.setText((String) profile.get("drop"));
-            mvLButton.setText((String) profile.get("mvLeft"));
-            mvRButton.setText((String) profile.get("mvRight"));
-            mvDButton.setText((String) profile.get("mvDown"));
-            rotateButton.setText((String) profile.get("rotate"));
-            musicChoiceBox.setValue((String) profile.get("backgroundMusic"));
-            backgroundChoice.setValue((String) profile.get("backgroundWallpaper"));
-            //update languages
-            setLanguage(primaryStage);
+
         });
 
         //create options for media settings
@@ -226,6 +282,18 @@ public class Settings {
             }
         });
 
+        deleteProfile.setOnAction(e -> {
+            String profileName = profileSelect.getValue();
+            if (!profileSelect.getValue().equals("default") || !profileSelect.getValue().equals((String) language.get("addProfile"))){
+                if (!Backend.deleteProfiles(profileSelect.getValue())) {
+                    System.out.println("Couldn't delete the profile");
+                } else {
+                    System.out.println("Deleted profile successfully");
+                    profileSelect.getItems().remove(profileName);
+                }
+            }
+        });
+
 
         //Create Layout
         GridPane settingsList = new GridPane();
@@ -268,7 +336,7 @@ public class Settings {
         saveAndBack.setAlignment(Pos.CENTER); 
         //Add everything together
         //settingsMenu.setContent(settingsList);
-        profileBox.getChildren().addAll(profileLabel, profileSelect);
+        profileBox.getChildren().addAll(profileLabel, profileSelect, deleteProfile);
         settings.getChildren().addAll(header, profileBox, settingsList, saveAndBack);
         settings.setAlignment(Pos.CENTER);
         
@@ -394,6 +462,10 @@ public class Settings {
         languages.setText((String) language.get("languages"));
         saveButton.setText((String) language.get("save"));
         primaryStage.setTitle((String) language.get("options"));
+        profileSelect.getItems().add((String) language.get("addProfile"));
+        acceptButton.setText((String) language.get("accept"));
+        cancelButton.setText((String) language.get("cancel"));
+        popupDescription.setText((String) language.get("enterName"));
     }
 
     //handle the events created by the changeKeybind function
@@ -419,6 +491,25 @@ public class Settings {
         }
 
     }
+    private void loadProfileSelector(){
+        //get a String array with all installed profiles
+        String[] profilesList = Backend.list("profile");
 
+        for (String value : profilesList){
+            HashMap<String, Object> profileName = null;
+            try {
+                profileName = Backend.readJSON("custom", null, value);
+            } catch (InterruptedException | IOException e) {
+                e.printStackTrace();
+            }
+            if (profileName != null){
+                profileSelect.getItems().add((String) profileName.get("profileName"));
+            } else {
+                profileSelect.getItems().add("Could not load profile "+ value);
+            }
+        }
+        profileSelect.getItems().add((String) language.get("addProfile"));
+        profileSelect.setValue((String)config.get("profile"));
+    }
     
 }
