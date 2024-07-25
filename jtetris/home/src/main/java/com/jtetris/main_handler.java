@@ -1201,7 +1201,7 @@ public class main_handler extends Application {
                         } else {
                             main_theme = new MediaPlayer(new Media(new File(Backend.getXdgUserDir("DOCUMENTS")+ "/myGames/Jtetris/audio/Tetris_TypeA.wav").toURI().toString()));
                         }
-                        main_theme.setVolume((double) profile.get("volume"));
+                        main_theme.setVolume((double) profile.get("volume")/100);
                         main_theme.play();
                     }
 

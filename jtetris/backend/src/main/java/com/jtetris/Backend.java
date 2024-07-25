@@ -226,10 +226,10 @@ public class Backend {
     
 
     public static void downloadFileManager(int fileType) throws IOException {
-        String[] fileUrl = {"https://www.dropbox.com/scl/fo/qc8qwdphogw4i0mellj0k/AH-nyq2l9uxZWkYD4CtO2iw?rlkey=w78nd8gkv3p1ecj8stwh1w5e7&st=6b0u7mn1&dl=1", "https://www.dropbox.com/scl/fo/zripd99r8mu5jurknakrp/ACTCNWILsq7gO3HF0nKNrF0?rlkey=sejzzaj0yt3ubt64y30sgjqsl&st=sde4l7y6&dl=1", "https://www.dropbox.com/scl/fo/dfusbez5c5aokmyjl8z18/AOgp2Obi8OYUMcjZOW06hv4?rlkey=b2ssec2s35p6zzw5f4zhfmqxb&st=fdylahw5&dl=1"};
+        String[] fileUrl = {"https://www.dropbox.com/scl/fo/qc8qwdphogw4i0mellj0k/AH-nyq2l9uxZWkYD4CtO2iw?rlkey=w78nd8gkv3p1ecj8stwh1w5e7&st=6b0u7mn1&dl=1", "https://www.dropbox.com/scl/fo/zripd99r8mu5jurknakrp/ACTCNWILsq7gO3HF0nKNrF0?rlkey=sejzzaj0yt3ubt64y30sgjqsl&st=sde4l7y6&dl=1", "https://www.dropbox.com/scl/fo/dfusbez5c5aokmyjl8z18/AOgp2Obi8OYUMcjZOW06hv4?rlkey=b2ssec2s35p6zzw5f4zhfmqxb&st=fdylahw5&dl=1", "https://www.dropbox.com/scl/fo/d6k9owwkrcqk5z91ikwec/AI-kCvsJXe_CE6leMu5ZoAA?rlkey=pkhgzxwt4f2eroc3iyqqkhsin&st=2mjlger5&dl=1"};
         int UrlChooser = 0;
         String destPath;
-        for (int i = 0; i < 3; i++){
+        for (int i = 0; i < 4; i++){
             destPath = null;
             String dldFilePath;
             switch (fileType) {
@@ -245,6 +245,10 @@ public class Backend {
                     UrlChooser = 2;
                     break;
                 case 4:
+                    //only downloads languages
+                    UrlChooser = 3;
+                    break;
+                case 5:
                     //downloads everything
                     UrlChooser = i;
                     break;
@@ -252,7 +256,8 @@ public class Backend {
                     System.out.println("Nothing to download");
                     break;
             }
-            if (fileType == 1 && i == 1 || fileType == 2 && i == 1 || fileType == 3 && i == 1){
+            //stops the loop, so only the necessary files get downloaded
+            if (fileType == 1 && i == 1 || fileType == 2 && i == 1 || fileType == 3 && i == 1 || fileType == 4 && i == 1){
                 break;
             }
             switch (UrlChooser){
@@ -263,6 +268,7 @@ public class Backend {
                     destPath = basePath +"/audio";
                     break;
                 case 2:
+                case 3:
                     destPath = basePath;
                     break;
             }
@@ -270,12 +276,14 @@ public class Backend {
             extractZip(dldFilePath, destPath);
         }
         File tetrisConf = new File(System.getProperty("user.home") + "/tetrisConfFiles.zip");
-        File audio = new File(System.getProperty("user.home")+ "/audio.zip");
-        File textures = new File(System.getProperty("user.home")+ "/textures.zip");
+        File audio = new File(System.getProperty("user.home") + "/audio.zip");
+        File textures = new File(System.getProperty("user.home") + "/textures.zip");
+        File languages = new File(System.getProperty("user.home") + "/languages.zip"); 
         try {
             audio.delete();
             tetrisConf.delete();
             textures.delete();
+            languages.delete();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -367,6 +375,15 @@ public class Backend {
                 IOUtils.copy(is, os);
             }
         }
+    }
+    
+    public static boolean deleteProfiles(String profileName){
+        String basePath = getXdgUserDir("DOCUMENTS") + "/myGames/Jtetris/profiles/";
+        File profile = new File(basePath + "profile_" + profileName + ".json");
+        if (!profile.delete()){
+            return false;
+        }
+        return true;
     }
 }
 
