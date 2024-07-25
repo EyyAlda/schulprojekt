@@ -273,22 +273,30 @@ public class Init {
     private static void checkDefaultLanguageVersion(){
         try {
             HashMap<String, Object> lang = Backend.readJSON("lang", "en", null);
-            if (!lang.get("version").equals("1")){
-                System.out.println("your language Files are outdated!");
-                File languages = new File(Backend.getXdgUserDir("DOCUMENTS") + "/myGames/Jtetris/languages");
-                if (languages.exists() && languages.isDirectory()){
-                    languages.delete();
-                    Backend.downloadFileManager(4);
+            if (lang.get("version") != null){
+                if (!lang.get("version").equals("1")){
+                    System.out.println("your language Files are outdated!");
+                    File languages = new File(Backend.getXdgUserDir("DOCUMENTS") + "/myGames/Jtetris/languages");
+                    if (languages.exists() && languages.isDirectory()){
+                        languages.delete();
+                        Backend.downloadFileManager(4);
+                    }
                 }
+            } else {
+                Backend.downloadFileManager(4);
             }
             lang = Backend.readJSON("lang", "de", null);
-            if (!lang.get("version").equals("1")){
-                System.out.println("your language Files are outdated!");
-                File languages = new File(Backend.getXdgUserDir("DOCUMENTS") + "/myGames/Jtetris/languages");
-                if (languages.exists() && languages.isDirectory()){
-                    languages.delete();
-                    Backend.downloadFileManager(4);
+            if (lang.get("version") != null){
+                if (!lang.get("version").equals("1")){
+                    System.out.println("your language Files are outdated!");
+                    File languages = new File(Backend.getXdgUserDir("DOCUMENTS") + "/myGames/Jtetris/languages");
+                    if (languages.exists() && languages.isDirectory()){
+                        languages.delete();
+                        Backend.downloadFileManager(4);
+                    }
                 }
+            } else {
+                Backend.downloadFileManager(4);
             }
         } catch (InterruptedException | IOException e) {
             e.printStackTrace();
