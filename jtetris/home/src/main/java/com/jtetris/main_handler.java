@@ -48,11 +48,14 @@ public class main_handler extends Application {
     private Startpage startpage;
    
     int current_background;
+    int pHighscore;
 
     Label paused_label = new Label();
     Button quit_button = new Button();
     Label points_earnt_game_over = new Label();
     Label lines_cleared_game_over = new Label();
+    Label highscore = new Label();
+    Label highscoreGameOver = new Label();
 
     // Textures
     Image background = null;
@@ -291,14 +294,34 @@ public class main_handler extends Application {
             // All rows deleted, handle game over screen transition
             Platform.runLater(() -> {
                 ScheduledExecutorService delay = Executors.newScheduledThreadPool(1);
+
+                if (points > pHighscore) {
+                    pHighscore = points;
+                }
+                
+                profile.put("highscore", pHighscore);
+
+                try {
+                    Backend.writeProfiles(profile, (String) profile.get("profileName"));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
                 game_over_screen.setVisible(true);
                 lines_cleared_game_over.setVisible(false);
+                highscoreGameOver.setVisible(false);
                 points_earnt_game_over.setText((String) lang.get("pointsAcquired") + ": " + points);
                 lines_cleared_game_over.setText((String) lang.get("linesCleared") + ": " + lines_cleared);
+                highscoreGameOver.setText((String) lang.get("highscore") + " " + pHighscore);
                 paused_label.setText((String) lang.get("gameFin"));
                 delay.schedule(() -> {
                     lines_cleared_game_over.setVisible(true);
                 }, 1, TimeUnit.SECONDS);
+
+                delay.schedule(() -> {
+                    highscoreGameOver.setVisible(true);
+                }, 2, TimeUnit.SECONDS);
+
 
                 delay.schedule(() -> {
                     paused_label.setVisible(true);
@@ -310,21 +333,23 @@ public class main_handler extends Application {
     }
 
     public void ghost_tetromino() {
-        int ghostY1 = Y1, ghostY2 = Y2, ghostY3 = Y3, ghostY4 = Y4;
-        int ghostX1 = X1, ghostX2 = X2, ghostX3 = X3, ghostX4 = X4;
+        if (profile.get("showGhost") == null || (boolean) profile.get("showGhost") ){
+            int ghostY1 = Y1, ghostY2 = Y2, ghostY3 = Y3, ghostY4 = Y4;
+            int ghostX1 = X1, ghostX2 = X2, ghostX3 = X3, ghostX4 = X4;
 
-        while (ghostY1 < grid.length - 1 && ghostY2 < grid.length - 1 && ghostY3 < grid.length - 1 && ghostY4 < grid.length - 1 && !grid[ghostY1 + 1][ghostX1].contains("P") && !grid[ghostY2 + 1][ghostX2].contains("P") && !grid[ghostY3 + 1][ghostX3].contains("P") && !grid[ghostY4 + 1][ghostX4].contains("P")) {
-            ghostY1++;
-            ghostY2++;
-            ghostY3++;
-            ghostY4++;
-        }
+            while (ghostY1 < grid.length - 1 && ghostY2 < grid.length - 1 && ghostY3 < grid.length - 1 && ghostY4 < grid.length - 1 && !grid[ghostY1 + 1][ghostX1].contains("P") && !grid[ghostY2 + 1][ghostX2].contains("P") && !grid[ghostY3 + 1][ghostX3].contains("P") && !grid[ghostY4 + 1][ghostX4].contains("P")) {
+                ghostY1++;
+                ghostY2++;
+                ghostY3++;
+                ghostY4++;
+            }
 
-        if (!grid[ghostY1][ghostX1].contains("T") && !grid[ghostY2][ghostX2].contains("T") && !grid[ghostY3][ghostX3].contains("T") && !grid[ghostY4][ghostX4].contains("T")) {
-            grid[ghostY1][ghostX1] = "G";
-            grid[ghostY2][ghostX2] = "G";
-            grid[ghostY3][ghostX3] = "G";
-            grid[ghostY4][ghostX4] = "G";
+            if (!grid[ghostY1][ghostX1].contains("T") && !grid[ghostY2][ghostX2].contains("T") && !grid[ghostY3][ghostX3].contains("T") && !grid[ghostY4][ghostX4].contains("T")) {
+                grid[ghostY1][ghostX1] = "G";
+                grid[ghostY2][ghostX2] = "G";
+                grid[ghostY3][ghostX3] = "G";
+                grid[ghostY4][ghostX4] = "G";
+            }
         }
     }
 
@@ -964,7 +989,9 @@ public class main_handler extends Application {
         background = new Image(new File(Backend.getXdgUserDir("DOCUMENTS")+"/myGames/Jtetris/textures/background"+current_background+".gif").toURI().toString());
         paused_label = new Label((String) lang.get("paused"));
         quit_button = new Button((String) lang.get("quit"));
-
+        
+        pHighscore = (int) ((double) profile.get("highscore"));
+        highscore.setText(((String)lang.get("highscore")) + " " + pHighscore);
         prepare(primaryStage);
 
         GridPane grid_pane = new GridPane();
@@ -1038,7 +1065,7 @@ public class main_handler extends Application {
         VBox statistics = new VBox();
         statistics.setLayoutX(1220);
         statistics.setLayoutY(250);
-        statistics.getChildren().addAll(points_label, lines_cleared_label); 
+        statistics.getChildren().addAll(points_label, lines_cleared_label, highscore); 
 
         game_over_screen.setMinSize(grid[0].length * CELL_SIZE, grid.length * CELL_SIZE);
         game_over_screen.setVisible(false);
@@ -1054,7 +1081,11 @@ public class main_handler extends Application {
         lines_cleared_game_over.setStyle("-fx-font-size: 30px; -fx-text-fill: white; -fx-font-family: serif");
         lines_cleared_game_over.setMinSize(points_label.USE_PREF_SIZE, points_label.USE_PREF_SIZE);
 
-        game_over_screen.getChildren().addAll(points_earnt_game_over, lines_cleared_game_over);
+        highscoreGameOver.setText((String) lang.get("highscore") + " " + pHighscore);
+        highscoreGameOver.setStyle("-fx-font-size: 30px; -fx-text-fill: white; -fx-font-family: serif");
+        highscoreGameOver.setMinSize(points_label.USE_PREF_SIZE, points_label.USE_PREF_SIZE);
+
+        game_over_screen.getChildren().addAll(points_earnt_game_over, lines_cleared_game_over, highscoreGameOver);
 
         // Grid pane
         grid_pane.setAlignment(Pos.CENTER);
@@ -1068,6 +1099,11 @@ public class main_handler extends Application {
         lines_cleared_label.setVisible(true);
         lines_cleared_label.setStyle("-fx-font-size: 20px; -fx-text-fill: white; -fx-font-family: serif");
         lines_cleared_label.setMinSize(lines_cleared_label.USE_PREF_SIZE, lines_cleared_label.USE_PREF_SIZE);
+
+        // Highscore label
+        highscore.setVisible(true);
+        highscore.setStyle("-fx-font-size: 20px; -fx-text-fill: white; -fx-font-family: serif");
+        highscore.setMinSize(highscore.USE_PREF_SIZE, highscore.USE_PREF_SIZE);
 
         // Next tetromino grid 
         next_tetromino_grid.setLayoutX(1220);

@@ -4,6 +4,8 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.HashMap;
+
+import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 
@@ -12,7 +14,9 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
@@ -35,6 +39,7 @@ import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.CornerRadii;
 import javafx.stage.Popup;
+import javafx.scene.shape.Rectangle;
 
 
 
@@ -46,9 +51,10 @@ public class Settings {
     HashMap<String, Object> language = null;
     HashMap<String, Object> config = null;
     String[] installedProfiles = Backend.list("profile");
-    Label header, keybindSettings, mediaSettings, profileLabel, dropDown, movRight, movLeft, movDown, rotate, musicCB, volume, backgMusic, backgrounds, languages, popupDescription;
+    Label header, generalSettings, keybindSettings, mediaSettings, showGhost, profileLabel, dropDown, movRight, movLeft, movDown, rotate, musicCB, volume, backgMusic, backgrounds, languages, popupDescription;
     Button backButton, dropButton, mvLButton, mvRButton, mvDButton, rotateButton, saveButton, acceptButton, cancelButton, deleteProfile;
     ChoiceBox<String> languageChoiceBox, backgroundChoice, musicChoiceBox, profileSelect;
+    CheckBox showGhostTetromino;
     String cButtonId;
     private Scene scene;
     Slider volumeSlider = null;
@@ -56,6 +62,9 @@ public class Settings {
     Popup newProfName = null;
     Image binIcon = new Image(new File(Backend.getXdgUserDir("DOCUMENTS") + "/myGames/Jtetris/textures/recyclebin.png").toURI().toString());
     ImageView binIconView = new ImageView(binIcon);
+    ScrollPane scrollSettingsMenu;
+    Insets settingsPadding;
+    Rectangle coloredTrack;
 
     //some css presets
     String settingFontSize = "-fx-font-size:20px";
@@ -76,7 +85,6 @@ public class Settings {
         }
         //create back button to switch back to the main menu
         backButton = new Button((String) language.get("startpage"));
-        backButton.setStyle("-fx-background-color: #202020d8; -fx-text-fill: #ffff; -fx-pref-width: 250px; -fx-pref-height: 50px; -fx-font-size: 20px");
         Startpage startpage = new Startpage();
         
             backButton.setOnAction(e ->  {
@@ -86,17 +94,28 @@ public class Settings {
                 ex.printStackTrace();
             }});
         saveButton = new Button((String) language.get("save"));
-        saveButton.setStyle("-fx-background-color: #202020d8; -fx-text-fill: #ffff; -fx-pref-width: 250px; -fx-pref-height: 50px; -fx-font-size: 20px");
                
         //create header texts
         header = new Label((String)language.get("options"));
         keybindSettings = new Label((String) language.get("keybinds"));
+        generalSettings = new Label((String) language.get("general"));
         mediaSettings = new Label((String) language.get("mediaSettings"));
+        showGhost = new Label((String) language.get("showGhost"));
         
         //create option to switch profiles
         profileLabel = new Label((String) language.get("profile"));
         profileSelect = new ChoiceBox<>();
         loadProfileSelector();    
+
+
+        //general settings
+        generalSettings.setStyle(headerFontSize);
+        showGhost.setStyle(settingFontSize);
+        showGhostTetromino = new CheckBox();
+        if (profile.get("showGhost") == null) {
+            profile.put("showGhost", true);
+        }
+        showGhostTetromino.setSelected((boolean) profile.get("showGhost"));
         
         
 
@@ -125,8 +144,6 @@ public class Settings {
         popupVertStructure.getChildren().addAll(textField, buttons);
         popup.getChildren().add(popupVertStructure);
         newProfName.getContent().add(popup);
-        acceptButton.setStyle("-fx-background-color: #202020d8; -fx-text-fill: #ffff; -fx-pref-width: 250px; -fx-pref-height: 50px; -fx-font-size: 20px");
-        cancelButton.setStyle("-fx-background-color: #202020d8; -fx-text-fill: #ffff; -fx-pref-width: 250px; -fx-pref-height: 50px; -fx-font-size: 20px");
 
         cancelButton.setOnAction(e -> newProfName.hide());
         acceptButton.setOnAction(e -> {
@@ -134,6 +151,7 @@ public class Settings {
             profileSelect.getItems().add((String) nameField.getText());
             profileSelect.setValue((String) nameField.getText());
             try {
+                profile.put("highscore", 0);
                 if (Backend.writeProfiles(profile, nameField.getText())){
                     System.out.println("Successfully added new Profile");
                 } else {
@@ -187,6 +205,24 @@ public class Settings {
 
         // create Volume slider
         volumeSlider = new Slider(0, 100, (int) volumeInit);
+        volumeSlider.setShowTickLabels(false);
+        volumeSlider.setShowTickMarks(false);
+        volumeSlider.setMajorTickUnit(25);
+        volumeSlider.setMinorTickCount(4);
+        volumeSlider.setBlockIncrement(10);
+
+        volumeSlider.styleProperty().bind(
+        Bindings.createStringBinding(() -> {
+            double percentage = (volumeSlider.getValue() - volumeSlider.getMin()) / 
+                            (volumeSlider.getMax() - volumeSlider.getMin()) * 100;
+            return String.format(
+            "-fx-background-color: linear-gradient(to right, #727272 %f%%, #b3b3b3 %f%%); " +
+            "-fx-background-radius: 2px; -fx-pref-height: 2px;",
+            percentage, percentage
+            );
+        }, volumeSlider.valueProperty())
+        );
+
 
         //Object creation for Media settings
         volume = new Label((String) language.get("volume") + ": " + (int) volumeSlider.getValue());
@@ -214,6 +250,7 @@ public class Settings {
                     config.put("lang", (String) profile.get("lang"));
                     volumeInit = (double) profile.get("volume");
                     volumeSlider.setValue((int) volumeInit);
+                    showGhostTetromino.setSelected((boolean) profile.get("showGhost"));
                     //load keybinds 
                     dropButton.setText((String) profile.get("drop"));
                     mvLButton.setText((String) profile.get("mvLeft"));
@@ -275,8 +312,10 @@ public class Settings {
         //make the 2 columns stretch across the whole screen
         ColumnConstraints column1 = new ColumnConstraints();
         column1.setPercentWidth(50);
+        column1.setMinWidth(50);
         ColumnConstraints column2 = new ColumnConstraints();
         column2.setPercentWidth(40);
+        column2.setMinWidth(50);
 
 
         // configure the volume slider
@@ -298,16 +337,29 @@ public class Settings {
                 }
             }
         });
+        //add classes to some buttons
+        saveButton.getStyleClass().addAll("button-style", "settings-button");
+        backButton.getStyleClass().addAll("button-style", "settings-button");
 
 
         //Create Layout
         GridPane settingsList = new GridPane();
+        GridPane generalSettingsItems = new GridPane();
         VBox settings = new VBox(20);
         HBox profileBox = new HBox(30);
         HBox saveAndBack = new HBox(20);
+        VBox settingsCategories = new VBox();
 
         settingsList.getColumnConstraints().addAll(column1, column2);
-        
+        generalSettingsItems.getColumnConstraints().addAll(column1, column2);
+
+        settingsCategories.getChildren().addAll(generalSettingsItems, settingsList);
+
+        generalSettingsItems.setHgap(20);
+        generalSettingsItems.setVgap(20);
+        generalSettingsItems.setPadding(new Insets(20, 20, 20 ,20));
+        generalSettingsItems.setAlignment(Pos.CENTER);
+
 
         //Define the structure of the GridPane
         settingsList.setHgap(20);
@@ -316,6 +368,12 @@ public class Settings {
         settingsList.setAlignment(Pos.CENTER);
 
         //add Items
+        generalSettingsItems.add(generalSettings, 0, 0);
+        generalSettingsItems.add(showGhost, 0, 1);
+        generalSettingsItems.add(showGhostTetromino, 1, 1);
+        generalSettingsItems.add(languages, 0, 2);
+        generalSettingsItems.add(languageChoiceBox, 1, 2);
+
         settingsList.add(mediaSettings, 0, 0);
         settingsList.add(volume, 0, 1);
         settingsList.add(volumeSlider, 1, 1);
@@ -334,30 +392,42 @@ public class Settings {
         settingsList.add(dropButton, 1, 8);
         settingsList.add(rotate, 0, 9);
         settingsList.add(rotateButton, 1, 9);
-        settingsList.add(languages, 0, 10);
-        settingsList.add(languageChoiceBox, 1, 10);
-        
+                
+        scrollSettingsMenu = new ScrollPane();
+        scrollSettingsMenu.setContent(settingsCategories);
+        scrollSettingsMenu.setStyle("-fx-background-color: #00000060; -fx-background: #00000060");
+        scrollSettingsMenu.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        scrollSettingsMenu.setFitToWidth(true);
+ 
         saveAndBack.getChildren().addAll(backButton, saveButton);
         saveAndBack.setAlignment(Pos.CENTER); 
         //Add everything together
         //settingsMenu.setContent(settingsList);
         profileBox.getChildren().addAll(profileLabel, profileSelect, deleteProfile);
-        settings.getChildren().addAll(header, profileBox, settingsList, saveAndBack);
+        settings.getChildren().addAll(header, profileBox, scrollSettingsMenu, saveAndBack);
         settings.setAlignment(Pos.CENTER);
+        settingsPadding = new Insets(40, 0, 20, 0);
+        settings.setPadding(settingsPadding);
         
-        settingsList.setStyle("-fx-background-color: #00000060; -fx-background: #00000060"); 
+        //settingsList.setStyle("-fx-background-color: #00000060; -fx-background: #00000060"); 
         settings.setStyle("-fx-background-color: #00000050; -fx-background: #00000050");
 
         backgroundImage.toBack();
 
+       
         //add the support for backgrounds
         StackPane layout = new StackPane(backgroundImage, settings);
         layout.setMinWidth(Region.USE_PREF_SIZE);
 
-        scene = new Scene(layout, 1920, 1080);
+        scene = new Scene(layout);
+        
+        scrollSettingsMenu.prefWidthProperty().bind(scene.widthProperty());
         settingsList.prefWidthProperty().bind(scene.widthProperty());
         settings.prefHeightProperty().bind(scene.heightProperty());
-    
+        
+        scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
+
+
         //add actions to the keybind buttons
         dropButton.setOnAction(e -> changeKeybind(dropButton, scene));
         mvRButton.setOnAction(e -> changeKeybind(mvRButton, scene));
@@ -383,6 +453,7 @@ public class Settings {
             profile.put("volume", volumeSlider.getValue());
             profile.put("backgroundMusic", musicChoiceBox.getValue());
             profile.put("backgroundWallpaper", backgroundChoice.getValue());
+            profile.put("showGhost", showGhostTetromino.isSelected());
             try {
                 Backend.writeProfiles(profile, profileSelect.getValue());
             } catch (InterruptedException | IOException err){
@@ -471,6 +542,9 @@ public class Settings {
         acceptButton.setText((String) language.get("accept"));
         cancelButton.setText((String) language.get("cancel"));
         popupDescription.setText((String) language.get("enterName"));
+        showGhost.setText((String) language.get("showGhost"));
+        generalSettings.setText((String) language.get("general"));
+        profileLabel.setText((String) language.get("profile"));
     }
 
     //handle the events created by the changeKeybind function

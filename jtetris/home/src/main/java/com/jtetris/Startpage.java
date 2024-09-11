@@ -161,9 +161,10 @@ public class Startpage extends Application implements EventHandler<ActionEvent> 
 
         // Centers the start button
         VBox centerPane = new VBox(10);
-        game.setStyle("-fx-background-color: #202020d8; -fx-text-fill: #ffff; -fx-pref-width: 500px; -fx-pref-height: 100px; -fx-font-size: 40px");
-        quitButton.setStyle("-fx-background-color: #202020d8; -fx-text-fill: #ffff; -fx-pref-width: 500px; -fx-pref-height: 100px; -fx-font-size: 40px");
-        Options.setStyle("-fx-background-color: #202020d8; -fx-text-fill: #ffff; -fx-pref-width: 500px; -fx-pref-height: 100px; -fx-font-size: 40px");
+        game.getStyleClass().addAll("button-style", "mainmenu-button");
+        Options.getStyleClass().addAll("button-style", "mainmenu-button");
+        quitButton.getStyleClass().addAll("button-style", "mainmenu-button");
+
         centerPane.getChildren().addAll(game, Options, quitButton);
         centerPane.setLayoutX(950);
         centerPane.setLayoutY(550);
@@ -205,7 +206,9 @@ public class Startpage extends Application implements EventHandler<ActionEvent> 
         // Creates the scene and gives it the parameters
         startpagescene = new Scene(Startpagelayout, 1920, 1080);
         optionsscene = new Scene(optionslayout, 1920, 1080);
-
+        startpagescene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
+        primaryStage.setMinWidth(1200);
+        primaryStage.setMinHeight(720);
         // Delegates startpagescene as the scene that is shown in primaryStage
         primaryStage.setScene(startpagescene);
         primaryStage.show();
