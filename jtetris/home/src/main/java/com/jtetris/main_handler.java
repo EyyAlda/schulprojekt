@@ -990,7 +990,18 @@ public class main_handler extends Application {
         paused_label = new Label((String) lang.get("paused"));
         quit_button = new Button((String) lang.get("quit"));
         
-        pHighscore = (int) ((double) profile.get("highscore"));
+        
+        try {
+            pHighscore = (int) ((double) profile.get("highscore"));   
+        } catch (Exception e) {
+            e.printStackTrace();
+            profile.remove("highscore");
+            Backend.writeProfiles(profile, (String) profile.get("profileName"));
+            profile.put("highscore", 0);
+            pHighscore = 0;
+            Backend.writeProfiles(profile, (String) profile.get("profileName"));
+        }
+
         highscore.setText(((String)lang.get("highscore")) + " " + pHighscore);
         prepare(primaryStage);
 

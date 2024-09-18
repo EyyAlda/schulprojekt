@@ -40,6 +40,7 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.CornerRadii;
 import javafx.stage.Popup;
 import javafx.scene.shape.Rectangle;
+import java.util.Locale;
 
 
 
@@ -212,15 +213,15 @@ public class Settings {
         volumeSlider.setBlockIncrement(10);
 
         volumeSlider.styleProperty().bind(
-        Bindings.createStringBinding(() -> {
-            double percentage = (volumeSlider.getValue() - volumeSlider.getMin()) / 
-                            (volumeSlider.getMax() - volumeSlider.getMin()) * 100;
-            return String.format(
-            "-fx-background-color: linear-gradient(to right, #727272 %f%%, #b3b3b3 %f%%); " +
-            "-fx-background-radius: 2px; -fx-pref-height: 2px;",
-            percentage, percentage
-            );
-        }, volumeSlider.valueProperty())
+            Bindings.createStringBinding(() -> {
+                double percentage = (volumeSlider.getValue() - volumeSlider.getMin()) / 
+                                    (volumeSlider.getMax() - volumeSlider.getMin()) * 100;
+                return String.format(Locale.ENGLISH,
+                    "-fx-background-color: linear-gradient(to right, #727272 %.2f%%, #b3b3b3 %.2f%%); " +
+                    "-fx-background-radius: 2px; -fx-pref-height: 2px;",
+                    percentage, percentage
+                );
+            }, volumeSlider.valueProperty())
         );
 
 
