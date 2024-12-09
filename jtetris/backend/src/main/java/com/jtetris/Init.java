@@ -274,7 +274,7 @@ public class Init {
         try {
             HashMap<String, Object> lang = Backend.readJSON("lang", "en", null);
             if (lang.get("version") != null){
-                if (!lang.get("version").equals("1")){
+                if (!lang.get("version").equals("240911")){
                     System.out.println("your language Files are outdated!");
                     File languages = new File(Backend.getXdgUserDir("DOCUMENTS") + "/myGames/Jtetris/languages");
                     if (languages.exists() && languages.isDirectory()){
@@ -287,7 +287,7 @@ public class Init {
             }
             lang = Backend.readJSON("lang", "de", null);
             if (lang.get("version") != null){
-                if (!lang.get("version").equals("1")){
+                if (!lang.get("version").equals("240911")){
                     System.out.println("your language Files are outdated!");
                     File languages = new File(Backend.getXdgUserDir("DOCUMENTS") + "/myGames/Jtetris/languages");
                     if (languages.exists() && languages.isDirectory()){

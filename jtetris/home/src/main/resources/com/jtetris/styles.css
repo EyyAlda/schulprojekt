@@ -1,0 +1,56 @@
+
+/*css for button elements*/
+.button-style {
+    -fx-background-color: #202020d8;
+    -fx-text-fill: #ffff;
+}
+.button-style:hover {
+    -fx-background-color: #363636d8;
+}
+.button-style:pressed {
+    -fx-background-color: #727272d8;
+}
+.settings-button {
+    -fx-pref-width: 250px;
+    -fx-pref-height: 50px;
+    -fx-font-size: 20px;
+}
+.mainmenu-button {
+    -fx-pref-width: 500px; 
+    -fx-pref-height: 100px; 
+    -fx-font-size: 40px;
+}
+
+
+
+
+
+/*volume slider */
+.slider {
+    -fx-padding: 10px;
+}
+
+.slider .track {
+    -fx-background-color: transparent; /* Light gray for the background of the track */
+    -fx-background-radius: 5px;
+    -fx-pref-height: 30px;          /* Height of the track */
+}
+
+.slider .track .track-fill {
+    -fx-background-color: #727272; /* Blue color for the filled portion */
+    -fx-background-radius: 2px;
+    -fx-pref-height: 2px;          /* Same height as the track */
+}
+
+.slider .thumb {
+    -fx-background-color: #272727; /* Blue color for the thumb */
+    -fx-background-radius: 10px;   /* Adjusted size for round shape */
+    -fx-pref-width: 10px;          /* Adjusted size */
+    -fx-pref-height: 10px;         /* Adjusted size */
+}
+
+.slider .increment-button, .slider .decrement-button {
+    -fx-pref-width: 0;
+    -fx-pref-height: 0;
+    -fx-padding: 0;
+}
