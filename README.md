@@ -1,3 +1,5 @@
+### DO NOT RE-DISTRIBUTE!
+
 # Tetris Schulprojekt
 ##### Collaborators
 - Omori101
